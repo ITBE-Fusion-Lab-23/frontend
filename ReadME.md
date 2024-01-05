@@ -1,6 +1,13 @@
-TO DO LIST for the frontend part of Agile1.0
+Basic Rule of this repository
 
-    <the main goal of the Agile1.0>
+1. upload and edit your part in your personal branch
+    (!!DO NOT UPLOAD or UPDATE YOUR GIT in OTHER BRANCH)
+2. After the agreement, we can push our git into Main branch.
+
+
+
+TO DO LIST for the frontend part of Agile1.0
+ <the main goal of the Agile1.0>
     1. basic frame of the web application 
     2. IFC viewer 
     3. CityGML viewer
