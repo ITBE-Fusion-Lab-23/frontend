@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Commenting system</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html,
+        body {
+            display: grid;
+            height: 100%;
+            place-items: center;
+            text-align: center;
+            background: #fff;
+            /* Changed from #4285f4 to white */
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+            background: #fff;
+            padding: 20px 30px;
+            
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .container .post {
+            display: none;
+        }
+
+        .container .text {
+            font-size: 25px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .container .edit {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .container .edit:hover {
+            text-decoration: underline;
+        }
+
+        .container .star-widget input {
+            display: none;
+        }
+
+        .star-widget label {
+            font-size: 40px;
+            color: #D9D9D9;
+            padding: 10px;
+            float: right;
+            transition: all 0.2s ease;
+        }
+
+        input:not(:checked)~label:hover,
+        input:not(:checked)~label:hover~label {
+            color: #fd4;
+        }
+
+        input:checked~label {
+            color: #fd4;
+        }
+
+        input#rate-5:checked~label {
+            color: #fe7;
+            text-shadow: 0 0 20px #952;
+        }
+
+        .container form {
+            display: none;
+        }
+
+        input:checked~form {
+            display: block;
+        }
+
+        form header {
+            width: 100%;
+            font-size: 25px;
+            color: #fe7;
+            font-weight: 500;
+            margin: 5px 0 20px 0;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        form .textarea {
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        form .textarea textarea {
+            height: 100%;
+            width: 100%;
+            outline: none;
+            color: #eee;
+            border: 1px solid #333;
+            background: #222;
+            padding: 10px;
+            font-size: 17px;
+            resize: none;
+        }
+
+        .textarea textarea:focus {
+            border-color: #444;
+        }
+
+        form .btn {
+            height: 45px;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        form .btn button {
+            height: 100%;
+            width: 100%;
+            border: 1px solid #444;
+            outline: none;
+            background: #222;
+            color: #999;
+            font-size: 17px;
+            font-weight: 500;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        form .btn button:hover {
+            background: #1b1b1b;
+        }
+
+        .ListboxComponent {
+            width: 308px;
+            height: 289px;
+            position: relative;
+        }
+
+        .ListboxComponent {
+            width: 308px;
+            margin: 0 auto;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .ListboxTitle .Components {
+            color: #333333;
+            font-size: 16px;
+            font-weight: 700;
+
+        }
+
+        .ListboxMain {
+            position: relative;
+            width: 280px;
+        }
+
+        .DropdownSelect {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #666666;
+            border: none;
+            box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.10);
+            border-radius: 8px;
+            appearance: none;
+            font-family: Montserrat;
+            background: white;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Hide default arrow using CSS */
+        .DropdownSelect::-ms-expand {
+            display: none;
+        }
+
+        /* Custom dropdown arrow */
+        .ListboxMain::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333333;
+            /* Arrow color */
+            pointer-events: none;
+            /* Allows click events to pass through */
+            font-family: Montserrat;
+        }
+
+
+        /* You might need to add additional CSS for hover states or other interactions */
+    </style>
+</head>
+
+<body>
+    <div class="ListboxComponent">
+        <div class="ListboxTitle">
+            <div class="Components">Components</div>
+        </div>
+        <div class="ListboxMain">
+            <select id="components" name="components" class="DropdownSelect">
+                <option value="">Select Components</option>
+                <option value="arches">Arches</option>
+                <option value="walkways">Walkways</option>
+                <option value="bicycleLanes">Bicycle lanes</option>
+                <option value="busStops">Bus Stops</option>
+                <option value="roads">Roads</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="container" id="commentsArches" style="display: none;">
+        <h1>Arches</h1>
+        <div class="post">
+            <div class="text">Thank you for your comments!</div>
+            <div class="edit">re-edit</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5-arches">
+            <label for="rate-5-arches" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-4-arches">
+            <label for="rate-4-arches" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-3-arches">
+            <label for="rate-3-arches" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-2-arches">
+            <label for="rate-2-arches" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-1-arches">
+            <label for="rate-1-arches" class="fas fa-star"></label>
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Please leave your comments!"></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="commentsWalkways" style="display: none;">
+        <h1>Walkways</h1>
+        <div class="post">
+            <div class="text">Thank you for your comments!</div>
+            <div class="edit">re-edit</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rateWalkways" id="rate-5-walkways">
+            <label for="rate-5-walkways" class="fas fa-star"></label>
+            <input type="radio" name="rateWalkways" id="rate-4-walkways">
+            <label for="rate-4-walkways" class="fas fa-star"></label>
+            <input type="radio" name="rateWalkways" id="rate-3-walkways">
+            <label for="rate-3-walkways" class="fas fa-star"></label>
+            <input type="radio" name="rateWalkways" id="rate-2-walkways">
+            <label for="rate-2-walkways" class="fas fa-star"></label>
+            <input type="radio" name="rateWalkways" id="rate-1-walkways">
+            <label for="rate-1-walkways" class="fas fa-star"></label>
+
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Please leave your comments!"></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="commentsBicycleLanes" style="display: none;">
+        <h1>Bicycle Lanes</h1>
+        <div class="post">
+            <div class="text">Thank you for your comments!</div>
+            <div class="edit">re-edit</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5-bicycle">
+            <label for="rate-5-bicycle" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-4-bicycle">
+            <label for="rate-4-bicycle" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-3-bicycle">
+            <label for="rate-3-bicycle" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-2-bicycle">
+            <label for="rate-2-bicycle" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-1-bicycle">
+            <label for="rate-1-bicycle" class="fas fa-star"></label>
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Please leave your comments!"></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="commentsBusStops" style="display: none;">
+        <h1>Bus Stops</h1>
+        <div class="post">
+            <div class="text">Thank you for your comments!</div>
+            <div class="edit">re-edit</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5-bus">
+            <label for="rate-5-bus" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-4-bus">
+            <label for="rate-4-bus" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-3-bus">
+            <label for="rate-3-bus" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-2-bus">
+            <label for="rate-2-bus" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-1-bus">
+            <label for="rate-1-bus" class="fas fa-star"></label>
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Please leave your comments!"></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="commentsRoads" class="container" style="display: none;">
+        <h1>Roads</h1>
+        <div class="post">
+            <div class="text">Thank you for your comments!</div>
+            <div class="edit">re-edit</div>
+        </div>
+        <div class="star-widget">
+            <input type="radio" name="rate" id="rate-5-roads">
+            <label for="rate-5-roads" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-4-roads">
+            <label for="rate-4-roads" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-3-roads">
+            <label for="rate-3-roads" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-2-roads">
+            <label for="rate-2-roads" class="fas fa-star"></label>
+            <input type="radio" name="rate" id="rate-1-roads">
+            <label for="rate-1-roads" class="fas fa-star"></label>
+            <form action="#">
+                <header></header>
+                <div class="textarea">
+                    <textarea cols="30" placeholder="Please leave your comments!"></textarea>
+                </div>
+                <div class="btn">
+                    <button type="submit">submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdown = document.getElementById('components'); // Dropdown for selecting the component
+            const commentSystems = document.querySelectorAll('.container'); // All comment systems
+
+            // Function to hide all comment systems
+            function hideAllCommentSystems() {
+                commentSystems.forEach(function (system) {
+                    system.style.display = 'none';
+                });
+            }
+
+            // Initially hide all comment systems
+            hideAllCommentSystems();
+
+            // Listen for changes on the dropdown
+            dropdown.addEventListener('change', function () {
+                hideAllCommentSystems(); // Hide all comment systems before showing the new one
+
+                if (this.value) {
+                    const commentsId = 'comments' + this.value.charAt(0).toUpperCase() + this.value.slice(1);
+                    const commentSystem = document.getElementById(commentsId);
+                    if (commentSystem) {
+                        commentSystem.style.display = 'block'; // Show the selected comment system
+                    }
+                }
+            });
+
+            // Add submit event listener to each comment system's form
+            commentSystems.forEach(function (system) {
+                const form = system.querySelector('form');
+                const post = system.querySelector('.post'); // The post-submit message container
+
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault(); // Prevent the form from submitting in the traditional way
+                    system.style.display = 'none'; // Hide the comment system
+                    post.style.display = 'block'; // Show the thank you message
+                });
+
+                // Add click event listener to the "re-edit" button
+                const editButton = system.querySelector('.edit');
+                editButton.addEventListener('click', function () {
+                    post.style.display = 'none'; // Hide the thank you message
+                    system.style.display = 'block'; // Show the comment system again
+                });
+            });
+        });
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
