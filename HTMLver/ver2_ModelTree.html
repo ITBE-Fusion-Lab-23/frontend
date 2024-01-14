@@ -38,7 +38,7 @@
       components.raycaster = new OBC.SimpleRaycaster(components);
       components.init();
 
-      //components.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
+      components.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
 
       const scene = components.scene.get();
 
@@ -92,7 +92,85 @@
       mainToolbar.addChild(disposeButton);
       disposeButton.onClick.add(() => disposeFragments());
 
+      /*------- Highlighter -------*/
+      // highlighter config
+      const highlighter = new OBC.FragmentHighlighter(components, fragments);
+      highlighter.setup();
+      components.renderer.postproduction.customEffects.outlineEnabled = true;
+      highlighter.outlinesEnabled = true;
+      highlighter.zoomToSelection = true; //zoom function
+      highlighter.update();
+
+      const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: "#BCF124",
+        depthTest: false,
+        opacity: 0.8,
+        transparent: true,
+      });
+      highlighter.add("default", highlightMaterial);
+      highlighter.outlineMaterial.color.set(0xf0ff7a);
+    
+
+      // Selection
+      let lastSelection;
+      let singleSelection = {
+        value: true,
+      };
+
+      // onClick event
+      async function highlightOnClick(event) {
+        const result = await highlighter.highlightByID(
+          "default",
+          singleSelection.value
+        );
+        if (result) {
+          lastSelection = {};
+          for (const fragment of result.fragments) {
+            const fragmentID = fragment.id;
+            lastSelection[fragmentID] = [result.id];
+          }
+        }
+      }
+      viewerContainer.addEventListener("click", (event) =>
+        highlightOnClick(event)
+      );
+
+      function highlightOnID() {
+        if (lastSelection !== undefined) {
+          highlighter.highlightByID("default", lastSelection);
+        }
+      }
+
+      /* ------- Classifying Fragment ------- */
+      const classifier = new OBC.FragmentClassifier(components);
+      const properties = await fetch('/sampleIFC.json');
+      model.properties = await properties.json();
+
+      //classifier.byStorey(model);
+      //classifier.byIfcRel(model);
+      classifier.byEntity(model);
+
+      const modelTree = new OBC.FragmentTree(components);
+      await modelTree.init();
   
+      modelTree.update(['entities']); // argument should be array
+
+      modelTree.onSelected.add(({ items, visible}) => {
+        if(visible) {
+          highlighter.highlightByID('select', items, true, true);
+        }
+      });
+
+      modelTree.onHovered.add(({items, visible}) => {
+        if(visible) {
+          highlighter.highlightByID('hover', items);
+        }
+      });
+      
+      mainToolbar.addChild(modelTree.uiElement.get('main'));
+      components.ui.addToolbar(toolbar);
+      console.log(model.properties);
+
       /*----- ifc properties Manager ------*/
       const propsProcessor = new OBC.IfcPropertiesProcessor(components);
       const propsManager = new OBC.IfcPropertiesManager(components);
@@ -103,35 +181,6 @@
         const feched = await fetch('/sampleIFC.ifc');
         propsManager.IfcToExport = await feched.arrayBuffer();
       })
-
-      // highlighter
-      const highlighter = new OBC.FragmentHighlighter(components, fragments);
-      highlighter.zoomToSelection = true;
-      highlighter.setup();
-  
-      components.renderer.postproduction.customEffects.outlineEnabled = true;
-      highlighter.outlinesEnabled = true;
-  
-      const highlighterEvents = highlighter.events;
-      highlighterEvents.select.onClear.add(() => {
-          propsProcessor.cleanPropertiesList();
-      });
-
-      highlighterEvents.select.onHighlight.add(
-        (selection) => {
-            const fragmentID = Object.keys(selection)[0];
-            const expressID = Number([...selection[fragmentID]][0]);
-            let model
-            for (const group of fragments.groups) {
-                const fragmentFound = Object.values(group.keyFragments).find(id => id === fragmentID)
-                if (fragmentFound) model = group;
-            }
-            propsProcessor.renderProperties(model, expressID);
-        }
-    );
-
-    mainToolbar.addChild(propsProcessor.uiElement.get("main"));
-  
     </script>
   </body>
 </html>
