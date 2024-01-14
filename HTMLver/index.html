@@ -33,7 +33,7 @@
       const viewerContainer = document.getElementById("container");
       const components = new OBC.Components();
       components.scene = new OBC.SimpleScene(components);
-      components.renderer = new OBC.SimpleRenderer(components, viewerContainer);
+      components.renderer = new OBC.PostproductionRenderer(components, viewerContainer);
       components.camera = new OBC.SimpleCamera(components);
       components.raycaster = new OBC.SimpleRaycaster(components);
       components.init();
@@ -45,6 +45,11 @@
       components.scene.setup();
 
       const grid = new OBC.SimpleGrid(components);
+      const gridMesh = grid.get();
+
+      components.renderer.postproduction.enabled = true;
+      const effects = components.renderer.postproduction.customEffects;
+      effects.excludedMeshes.push(gridMesh);
 
       /* ----- ifc load ----- */
       // fragments
@@ -73,7 +78,7 @@
 
       //Load the IFC
       async function loadIfcAsFragments() {
-        const filie = await fetch("/GroupA_bridge.ifc");
+        const file = await fetch("/GroupA_bridge.ifc");
         const data = await file.arrayBuffer();
         const buffer = new Uint8Array(data);
         const model = await fragementIfcLoader.load(buffer, "example");
@@ -96,6 +101,53 @@
 
       //const gui = new dat.GUI();
       //gui.add(setting, "disposeFragments").name("Dispose fragments");
+
+      /*------- fragments tree -------*/
+      // highlighter config
+      const highlighter = new OBC.FragmentHighlighter(components, fragments);
+      highlighter.update();
+      components.renderer.postproduction.customEffects.outlineEnabled = true;
+
+      highlighter.outlineEnabled = true;
+
+      const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: "#BCF124",
+        depthTest: false,
+        opacity: 0.8,
+        transparent: true,
+      });
+      highlighter.add("default", highlightMaterial);
+      highlighter.outlineMaterial.color.set(0xf0ff7a);
+
+      // Selection
+      let lastSelection;
+      let singleSelection = {
+        value: true,
+      };
+
+      // onClick event
+      async function highlightOnClick(event) {
+        const result = await highlighter.highlight(
+          "default",
+          singleSelection.value
+        );
+        if (result) {
+          lastSelection = {};
+          for (const fragment of result.fragments) {
+            const fragmentID = fragment.id;
+            lastSelection[fragmentID] = [result.id];
+          }
+        }
+      }
+      viewerContainer.addEventListener("click", (event) =>
+        highlightOnClick(event)
+      );
+
+      function highlightOnID() {
+        if (lastSelection !== undefined) {
+          highlighter.highlightByID("default", lastSelection);
+        }
+      }
     </script>
   </body>
 </html>
