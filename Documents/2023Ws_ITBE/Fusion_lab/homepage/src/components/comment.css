@@ -8,25 +8,107 @@
     display: flex;
   justify-content: center;
 align-items: center;
+
 }
 
 .modal-content {
 background-color: white;
 padding: 20px;
 border-radius: 5px;
+width: 1000px;
+display: flex;
+
 }
 
 .comment-input {
-width: 100%;
-height: 100px;
-margin-bottom: 10px;
+width: 850px;
+height: 150px;
+margin-bottom: 40px;
+margin-top: 40px;
+
+
 }
 
+
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.cancel-button {
+  padding: 10px 20px;
+  background-color: #EEEEEE;
+  color: #717070;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  height: 40px;
+  width: 105px;
+  margin-left: 650px;
+  
+
+}
+
+
 .submit-comment {
-padding: 10px 20px;
-border: none;
-border-radius: 5px;
-background-color: #28a745;
-color: white;
-cursor: pointer;
+  padding: 10px 8px;
+  background-color: #0065BD;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 800;
+  height: 40px;
+  width: 105px;
+  margin-right: 60px;
+}
+
+.stakeholder-label{
+  color: #333333
+  ;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  margin-bottom: 14px; /* Space between the label and the dropdown */
+  text-align: left;
+  padding-left: 50px;
+}
+
+.row-divider {
+  width: 100%;
+  height: 10px; /* Or any other height for the space you want */
+}
+
+
+.stakeholder-buttons {
+  text-align: left;
+  margin: 10px 0;
+  padding-left: 50px;
+  padding-bottom: 40px;
+}
+
+.stakeholder-button {
+  padding: 8px 5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 16;
+   font-family: 'Inter';
+   font-weight: '600';
+   line-height: 20.80,
+}
+
+.stakeholder-button.active {
+  background-color: #0065BD;
+  color: white;
+  border-color: #0065BD;
 }

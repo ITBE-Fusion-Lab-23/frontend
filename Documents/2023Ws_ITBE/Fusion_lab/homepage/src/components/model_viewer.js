@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import CommentModal from './comment';
+import CommentModal from './Comment';
 import './model_viewer.css';
 
-const ModelViewer = () => {
+function ModelViewer() {
+  
   const [selectedComponent, setSelectedComponent] = useState('');
   const [comments, setComments] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const componentsList = ['Component A', 'Component B', 'Component C'];
+  const componentsList = ['Overrall', 'Pedestrain Space', 'Road','Acess to public transport','Structure'];
 
   const handleDropdownChange = (event) => {
     setSelectedComponent(event.target.value);
@@ -26,12 +27,15 @@ const ModelViewer = () => {
     <div className="model-viewer">
       <div className="model-viewer-header">
         <h1>Model Viewer</h1>
-        <div className="tab">Arches</div>
+        
       </div>
+
       <div className="model-display">
         {selectedComponent ? selectedComponent : 'New IFC Modeling'}
       </div>
+
       <div className="components-section">
+        <p className="components-label">Components</p>
         <select 
           value={selectedComponent} 
           onChange={handleDropdownChange}
@@ -44,9 +48,16 @@ const ModelViewer = () => {
         </select>
         <button className="comment-button" onClick={handleCommentClick}>COMMENT</button>
       </div>
-      {isModalOpen && (
-        <CommentModal submitComment={submitComment} />
-      )}
+
+
+      
+
+{isModalOpen && (
+  <CommentModal
+    selectedComponent={selectedComponent}
+    submitComment={submitComment}
+  />
+)}
     </div>
   );
 };

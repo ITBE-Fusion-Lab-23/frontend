@@ -1,55 +1,83 @@
 .model-viewer {
-    font-family: Arial, sans-serif;
-  }
-  
-  .model-viewer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .model-viewer-header h1 {
-    margin: 0;
-  }
-  
-  .tab {
-    background-color: #eee;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-  
-  .model-display {
-    height: 200px;
-    background-color: #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    margin: 20px;
-    border: 1px solid #ccc;
-  }
-  
-  .components-section {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+  font-family: 'Arial', sans-serif;
+}
+
+.model-viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  font-weight: bold; /* Correct property for font-weight */
+  font-family: 'Roboto', sans-serif; /* Ensure proper font family */
+  padding-left: 80px; /* Space from the left edge */
+  color: #BDBDBD; /* Font color */
+}
+
+.model-display {
+  height: 650px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin: 20px;
+}
+
+
+.components-section {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: flex-start; /* Align items to the start of the flex container */
+  padding-left: 80px; /* Space from the left edge */
+  margin-bottom: 20px; /* Adjust as necessary for space below */
+  padding-bottom: 50px;
+}
+
+.components-label {
+  color: #333333
+  ;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  margin-bottom: 14px; /* Space between the label and the dropdown */
+  text-align: left;
   }
   
   .component-dropdown {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  width: 310px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #666666;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.10);
+  border-radius: 8px;
+  appearance: none;
+  font-family: 'Montserrat', sans-serif;
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  }
+  
+  /* Style for the dropdown arrow */
+  .component-dropdown::after {
+  content: '▼';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #333;
   }
   
   .comment-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
+  padding: 10px 20px;
+  margin-top: 25px; /* Space between the dropdown and the button */
+  background-color: #B9B9B9;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 900;
   }
-  
