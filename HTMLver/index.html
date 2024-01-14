@@ -27,6 +27,7 @@
     <script type="module">
       import * as OBC from "openbim-components";
       import * as THREE from "three";
+      import * as dat from "three/examples/jsm/libs/lil-gui.module.min";
 
       // basic scene
       const viewerContainer = document.getElementById("container");
@@ -44,6 +45,51 @@
       components.scene.setup();
 
       const grid = new OBC.SimpleGrid(components);
+
+      /* ----- ifc load ----- */
+      // fragments
+      let fragments = new OBC.FragmentManager(components);
+      let fragmentIfcLoader = new OBC.FragmentIfcLoader(components);
+
+      // button
+      const mainToolbar = new OBC.Toolbar(components, {
+        name: "Main Toolbar",
+        position: "bottom",
+      });
+      components.ui.addToolbar(mainToolbar);
+      const ifcButton = fragmentIfcLoader.uiElement.get("main");
+      mainToolbar.addChild(ifcButton);
+
+      //WSAM (calibrating the converter)
+      await fragmentIfcLoader.setup();
+
+      fragmentIfcLoader.settings.wasm = {
+        path: "https://unpkg.com/web-ifc@0.0.46/",
+        absolute: true,
+      };
+
+      fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
+      fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
+
+      //Load the IFC
+      async function loadIfcAsFragments() {
+        const filie = await fetch("/GroupA_bridge.ifc");
+        const data = await file.arrayBuffer();
+        const buffer = new Uint8Array(data);
+        const model = await fragementIfcLoader.load(buffer, "example");
+        scene.add(model);
+      }
+
+      //Delete the IFC
+      function disposeFragments() {
+        fragments.dispose();
+      }
+      const setting = {
+        disposeFragments: () => disposeFragments(),
+      };
+
+      const gui = new dat.GUI();
+      gui.add(setting, "disposeFragments").name("Dispose fragments");
     </script>
   </body>
 </html>
