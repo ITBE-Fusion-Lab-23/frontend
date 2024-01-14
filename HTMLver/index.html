@@ -88,8 +88,14 @@
         disposeFragments: () => disposeFragments(),
       };
 
-      const gui = new dat.GUI();
-      gui.add(setting, "disposeFragments").name("Dispose fragments");
+      const disposeButton = new OBC.Button(components);
+      disposeButton.materialIcon = "delete";
+      disposeButton.tooltip = "Delete model";
+      mainToolbar.addChild(disposeButton);
+      disposeButton.onClick.add(() => disposeFragments());
+
+      //const gui = new dat.GUI();
+      //gui.add(setting, "disposeFragments").name("Dispose fragments");
     </script>
   </body>
 </html>
