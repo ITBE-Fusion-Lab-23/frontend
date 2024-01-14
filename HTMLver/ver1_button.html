@@ -44,17 +44,28 @@
 
       components.scene.setup();
 
-      const grid = new OBC.SimpleGrid(components, new THREE.Color(0x666666));
+      const grid = new OBC.SimpleGrid(components);
+      const gridMesh = grid.get();
 
       components.renderer.postproduction.enabled = true;
-      components.renderer.postproduction.customEffects.excludedMeshes.push(grid.get());
+      const effects = components.renderer.postproduction.customEffects;
+      effects.excludedMeshes.push(gridMesh);
 
       /* ----- ifc load ----- */
       // fragments
       let fragments = new OBC.FragmentManager(components);
       let fragmentIfcLoader = new OBC.FragmentIfcLoader(components);
 
-      // Setup IFCloader with WSAM (calibrating the converter)
+      // button
+      const mainToolbar = new OBC.Toolbar(components, {
+        name: "Main Toolbar",
+        position: "bottom",
+      });
+      components.ui.addToolbar(mainToolbar);
+      const ifcButton = fragmentIfcLoader.uiElement.get("main");
+      mainToolbar.addChild(ifcButton);
+
+      //WSAM (calibrating the converter)
       await fragmentIfcLoader.setup();
 
       fragmentIfcLoader.settings.wasm = {
@@ -65,20 +76,16 @@
       fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
       fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
 
-      // import IFC model and convert to fragment
-      const file = await fetch("/GroupA_bridge.ifc");
-      const data = await file.arrayBuffer();
-      const buffer = new Uint8Array(data);
-      const model = await fragmentIfcLoader.load(buffer, "Sample IFC");
-      scene.add(model);
+      //Load the IFC
+      async function loadIfcAsFragments() {
+        const file = await fetch("/GroupA_bridge.ifc");
+        const data = await file.arrayBuffer();
+        const buffer = new Uint8Array(data);
+        const model = await fragementIfcLoader.load(buffer, "example");
+        scene.add(model);
+      }
 
-      // Delete button
-      const mainToolbar = new OBC.Toolbar(components, {
-        name: "Main Toolbar",
-        position: "bottom",
-      });
-      components.ui.addToolbar(mainToolbar);
-
+      //Delete the IFC
       function disposeFragments() {
         fragments.dispose();
       }
@@ -92,14 +99,16 @@
       mainToolbar.addChild(disposeButton);
       disposeButton.onClick.add(() => disposeFragments());
 
-      /*------- Highlighter -------*/
+      //const gui = new dat.GUI();
+      //gui.add(setting, "disposeFragments").name("Dispose fragments");
+
+      /*------- fragments tree -------*/
       // highlighter config
       const highlighter = new OBC.FragmentHighlighter(components, fragments);
-      highlighter.setup();
-      components.renderer.postproduction.customEffects.outlineEnabled = true;
-      highlighter.outlinesEnabled = true;
-      highlighter.zoomToSelection = true; //zoom function
       highlighter.update();
+      components.renderer.postproduction.customEffects.outlineEnabled = true;
+
+      highlighter.outlineEnabled = true;
 
       const highlightMaterial = new THREE.MeshBasicMaterial({
         color: "#BCF124",
@@ -109,7 +118,6 @@
       });
       highlighter.add("default", highlightMaterial);
       highlighter.outlineMaterial.color.set(0xf0ff7a);
-    
 
       // Selection
       let lastSelection;
@@ -119,7 +127,7 @@
 
       // onClick event
       async function highlightOnClick(event) {
-        const result = await highlighter.highlightByID(
+        const result = await highlighter.highlight(
           "default",
           singleSelection.value
         );
@@ -129,6 +137,9 @@
             const fragmentID = fragment.id;
             lastSelection[fragmentID] = [result.id];
           }
+          
+          // add zoomToSelection
+          highlighter.zoomToSelection();
         }
       }
       viewerContainer.addEventListener("click", (event) =>
@@ -140,35 +151,6 @@
           highlighter.highlightByID("default", lastSelection);
         }
       }
-
-      /* ------- Classifying Fragment ------- */
-      const classifier = new OBC.FragmentClassifier(components);
-      const properties = await fetch('/GroupA_bridge.json');
-      model.properties = await properties.json();
-
-      //classifier.byStorey(model);
-      classifier.byEntity(model);
-
-      const modelTree = new OBC.FragmentTree(components);
-      await modelTree.init();
-  
-      modelTree.update(['entities']);
-
-      modelTree.onSelected.add(({ items, visible}) => {
-        if(visible) {
-          highlighter.highlightByID('select', items, true, true);
-        }
-      });
-
-      modelTree.onHovered.add(({items, visible}) => {
-        if(visible) {
-          highlighter.highlightByID('hover', items);
-        }
-      });
-      
-      mainToolbar.addChild(modelTree.uiElement.get('main'));
-      components.ui.addToolbar(toolbar);
-      console.log(model.properties);
     </script>
   </body>
 </html>
