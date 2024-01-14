@@ -1,0 +1,142 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: sans-serif;
+}
+
+.logo-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+
+
+}
+
+nav {
+  height: 70px;
+  background: #fff;
+
+}
+
+nav.sticky {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 112;
+
+}
+
+
+.nav-inner {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1300px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+  padding: 0 15px;
+
+}
+
+.navbar-logo {
+  width: 40px;
+  margin-bottom: 8px;
+
+  
+}
+
+
+
+
+.logo-text {
+  color: #0065BD;
+  font-size: 32;
+  font-family: 'Inter';
+  font-weight: '500';
+  line-height: '32px';
+  text-align: center;
+  word-wrap: 'break-word';
+  margin-top: -10px;
+}
+
+
+
+.links a {
+  color: #0065BD;
+  font-size: 16;
+  font-family: Inter;
+  margin-right: 30px;
+  cursor: pointer;
+}
+.menu-item {
+  transition: background-color 0.3s ease;
+  border-radius: 10px; /* Rounded corners */
+  padding: 5px 12px; /* Add some padding */
+}
+
+.menu-item:hover {
+  background-color: #0065BD; /* Deep blue background on hover */
+  color: white; /* Optional: change text color on hover */
+}
+
+
+
+.page-footer {
+  background-color: #0065BD;
+  height: 417px;
+  color: white; }
+
+.page-footer a {
+  color: white;
+  font-family: 'Inter';
+}
+
+.footer-list li {
+  text-align: left;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.footer-list span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+.overview-size{
+  width: 718px;
+  margin-right: 10px;
+
+}
+
+
+
+
+
+.banner {
+  height: 300vh;
+  background: #fff;
+}

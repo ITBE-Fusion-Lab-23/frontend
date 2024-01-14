@@ -1,0 +1,55 @@
+.main-focus-container {
+    max-width: 956px;
+    margin: auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .main-focus-title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 32px;
+  }
+  
+  .focus-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; /* Adjust space between rows */
+  }
+  
+  .focus-item {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 20px; /* Adjust space between focus items if necessary */
+  }
+  
+  .focus-item-full {
+    flex-basis: 100%;
+  }
+  
+  .focus-number {
+    font-size: 48px; /* Adjust size as necessary */
+    font-weight: bold;
+    color: #828282;
+    margin-right: 20px;
+    flex-shrink: 0; /* Prevent number from shrinking */
+  }
+  
+  .focus-content {
+    flex-grow: 1;
+    text-align: left; /* Align text to the left */
+  }
+  
+  .focus-content h2 {
+    font-size: 24px; /* Adjust size as necessary */
+    margin-bottom: 5px;
+    text-align: left; /* Align text to the left */
+  }
+  
+  .focus-content p {
+    font-size: 16px; /* Adjust size as necessary */
+    line-height: 1.5;
+    text-align: left; /* Align text to the left */
+  }
+  

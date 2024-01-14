@@ -1,0 +1,55 @@
+.model-viewer {
+    font-family: Arial, sans-serif;
+  }
+  
+  .model-viewer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .model-viewer-header h1 {
+    margin: 0;
+  }
+  
+  .tab {
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .model-display {
+    height: 200px;
+    background-color: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    margin: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .components-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  
+  .component-dropdown {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .comment-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
