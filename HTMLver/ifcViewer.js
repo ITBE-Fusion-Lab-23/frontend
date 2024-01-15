@@ -29,45 +29,53 @@ const mainToolbar = new OBC.Toolbar(components, {
 });
 components.ui.addToolbar(mainToolbar);
 
-const defaultViewButton = new OBC.Button(components);
-defaultViewButton.materialIcon = 'center_focus_weak';
-defaultViewButton.tooltip = 'Default view';
-mainToolbar.addChild(defaultViewButton);
-defaultViewButton.onClick.add(() => {
+const groupAButton = new OBC.Button(components);
+groupAButton.materialIcon = 'view_in_ar';
+groupAButton.tooltip = 'Group A';
+mainToolbar.addChild(groupAButton);
+groupAButton.onClick.add(() => {
   //console.log(components.camera.controls.camera.position)
+  // + add function if the current model is same with the import model then ignore
+  fragments.dispose();
+  importIfcModel('../rsc/sampleIFC.ifc', 'sample1')
   components.camera.controls.setLookAt(-23.30179587993465, 20.269000992198567, 30, 0, 0, 0);
   highlighter.clear();
 })
 
-const walkwayButton = new OBC.Button(components);
-walkwayButton.materialIcon = 'directions_walk';
-walkwayButton.tooltip = 'Walkway';
-mainToolbar.addChild(walkwayButton);
-walkwayButton.onClick.add(() => {
+const groupBButton = new OBC.Button(components);
+groupBButton.materialIcon = 'view_in_ar';
+groupBButton.tooltip = 'Group B';
+mainToolbar.addChild(groupBButton);
+groupBButton.onClick.add(() => {
+
+  fragments.dispose();
+  importIfcModel('../rsc/sampleIFC4.ifc', 'sample4')
+  components.camera.controls.setLookAt(-23.30179587993465, 20.269000992198567, 30, 0, 0, 0);
+  highlighter.clear();
+})
+
+const groupCButton = new OBC.Button(components);
+groupCButton.materialIcon = 'view_in_ar';
+groupCButton.tooltip = 'Group C';
+mainToolbar.addChild(groupCButton);
+groupCButton.onClick.add(() => {
+  fragments.dispose();
+  importIfcModel('../rsc/sampleIFC3.ifc', 'sample3')
+})
+
+const groupDButton = new OBC.Button(components);
+groupDButton.materialIcon = 'view_in_ar';
+groupDButton.tooltip = "Group D";
+mainToolbar.addChild(groupDButton);
+groupDButton.onClick.add(() => {
 
 })
 
-const roadButton = new OBC.Button(components);
-roadButton.materialIcon = 'directions_car';
-roadButton.tooltip = 'Road';
-mainToolbar.addChild(roadButton);
-roadButton.onClick.add(() => {
-
-})
-
-const ptransButton = new OBC.Button(components);
-ptransButton.materialIcon = 'commute'
-ptransButton.tooltip = "Public transport"
-mainToolbar.addChild(ptransButton);
-ptransButton.onClick.add(() => {
-
-})
-
-const structureButton = new OBC.Button(components);
-structureButton.materialIcon = 'foundation';
-structureButton.tooltip = 'Structure';
-mainToolbar.addChild(structureButton);
-structureButton.onClick.add(() => {
+const groupEButton = new OBC.Button(components);
+groupEButton.materialIcon = 'view_in_ar';
+groupEButton.tooltip = 'Group E';
+mainToolbar.addChild(groupEButton);
+groupEButton.onClick.add(() => {
 
 }) 
 
@@ -87,6 +95,14 @@ fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
 fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
 
 // import IFC model and convert to fragment
+async function importIfcModel(path, modelName) {
+  const file = await fetch(path);
+  const data = await file.arrayBuffer();
+  const buffer = new Uint8Array(data);
+  const model = await fragmentIfcLoader.load(buffer, modelName);
+  scene.add(model);
+  return null;
+}
 const file = await fetch("../rsc/sampleIFC.ifc");
 const data = await file.arrayBuffer();
 const buffer = new Uint8Array(data);
@@ -102,10 +118,10 @@ propsProcessor.process(model);
 /*------- Highlighter -------*/
 // highlighter config
 const highlighter = new OBC.FragmentHighlighter(components, fragments);
-highlighter.setup();
 components.renderer.postproduction.customEffects.outlineEnabled = true;
 highlighter.outlinesEnabled = true;
 highlighter.zoomToSelection = true; //zoom function
+highlighter.setup();
 
 // select event
 const highlighterEvents = highlighter.events;
@@ -122,5 +138,8 @@ highlighterEvents.select.onHighlight.add((selection) => {
     const fragmentFound = Object.values(group.keyFragments).find(id => id === fragmentID);
     if (fragmentFound) model = group;
   }
+  console.log(fragments);
+  console.log(expressID);
+
   propsProcessor.renderProperties(model, expressID);
 })
