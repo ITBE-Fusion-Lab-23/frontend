@@ -75,18 +75,19 @@ nav.sticky {
   color: #0065BD;
   font-size: 32;
   font-family: 'Inter';
-  font-weight: '500';
-  line-height: '32px';
+  font-weight: 500;
+  line-height: 32px;
   text-align: center;
-  word-wrap: 'break-word';
   margin-top: -10px;
 }
 
 
 
 .links a {
+  text-decoration: none;
   color: #0065BD;
-  font-size: 16;
+  font-size: 16px;
+  font-weight: 600;
   font-family: Inter;
   margin-right: 30px;
   cursor: pointer;
@@ -139,4 +140,8 @@ nav.sticky {
 .banner {
   height: 300vh;
   background: #fff;
+}
+
+html {
+  scroll-behavior: smooth;
 }

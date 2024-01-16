@@ -22,14 +22,33 @@ function getLabelText(value) {
 
 
 
-const CommentModal = ({ selectedComponent, submitComment  }) => {
+const CommentModal = ({ selectedComponent,closeModal  }) => {
 
-  const [value, setValue] = useState(2);
+
   const [hover, setHover] = useState(-1);
   const [comment, setComment] = useState('');
   const [stakeholder, setStakeholder] = useState('');
+  const [rating, setRating] = useState(2);
+  const [liked, setLiked] = useState(false);
+  const [count, setCount] = useState(0);
+
+
+
+
+
+ 
+
+  const handleCancel = () => {
+    // Logic for submitting the comment
+    closeModal(); // Close the modal after submitting
+  };
+
+
+ 
+
 
   const handleInputChange = (event) => {
+
     setComment(event.target.value);
   };
 
@@ -39,8 +58,13 @@ const CommentModal = ({ selectedComponent, submitComment  }) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    submitComment({ comment, rating: value, stakeholder });
+
+    console.log("Form submitted");
+   
+    submitComment();
   };
+
+
   const stakeholderOptions = [
     "Government and Planning Authorities",
     "Local Residents",
@@ -53,17 +77,40 @@ const CommentModal = ({ selectedComponent, submitComment  }) => {
     "Other",
   ];
 
+  const submitComment = async (
+    
+  ) => {
+    const commentData = {
+      component: selectedComponent,
+      text: comment,
+      rating,
+      liked,
+      count,
+      stakeholder
+    };
+    
+
+    try {
+      // Replace with your actual API call, for example:
+      // await axios.post('your-api-endpoint/comments', commentData);
+      console.log('Submitting comment:', commentData);
+      closeModal();
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    }
+  };
+
 
 
   return (
     <div className="comment-modal">
     <div className="modal-content">
-      <h2>Comment on {selectedComponent}</h2> {/* Display the selected component */}
+      <h2>Comment on {selectedComponent}</h2> 
       <form onSubmit={handleFormSubmit}>
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'column', // Stack children vertically
+              flexDirection: 'column',
               alignItems: 'center', 
               justifyContent: 'center', 
               width: '100%', 
@@ -72,12 +119,12 @@ const CommentModal = ({ selectedComponent, submitComment  }) => {
           >
             <Rating
               name="hover-feedback"
-              value={value}
+              value={rating}
               precision={1}
               size="large"
               getLabelText={getLabelText}
               onChange={(event, newValue) => {
-                setValue(newValue);
+                setRating(newValue);
               }}
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
@@ -85,8 +132,8 @@ const CommentModal = ({ selectedComponent, submitComment  }) => {
               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
             
-            {value !== null && (
-              <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+            {rating !== null && (
+              <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
             )}
 
           </Box>
@@ -123,8 +170,10 @@ const CommentModal = ({ selectedComponent, submitComment  }) => {
 
 
           <div className="form-actions">
-            <button type="button" className="cancel-button">CANCEL</button>
-            <button type="submit" className="submit-comment">CONFIRM</button>
+            <button type="button" className="cancel-button" onClick={handleCancel}>CANCEL</button>
+            <button type="submit" className="submit-comment" onClick={submitComment}>CONFIRM</button>
+           
+
           </div>
         </form>
       </div>

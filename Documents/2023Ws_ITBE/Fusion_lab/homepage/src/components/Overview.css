@@ -1,0 +1,97 @@
+.overview-container {
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.overview-container h2 {
+    color: #333;
+    text-align: left;
+    margin-bottom: 16px;
+    margin-left: 60px;
+
+}
+
+
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    width: 900px;
+    margin-bottom: 8px;
+    margin-left: 60px;
+}
+
+.rating-label {
+    flex-shrink: 0;
+    margin-right: 8px;
+}
+
+.bar-container {
+    flex-grow: 1;
+    background-color: #ddd;
+    margin-right: 8px;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.rating-count {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+
+
+
+.overview-flex-container {
+    display: flex;
+    align-items: left;
+    /* Align vertically */
+    justify-content: space-between;
+    /* Space out the child elements */
+}
+
+
+.average-rating-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack the average rating elements vertically */
+    align-items: center;
+    /* Center-align the items */
+    padding-right: 200px;
+    /* Increased padding to the right */
+    padding-top: 0px;
+}
+
+
+.average-score {
+    color: 'black';
+    font-size: 62px;
+    font-size: Montserrat;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    /* Stack the average rating elements vertically */
+    align-items: center;
+    /* Center-align the items */
+
+}
+
+.total-comments {
+    color: 'black';
+    font-size: 12px;
+    font-size: Montserrat;
+
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    /* Stack the average rating elements vertically */
+    align-items: center;
+}
