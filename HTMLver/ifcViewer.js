@@ -1,6 +1,6 @@
 import * as OBC from "openbim-components";
 import * as THREE from "three";
-import * as dat from "three/examples/jsm/libs/lil-gui.module.min";
+
 
 // basic scene
 const viewerContainer = document.getElementById("container");
@@ -13,7 +13,7 @@ components.init();
 
 components.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
 
-const scene = components.scene.get();
+//const scene = components.scene.get();
 
 components.scene.setup();
 
@@ -22,63 +22,12 @@ const grid = new OBC.SimpleGrid(components, new THREE.Color(0x666666));
 components.renderer.postproduction.enabled = true;
 components.renderer.postproduction.customEffects.excludedMeshes.push(grid.get());
 
-/*------ Buttons ------*/
+/*------ Main Tool bar ------*/
 const mainToolbar = new OBC.Toolbar(components, {
   name: "Main Toolbar",
   position: "bottom",
 });
 components.ui.addToolbar(mainToolbar);
-
-const groupAButton = new OBC.Button(components);
-groupAButton.materialIcon = 'view_in_ar';
-groupAButton.tooltip = 'Group A';
-mainToolbar.addChild(groupAButton);
-groupAButton.onClick.add(() => {
-  //console.log(components.camera.controls.camera.position)
-  // + add function if the current model is same with the import model then ignore
-  fragments.dispose();
-  importIfcModel('../rsc/sampleIFC.ifc', 'sample1')
-  components.camera.controls.setLookAt(-23.30179587993465, 20.269000992198567, 30, 0, 0, 0);
-  highlighter.clear();
-})
-
-const groupBButton = new OBC.Button(components);
-groupBButton.materialIcon = 'view_in_ar';
-groupBButton.tooltip = 'Group B';
-mainToolbar.addChild(groupBButton);
-groupBButton.onClick.add(() => {
-
-  fragments.dispose();
-  importIfcModel('../rsc/sampleIFC4.ifc', 'sample4')
-  components.camera.controls.setLookAt(-23.30179587993465, 20.269000992198567, 30, 0, 0, 0);
-  highlighter.clear();
-})
-
-const groupCButton = new OBC.Button(components);
-groupCButton.materialIcon = 'view_in_ar';
-groupCButton.tooltip = 'Group C';
-mainToolbar.addChild(groupCButton);
-groupCButton.onClick.add(() => {
-  fragments.dispose();
-  importIfcModel('../rsc/sampleIFC3.ifc', 'sample3')
-})
-
-const groupDButton = new OBC.Button(components);
-groupDButton.materialIcon = 'view_in_ar';
-groupDButton.tooltip = "Group D";
-mainToolbar.addChild(groupDButton);
-groupDButton.onClick.add(() => {
-
-})
-
-const groupEButton = new OBC.Button(components);
-groupEButton.materialIcon = 'view_in_ar';
-groupEButton.tooltip = 'Group E';
-mainToolbar.addChild(groupEButton);
-groupEButton.onClick.add(() => {
-
-}) 
-
 
 /* ----- ifc load ----- */
 // fragments
@@ -94,25 +43,13 @@ fragmentIfcLoader.settings.wasm = {
 fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
 fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
 
-// import IFC model and convert to fragment
-async function importIfcModel(path, modelName) {
-  const file = await fetch(path);
-  const data = await file.arrayBuffer();
-  const buffer = new Uint8Array(data);
-  const model = await fragmentIfcLoader.load(buffer, modelName);
-  scene.add(model);
-  return null;
-}
-const file = await fetch("../rsc/sampleIFC.ifc");
+//initial model
+const file = await fetch("../rsc/bridgeA.frag");
 const data = await file.arrayBuffer();
 const buffer = new Uint8Array(data);
-const model = await fragmentIfcLoader.load(buffer, "Sample IFC");
-scene.add(model);
-
-/*----- ifc properties processor ------*/
-const propsProcessor = new OBC.IfcPropertiesProcessor(components);
-propsProcessor.uiElement.get('propertiesWindow').visible = true;
-propsProcessor.process(model);
+const model = await fragments.load(buffer);
+const properties = await fetch("../rsc/bridgeA.json");
+model.properties = await properties.json();
 
 
 /*------- Highlighter -------*/
@@ -120,16 +57,32 @@ propsProcessor.process(model);
 const highlighter = new OBC.FragmentHighlighter(components, fragments);
 components.renderer.postproduction.customEffects.outlineEnabled = true;
 highlighter.outlinesEnabled = true;
-highlighter.zoomToSelection = true; //zoom function
+highlighter.zoomToSelection = true;
+
+// default material
+const selectionMaterial = new THREE.MeshBasicMaterial({
+  color: "#BCF124", 
+  transparent: true,
+  opacity: 0.85,
+  depthTest: true,
+});
+await highlighter.add('default', [selectionMaterial]);
+
 highlighter.setup();
 
-// select event
+/*----- ifc properties processor ------*/
+const propsProcessor = new OBC.IfcPropertiesProcessor(components);
+propsProcessor.uiElement.get('propertiesWindow').visible = true;
+propsProcessor.process(model);
+
+// add cleanPropertieslist function to highlighter onClear handler
 const highlighterEvents = highlighter.events;
 highlighterEvents.select.onClear.add(() => {
   propsProcessor.cleanPropertiesList();
-  
 });
 
+
+// add renderProperties function to onHighlight handler
 highlighterEvents.select.onHighlight.add((selection) => {
   const fragmentID = Object.keys(selection)[0];
   const expressID = Number([...selection[fragmentID]][0]);
@@ -138,8 +91,58 @@ highlighterEvents.select.onHighlight.add((selection) => {
     const fragmentFound = Object.values(group.keyFragments).find(id => id === fragmentID);
     if (fragmentFound) model = group;
   }
-  console.log(fragments);
-  console.log(expressID);
 
   propsProcessor.renderProperties(model, expressID);
 })
+
+// buttons
+const overviewButton = new OBC.Button(components);
+overviewButton.materialIcon = 'pageview'
+overviewButton.tooltip = 'Overview'
+mainToolbar.addChild(overviewButton);
+overviewButton.onClick.add( async () => {
+  const overviewPosition = Vector3({x: -122.0412338903638, y: 57.8573189393671, z: 49.465545453607156});
+  
+  // components.camera.controls.setLookAt(30,100,20,0,0,0,true);
+  console.log(components.camera.controls.getPosition());
+  console.log(components.camera.controls.getTarget());
+
+});
+
+const walkwayButton = new OBC.Button(components);
+walkwayButton.materialIcon = 'directions_walk'
+walkwayButton.tooltip = 'Walkway'
+mainToolbar.addChild(walkwayButton);
+walkwayButton.onClick.add( async () => {
+  components.camera.controls.fitToBox( fragments.meshes, true);
+});
+
+const roadButton = new OBC.Button(components);
+roadButton.materialIcon = 'directions_car'
+roadButton.tooltip = 'Road'
+mainToolbar.addChild(roadButton);
+roadButton.onClick.add( async () => {
+
+});
+
+const transportButton = new OBC.Button(components);
+transportButton.materialIcon = 'commute'
+transportButton.tooltip = 'Public Transport'
+mainToolbar.addChild(transportButton);
+transportButton.onClick.add( async () => {
+
+});
+
+const structureButton = new OBC.Button(components);
+structureButton.materialIcon = 'foundation'
+structureButton.tooltip = 'Structure'
+mainToolbar.addChild(structureButton);
+structureButton.onClick.add( async () => {
+
+});
+
+
+const cacher = new OBC.FragmentCacher(components);
+const cacherButton = cacher.uiElement.get("main");
+mainToolbar.addChild(cacherButton);
+
