@@ -2,15 +2,15 @@ import React from 'react';
 import Rating from '@mui/material/Rating';
 import './Overview.css';
 
-const Overview = ({ comments }) => {
+const Overview = ({ reviews,selectedComponent }) => {
     // Calculate the average rating and rating distribution
-    const totalRatings = comments.length;
+    const totalRatings = reviews.length;
     const ratingDistribution = Array(5).fill(0);
     let totalScore = 0;
 
-    comments.forEach(comment => {
-        ratingDistribution[comment.rating - 1] += 1;
-        totalScore += comment.rating;
+    reviews.forEach(review => {
+        ratingDistribution[review.rating - 1] += 1;
+        totalScore += review.rating;
     });
 
     const averageRating = totalRatings > 0 ? (totalScore / totalRatings) : 0;
@@ -18,7 +18,7 @@ const Overview = ({ comments }) => {
     // Create rating bars
     const ratingBars = ratingDistribution.map((count, index) => {
         const rating = index + 1;
-        const widthPercentage = (count / comments.length) * 100;
+        const widthPercentage = (count / reviews.length) * 100;
 
         return (
             <div key={rating} className="rating-bar">
@@ -36,7 +36,9 @@ const Overview = ({ comments }) => {
 
     return (
         <div className="overview-container">
-          <h2>Overview</h2>
+          <h2>Overview of {selectedComponent}</h2>
+
+          
           <div className="overview-flex-container"> 
 
             <div >
@@ -48,6 +50,7 @@ const Overview = ({ comments }) => {
               <Rating value={averageRating} readOnly  precision={0.1}/>
               <span className="total-comments">{totalRatings} comments</span>
             </div>
+
           </div>
 
         </div>

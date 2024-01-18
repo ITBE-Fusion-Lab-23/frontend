@@ -10,6 +10,7 @@ import Video from './components/Video';
 
 
 
+
 function App() {
   return (
  
@@ -19,6 +20,8 @@ function App() {
         <section id="home"><Home /></section>
       <section id="introduction"><Introduction /></section>
       <section id="model-viewer"><ModelViewer /></section>
+    
+
         <Footer />
       </div>
     

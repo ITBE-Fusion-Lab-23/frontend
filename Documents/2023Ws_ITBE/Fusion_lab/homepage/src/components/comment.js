@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './comment.css';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+
 
 const labels = {
 
@@ -22,29 +23,22 @@ function getLabelText(value) {
 
 
 
-const CommentModal = ({ selectedComponent,closeModal  }) => {
+const CommentModal = ({ selectedComponent, closeModal, selectedGroup }) => {
 
 
   const [hover, setHover] = useState(-1);
   const [comment, setComment] = useState('');
   const [stakeholder, setStakeholder] = useState('');
-  const [rating, setRating] = useState(2);
+  const [rating, setRating] = useState(0);
   const [liked, setLiked] = useState(false);
   const [count, setCount] = useState(0);
+  const [showRatingError, setShowRatingError] = useState(false); // New state for error message visibility
 
-
-
-
-
- 
 
   const handleCancel = () => {
-    // Logic for submitting the comment
+    
     closeModal(); // Close the modal after submitting
   };
-
-
- 
 
 
   const handleInputChange = (event) => {
@@ -56,13 +50,30 @@ const CommentModal = ({ selectedComponent,closeModal  }) => {
     setStakeholder(option);
   };
 
+
+
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
+    if (rating === 0) {
+      console.log("No rating selected, showing error.");
+      setShowRatingError(true); // Show error message if no rating is selected
+      return; // Prevent further execution
+    }
     console.log("Form submitted");
-   
     submitComment();
   };
+
+
+
+
+
+  useEffect(() => {
+    if (rating !== 0) {
+      setShowRatingError(false);
+    }
+  }, [rating]);
 
 
   const stakeholderOptions = [
@@ -78,17 +89,19 @@ const CommentModal = ({ selectedComponent,closeModal  }) => {
   ];
 
   const submitComment = async (
-    
+
   ) => {
     const commentData = {
+
       component: selectedComponent,
-      text: comment,
+      comment,
       rating,
-      liked,
       count,
-      stakeholder
+      stakeholder,
+      groupId: selectedGroup
+
     };
-    
+
 
     try {
       // Replace with your actual API call, for example:
@@ -102,18 +115,22 @@ const CommentModal = ({ selectedComponent,closeModal  }) => {
 
 
 
+
+
+
+
   return (
     <div className="comment-modal">
-    <div className="modal-content">
-      <h2>Comment on {selectedComponent}</h2> 
-      <form onSubmit={handleFormSubmit}>
+      <div className="modal-content">
+      <h2>Comment on {selectedGroup}'s {selectedComponent}</h2>
+        <form onSubmit={handleFormSubmit}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              width: '100%', 
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
               marginTop: '50px',
             }}
           >
@@ -131,14 +148,14 @@ const CommentModal = ({ selectedComponent,closeModal  }) => {
               }}
               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
-            
+
             {rating !== null && (
               <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
             )}
 
           </Box>
 
-
+          {showRatingError && <p className="rating-error">Please select a rating</p>}
 
           <textarea
             value={comment}
@@ -171,8 +188,8 @@ const CommentModal = ({ selectedComponent,closeModal  }) => {
 
           <div className="form-actions">
             <button type="button" className="cancel-button" onClick={handleCancel}>CANCEL</button>
-            <button type="submit" className="submit-comment" onClick={submitComment}>CONFIRM</button>
-           
+            <button type="submit" className="submit-comment"   >CONFIRM</button>
+
 
           </div>
         </form>

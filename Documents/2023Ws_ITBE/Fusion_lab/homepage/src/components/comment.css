@@ -29,11 +29,16 @@ margin-top: 40px;
 
 }
 
-
-
 .form-actions {
   display: flex;
   justify-content: space-between;
+}
+
+
+.rating-error {
+  color: red; 
+  margin-top: 10px;
+  text-align: center;
 }
 
 
@@ -69,6 +74,8 @@ margin-top: 40px;
   width: 105px;
   margin-right: 60px;
 }
+
+
 
 .stakeholder-label{
   color: #333333

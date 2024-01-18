@@ -5,16 +5,19 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import './comment_list.css';
 
-const CommentList = ({ selectedComponent, comments ,setComments}) => {
-  const [likes, setLikes] = useState([]);
+const CommentList = ({ selectedComponent, reviews ,setReviews}) => {
+  const [likes, setLikes] = useState(false);
+
 
   // Update likes state whenever comments change
   useEffect(() => {
-    setLikes(comments.map(comment => ({
-      liked: comment.liked || false,
-      count: comment.count || 0,
+    setLikes(reviews.map(review => ({
+      liked: false,
+      count: review.count || 0,
     })));
-  }, [comments]);
+  }, [reviews]);
+
+  
 
   const toggleLike = (index) => {
     if (index >= 0 && index < likes.length) {
@@ -24,58 +27,40 @@ const CommentList = ({ selectedComponent, comments ,setComments}) => {
         count: newLikes[index].liked ? newLikes[index].count - 1 : newLikes[index].count + 1
       };
       setLikes(newLikes);
+      if (newLikes[index].liked){
+
+        console.log(newLikes[index].count); 
+      } 
+      else {
+        console.log(newLikes[index].count); 
+      }
+
+      
     }
   };
 
 
-
-  /*const toggleLike = async (index) => {
-    if (index >= 0 && index < comments.length) {
-      const updatedComments = [...comments];
-      const comment = updatedComments[index];
-      const updatedLikeStatus = !comment.liked;
-      const updatedCount = updatedLikeStatus ? comment.count + 1 : comment.count - 1;
-
-      try {
-        // API call to update the like status and count
-        await fetch(`your-api-endpoint/comments/${comment.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ liked: updatedLikeStatus, count: updatedCount }),
-        });
-
-        // Update local state
-        updatedComments[index] = { ...comment, liked: updatedLikeStatus, count: updatedCount };
-        setComments(updatedComments);
-      } catch (error) {
-        console.error('Error updating like:', error);
-      }
-    }
-  };*/
-
-  const [visibleComments, setVisibleComments] = useState(5); // Start with 5 visible comments
-  const showMoreComments = () => {
-    setVisibleComments((prevVisibleComments) => prevVisibleComments + 5); // Show 5 more comments
+  const [visibleReviews, setVisibleReviews] = useState(5); // Start with 5 visible comments
+  const showMoreReviews = () => {
+    setVisibleReviews((prevVisibleReviews) => prevVisibleReviews + 5);// Show 5 more comments
   };
 
   // Filter comments based on the selected component
-  const filteredComments = comments.filter((comment) => comment.component === selectedComponent);
+  const filteredReviews = reviews.filter((review) => review.component === selectedComponent);
 
   return (
     <div className="comments-section">
-      {filteredComments.slice(0, visibleComments).map((comment, index) => (
+      {filteredReviews.slice(0, visibleReviews).map((review, index) => (
         <div key={index} className="comment-item">
           <div className="comment-content">
             <Rating
               name={`read-only-${index}`}
-              value={comment.rating}
+              value={review.rating}
               readOnly
               emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
-            <p className="comment-text">{comment.text}</p>
-            <p className="stakeholder-type">Stakeholder: {comment.stakeholder}</p>
+            <p className="comment-text">{review.text}</p>
+            <p className="stakeholder-type">Stakeholder: {review.stakeholder}</p>
           </div>
           {likes[index] && (
           <div
@@ -93,8 +78,8 @@ const CommentList = ({ selectedComponent, comments ,setComments}) => {
           </div>)}
         </div>
       ))}
-      {visibleComments < filteredComments.length && (
-        <button onClick={showMoreComments} className="more-button">
+      {visibleReviews < filteredReviews.length && (
+        <button onClick={showMoreReviews} className="more-button">
           More
         </button>
       )}

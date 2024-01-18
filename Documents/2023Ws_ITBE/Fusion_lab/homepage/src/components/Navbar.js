@@ -27,7 +27,7 @@ function Navbar() {
                     <a href="#home" className="menu-item">Main</a>
                     <a href="#introduction" className="menu-item"> Introduction</a>
                     <a href="#model-viewer" className="menu-item">Model Viewer</a>
-                    <a href="#" className="menu-item" >Vote</a>
+                    <a href="#vote" className="menu-item" >Vote</a>
                     <a href="#" className="menu-item">Contacts</a>
                 </div>
             </div>
