@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useRef } from 'react';
 import intro_overview from '../images/intro_overview.png';
 import bus_station from '../images/bus_station.png';
 import roads from '../images/roads.png';
@@ -10,15 +10,23 @@ import './introduction.css';
 
 
 function Introduction() {
-  
 
+
+  const introOverviewRef = useRef(null);
+
+  const scrollToImage = () => {
+    if (introOverviewRef.current) {
+      window.scrollTo({
+        top: introOverviewRef.current.offsetTop,
+        behavior: 'smooth', 
+      });
+    }
+  };
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '50px 0' }}>
-      {/* Centered container with a fixed size */}
       <div style={{ position: 'relative', width: '1232px', height: '435px', margin: '0 auto', backgroundColor: '#FBFBFB', marginBottom: '180px' }}>
-        {/* Image with adjusted top margin */}
         <img src={intro_overview} alt="Intro Overview" style={{ width: '601px', height: 'auto', position: 'absolute', top: '50px', left: '100px' }} />
-        {/* Text content aligned to the left */}
         <div style={{ position: 'absolute', left: '740px', width: '422px', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '50px 20px 20px', fontFamily: 'Roboto', textAlign: 'left' }}>
           <h1 style={{ color: '#BDBDBD', fontSize: 64, fontWeight: '300', marginBottom: '10px' }}>Introduction</h1>
           <p style={{ color: '#000000', fontSize: '16px', fontWeight: '300', lineHeight: '1.6' }}>
@@ -27,7 +35,7 @@ function Introduction() {
             Author<br />
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
           </p>
-          <button className='read-more-container'
+          <button className='read-more-container' onClick={scrollToImage}
           >
             READ MORE  →
           </button>
@@ -36,7 +44,7 @@ function Introduction() {
       
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '50px' }}>
   <div style={{ maxWidth: '1200px' }}>
-    <img src={bus_station} alt="Side view of a bus station" style={{ flexShrink: 0, height: 'auto', marginRight: '20px' }} />
+    <img ref={introOverviewRef}  src={bus_station} alt="Side view of a bus station" style={{ flexShrink: 0, height: 'auto', marginRight: '20px' }} />
   </div>
   <div style={{ flexDirection: 'column', padding: '0 20px', width: '456px', fontFamily: 'Roboto', textAlign: 'left' }}>
     <h2 style={{ color: '#000000', fontSize: '24px', fontWeight: '400' }}>Bus Station</h2>

@@ -5,7 +5,7 @@ import image_test from '../images/image_test.png';
 
 
 
-const imageData = [
+const modelsData = [
     { id: 'A', src: image_test, votes: 10 },
     { id: 'B', src: image_test, votes: 20 },
     { id: 'C', src: image_test, votes: 5 },
@@ -13,42 +13,14 @@ const imageData = [
     { id: 'E', src: image_test, votes: 8 }
 ];
 
+
+
+
 const VotingComponent = ({ onModelSelect }) => {
-    const [images, setImages] = useState(imageData);
-    const maxVotesGroup = images.reduce((prev, current) => (prev.votes > current.votes) ? prev : current, images[0]);
+    const [models, setModels] = useState(modelsData);
+    const maxVotesGroup = models.reduce((prev, current) => (prev.votes > current.votes) ? prev : current, models[0]);
 
 
-    const [chartData, setChartData] = useState({
-        labels: imageData.map((data) => data.id),
-        datasets: [{
-            label: 'Results',
-            data: imageData.map((data) => data.votes),
-            backgroundColor: '#FFD700',
-
-            barThickness: 'flex', // Use 'flex' for flexible bar thickness
-            maxBarThickness: 100,
-            font: {
-                size: '36px',
-                family: 'Montserrat',
-                weight: 700,
-            },
-        }]
-    });
-
-    const chartOptions = {
-        scales: {
-            x: {
-                grid: {
-                    display: false,
-                }
-            },
-            y: {
-                grid: {
-                    display: false,
-                }
-            }
-        }
-    };
 
     const selectModelGroup = (id) => {
         onModelSelect(id); // Call the prop function with the selected group id
@@ -57,29 +29,20 @@ const VotingComponent = ({ onModelSelect }) => {
     };
 
     const handleVote = (id) => {
-        const updatedImages = images.map((image) => {
-            if (image.id === id) {
-                return { ...image, votes: image.votes + 1 };
+        const updatedModels = models.map((model) => {
+            if (model.id === id) {
+                return { ...model, votes: model.votes + 1 };
             }
-            return image;
+            return model;
         });
-        setImages(updatedImages);
+        setModels(updatedModels);
     };
 
-    useEffect(() => {
-        setChartData({
-            ...chartData,
-            datasets: [{
-                ...chartData.datasets[0],
-                data: images.map((data) => data.votes)
-            }]
-        });
-    }, [images]);
+  
 
-    // Assume imageData is the array of vote data with `id` and `votes` properties.
-    const maxVotes = Math.max(...imageData.map(group => group.votes));
+    const maxVotes = Math.max(...models.map(group => group.votes));
 
-    const voteBars = imageData.map((group) => {
+    const voteBars = models.map((group) => {
         const widthPercentage = maxVotes > 0 ? (group.votes / maxVotes) * 100 : 0;
         console.log(maxVotes)
 
@@ -87,17 +50,14 @@ const VotingComponent = ({ onModelSelect }) => {
             <div key={group.id} className="vote-bar">
                 <span className="group-label">{group.id}</span>
                 <div className="bar-container">
-                <div className="bar" style={{
-                    width: `${widthPercentage}%`,
-                    backgroundColor:  '#FFD700' 
-                }}></div></div>
+                    <div className="bar" style={{
+                        width: `${widthPercentage}%`,
+                        backgroundColor: '#FFD700'
+                    }}></div></div>
                 <span className="vote-count">{group.votes}</span>
             </div>
         );
     });
-
-
-
 
 
     return (
@@ -106,17 +66,17 @@ const VotingComponent = ({ onModelSelect }) => {
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
 
             <div className="images-grid">
-                {images.map((image) => (
-                    <div key={image.id} className="image-item">
-                        <img src={image.src} alt={`Rendering Image ${image.id}`} className="image" />
+                {models.map((model) => (
+                    <div key={model.id} className="image-item">
+                        <img src={model.src} alt={`Rendering Image ${model.id}`} className="image" />
                         <div className="vote-section">
                             <button
                                 className="ifc-model-button"
-                                onClick={() => selectModelGroup(image.id)}
+                                onClick={() => selectModelGroup(model.id)}
                             >
                                 IFC MODEL
                             </button>
-                            <button className="vote-button" onClick={() => handleVote(image.id)}>
+                            <button className="vote-button" onClick={() => handleVote(model.id)}>
                                 Vote
                             </button>
                         </div>
@@ -124,21 +84,21 @@ const VotingComponent = ({ onModelSelect }) => {
                 ))}
             </div>
 
-            <div className="result-container"> 
-            <h2>Result</h2>
+            <div className="result-container">
+                <h2>Result</h2>
 
-            <div className="overview-flex-container"> 
-            
-            <div className="chart-container">
-                {voteBars}
-            </div>
+                <div className="result-flex-container">
 
-            <div className="temporatary-result">
-              <span className="average-score">Current Winner</span>
-              <span className="current-winner">Group: {maxVotesGroup.id}</span>
-            </div>
+                    <div className="chart-container">
+                        {voteBars}
+                    </div>
 
-            </div>
+                    <div className="temporatary-result">
+                        <span className="average-score">Current Winner</span>
+                        <span className="current-winner">Group: {maxVotesGroup.id}</span>
+                    </div>
+
+                </div>
             </div>
         </div>
     );

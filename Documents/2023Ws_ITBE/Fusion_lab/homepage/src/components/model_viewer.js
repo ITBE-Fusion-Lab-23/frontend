@@ -118,7 +118,6 @@ function ModelViewer() {
         component: "Structure",
         text: 'I like the design.',
         rating: 5,
-
         count: 7,
         stakeholder: 'Local Residents', groupId: "A",
       }, {
@@ -186,21 +185,6 @@ function ModelViewer() {
   }, [selectedComponent, selectedGroup, groupedReviews]);
 
 
-  /*useEffect(() => {
-     const fetchComments = async () => {
-       try {
-         const response = await fetch('your-api-endpoint/comments');
-         const data = await response.json();
-         setComments(data);
-       } catch (error) {
-         console.error('Error fetching comments:', error);
-       }
-     };
- 
-     fetchComments();
-   }, []);*/
-
-
 
 
   const handleDropdownChange = (event) => {
@@ -255,7 +239,6 @@ function ModelViewer() {
       {isModalOpen && (<CommentModal selectedComponent={selectedComponent} selectedGroup={selectedGroup} closeModal={closeModal} />)}
 
       <Overview reviews={reviews} selectedComponent={selectedComponent} />
-      {/* Render the CommentsList component with the selected component and comments */}
       <CommentList selectedComponent={selectedComponent} reviews={reviews} setReviews={setReviews} />
 
       <section id="vote"> <VotingComponent onModelSelect={handleModelSelect} /></section>
