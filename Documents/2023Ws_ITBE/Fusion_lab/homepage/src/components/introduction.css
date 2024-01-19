@@ -1,28 +1,20 @@
 .read-more-container {
   font-size: 12px;
   color: #333333;
-  /* Corrected the comma to a semicolon */
   background: #FFFFFF;
   cursor: pointer;
-  /* Removed the quotes */
   padding: 10px 16px;
-  /* Comments are okay */
   width: 222px;
-  /* Fixed width as per the screenshot */
   height: 71px;
-  /* Fixed height as per the screenshot */
   box-sizing: border-box;
-  /* Ensures that padding and border are included in the width and height */
   align-self: flex-start;
-  /* Ensures button is left-aligned, corrected the property name */
   font-weight: 400;
   letter-spacing: 2.40px;
-  /* Added px to define units */
 }
 
 
 .main-focus-container {
-  max-width: 100%;
+  max-width: 1300px;
   margin: auto;
   padding: 20px;
   font-family: 'Roboto', sans-serif;
@@ -50,7 +42,6 @@
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
-  /* Adjusted from 20px to reduce the space */
 }
 
 .focus-item:not(.focus-item-full) {
@@ -60,7 +51,6 @@
 .focus-item-full {
   flex-basis: 100%;
   margin-top: -120px;
-  /* Negative margin-top to pull the element closer to the above elements */
 }
 
 

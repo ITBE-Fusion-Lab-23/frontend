@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './VotingComponent.css';
 import image_test from '../images/image_test.png';
 
@@ -63,7 +63,7 @@ const VotingComponent = ({ onModelSelect }) => {
     return (
         <div className="voting-container">
             <h1 >Vote</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
+            <p>Here are the different renovation designs for the Donnersbergerbrücke, created by groups of students from ITBE. You can click the 'IFC model' button to view the detailed IFC models of each group. Then, vote for the design you like. You will be able to see the current number of votes for each group in real-time.</p>
 
             <div className="images-grid">
                 {models.map((model) => (
