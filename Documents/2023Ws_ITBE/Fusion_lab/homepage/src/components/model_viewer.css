@@ -1,13 +1,14 @@
 .model-viewer {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
-.model-viewer-header {
+.model-viewer-header h1{
+  font-size: 64px;
+  font-weight: 300;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  font-weight: bold; /* Correct property for font-weight */
   font-family: 'Roboto', sans-serif; /* Ensure proper font family */
   padding-left: 80px; /* Space from the left edge */
   color: #BDBDBD; /* Font color */
@@ -27,7 +28,7 @@
   display: flex;
   flex-direction: column; /* Stack items vertically */
   align-items: flex-start; /* Align items to the start of the flex container */
-  padding-left: 80px; /* Space from the left edge */
+  padding-left: 90px; /* Space from the left edge */
   margin-bottom: 20px; /* Adjust as necessary for space below */
   padding-bottom: 50px;
 }

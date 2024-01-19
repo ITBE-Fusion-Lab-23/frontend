@@ -9,7 +9,10 @@
     color: #333;
     text-align: left;
     margin-bottom: 16px;
-    margin-left: 60px;
+    padding-left: 70px;
+    font-size: 36px;
+    font-size: Montserrat;
+    font-weight: 700;
 
 }
 
@@ -20,7 +23,7 @@
     align-items: center;
     width: 900px;
     margin-bottom: 8px;
-    margin-left: 60px;
+    margin-left: 50px;
 }
 
 .rating-label {
@@ -56,6 +59,7 @@
     /* Align vertically */
     justify-content: space-between;
     /* Space out the child elements */
+    margin-left: 20px;
 }
 
 

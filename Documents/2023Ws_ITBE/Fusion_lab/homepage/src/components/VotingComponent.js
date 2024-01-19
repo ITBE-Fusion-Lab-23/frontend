@@ -102,7 +102,7 @@ const VotingComponent = ({ onModelSelect }) => {
 
     return (
         <div className="voting-container">
-            <h1 style={{ textAlign: 'left', marginLeft: '40px' }}>Vote</h1>
+            <h1 >Vote</h1>
             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry...</p>
 
             <div className="images-grid">
@@ -124,7 +124,7 @@ const VotingComponent = ({ onModelSelect }) => {
                 ))}
             </div>
 
-            <div className="overview-container"> 
+            <div className="result-container"> 
             <h2>Result</h2>
 
             <div className="overview-flex-container"> 

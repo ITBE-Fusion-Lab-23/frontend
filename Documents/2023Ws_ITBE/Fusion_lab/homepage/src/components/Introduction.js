@@ -10,23 +10,7 @@ import './introduction.css';
 
 
 function Introduction() {
-  const data = [
-    {
-      number: '1',
-      title: 'Sunset',
-      description: 'consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat.'
-    },
-    {
-      number: '2',
-      title: 'Breze',
-      description: 'consectetur adipiscing elit. Sed efficitur, lectus et facilisis'
-    },
-    {
-      number: '3',
-      title: 'Sunset',
-      description: 'consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat. Sunset consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat. consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat'
-    },
-  ];
+  
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '50px 0' }}>
@@ -43,24 +27,13 @@ function Introduction() {
             Author<br />
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
           </p>
-          <button style={{
-            fontSize: '12px',
-            color: '#333333',
-            background: '#FFFFFF', // Button background color
-            cursor: 'pointer',
-            padding: '10px 16px', // Adjust padding to achieve the desired button size
-            width: '222px', // Fixed width as per the screenshot
-            height: '71px', // Fixed height as per the screenshot
-            boxSizing: 'border-box', // Ensures that padding and border are included in the width and height
-            alignSelf: 'flex-start', // Ensures button is left-aligned,
-            fontWeight: '400',
-            letterSpacing: 2.40,
-
-          }}>
+          <button className='read-more-container'
+          >
             READ MORE  →
           </button>
         </div>
       </div>
+      
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: '50px' }}>
   <div style={{ maxWidth: '1200px' }}>
     <img src={bus_station} alt="Side view of a bus station" style={{ flexShrink: 0, height: 'auto', marginRight: '20px' }} />
@@ -121,27 +94,32 @@ function Introduction() {
   </div>
 </div>
 
-<div className="main-focus-container">
-      <h1 className="main-focus-title">Main Focus/Mission Statement</h1>
-      <div className="focus-row">
-        {data.slice(0, 2).map((item, index) => (
-          <div key={index} className="focus-item">
-            <div className="focus-number">{item.number}</div>
-            <div className="focus-content">
-              <h2>{item.title}</h2>
-              <p>{item.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="focus-item focus-item-full">
-        <div className="focus-number">{data[2].number}</div>
-        <div className="focus-content">
-          <h2>{data[2].title}</h2>
-          <p>{data[2].description}</p>
-        </div>
+<div class="main-focus-container">
+  <div class="main-focus-title">Main Focus/Mission Statement</div>
+  <div class="focus-row">
+    <div class="focus-item">
+      <div class="focus-number">1</div>
+      <div class="focus-content">
+        <h2>Sunset</h2>
+        <p>consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat.</p>
       </div>
     </div>
+    <div class="focus-item">
+      <div class="focus-number">2</div>
+      <div class="focus-content">
+        <h2>Breeze</h2>
+        <p>consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat.</p>
+      </div>
+    </div>
+  </div>
+  <div class="focus-item focus-item-full">
+    <div class="focus-number">3</div>
+    <div class="focus-content">
+      <h2>Sunset</h2>
+      <p>consectetur adipiscing elit. Sed efficitur, lectus et facilisis placerat.</p>
+    </div>
+  </div>
+</div>
 
 
 

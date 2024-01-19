@@ -92,6 +92,7 @@ nav.sticky {
   margin-right: 30px;
   cursor: pointer;
 }
+
 .menu-item {
   transition: background-color 0.3s ease;
   border-radius: 10px; /* Rounded corners */

@@ -2,13 +2,44 @@
     padding-top: 100px;
     max-width: 1370px;
     margin: auto;
-    text-align: center;
+    text-align: left;
 }
+
+.voting-container h1 {
+    padding-top: 100px;
+    font-size: 64px;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif; /* Ensure proper font family */
+    margin-left: 20px;/* Space from the left edge */
+    color: #BDBDBD; /* Font color */
+}
+
+.voting-container p {
+    padding-top: 100px;
+    font-size: 16px;
+    font-weight: 300;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-family: 'Roboto', sans-serif; /* Ensure proper font family */
+    padding-left: 40px; /* Space from the left edge */
+    color:'black'; /* Font color */
+}
+
+
+
+
+
 
 .images-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Adjusted to match the layout */
-    gap: 40px;
+    gap: 25px;
     padding: 20px;
 }
 
@@ -42,16 +73,45 @@
     align-items: center;
 }
 
-.ifc-model-button, .vote-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-right: 5px; /* Add some space between the buttons */
+.ifc-model-button {
+    
+        padding: 10px 8px;
+        background-color: #0065BD;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: 'Montserrat';
+        font-weight: 800;
+        height: 40px;
+        width: 120px;
+        margin-right: 60px;
+      
 }
 
+.vote-button {
+    
+    padding: 10px 8px;
+    background-color: #fff;
+    color: #0065BD;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Montserrat';
+    font-weight: 800;
+    height: 40px;
+    width: 70px;
+    margin-left: 60px;
+  
+}
+
+
+
+
 .ifc-model-button:hover, .vote-button:hover {
+    color: #fff;
     background-color: #0056b3;
 }
 
@@ -81,7 +141,7 @@
     height: 400px;
     position: relative; 
     margin-bottom: 100px;
-    margin-left: 0px;
+    margin-left: 25px;
     
 }
 
@@ -122,18 +182,21 @@
 }
 
 
-.overview-container {
+.result-container {
     font-family: 'Arial', sans-serif;
     background: #fff;
     border-radius: 8px;
     padding: 20px;
 }
 
-.overview-container h2 {
+.result-container h2 {
     color: #333;
     text-align: left;
-    margin-bottom: 16px;
-    margin-left: 60px;
+    margin-bottom: 40px;
+    padding-left: 20px;
+    font-size: 36px;
+    font-size: Montserrat;
+    font-weight: 700;
 
 }
 
