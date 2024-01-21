@@ -15,10 +15,11 @@
 }
 
 .model-display {
-  width: 1000px;
-  height: 800px;
   display: flex;
-  justify-content: center;
+  width: 100%; /* Full width of the parent container */
+  height: 75vb;
+  padding: 10px;
+  justify-content: space-between;
   align-items: center;
   margin: 20px;
 }
@@ -26,7 +27,7 @@
 .viewer-container {
   width: 100%; /* Full width of the parent container */
   height: 100%; /* 75% of the viewport height */
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin: 20px;
 }
