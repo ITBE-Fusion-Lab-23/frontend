@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CommentModal from './Comment';
+import CommentModal from './comment.js';
 import CommentList from './CommentList';
 import Overview from './Overview';
 import VotingComponent from './VotingComponent';
@@ -8,7 +8,7 @@ import B from '../images/B.png';
 import C from '../images/C.png';
 import D from '../images/D.png';
 import E from '../images/E.png';
-
+import IFCViewer from './ifcViewer.js';
 
 
 import './model_viewer.css';
@@ -215,11 +215,7 @@ function ModelViewer() {
       </div>
 
       <div className="model-display">
-        {selectedGroup && groupImages[selectedGroup] ? (
-          <img src={groupImages[selectedGroup]} alt={`Rendering Image ${selectedGroup}`} />
-        ) : (
-          <p>New IFC Modeling</p>
-        )}
+        <IFCViewer />
       </div>
 
       <div className="components-section">

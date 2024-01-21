@@ -1,28 +1,35 @@
 .model-viewer {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
-.model-viewer-header h1{
+.model-viewer-header h1 {
   font-size: 64px;
   font-weight: 300;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  font-family: 'Roboto', sans-serif; /* Ensure proper font family */
+  font-family: "Roboto", sans-serif; /* Ensure proper font family */
   padding-left: 80px; /* Space from the left edge */
-  color: #BDBDBD; /* Font color */
+  color: #bdbdbd; /* Font color */
 }
 
 .model-display {
-  width: 1228px;
+  width: 1000px;
+  height: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
   margin: 20px;
 }
 
+.viewer-container {
+  width: 100%; /* Full width of the parent container */
+  height: 100%; /* 75% of the viewport height */
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
 
 .components-section {
   display: flex;
@@ -34,51 +41,50 @@
 }
 
 .components-label {
-  color: #333333
-  ;
+  color: #333333;
   font-size: 16px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
   margin-bottom: 14px; /* Space between the label and the dropdown */
   text-align: left;
-  }
-  
-  .component-dropdown {
+}
+
+.component-dropdown {
   width: 310px;
   padding: 10px 14px;
   font-size: 16px;
   font-weight: 700;
   color: #666666;
   border: none;
-  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   appearance: none;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: white;
   cursor: pointer;
   text-align: left;
-  }
-  
-  /* Style for the dropdown arrow */
-  .component-dropdown::after {
-  content: '▼';
+}
+
+/* Style for the dropdown arrow */
+.component-dropdown::after {
+  content: "▼";
   position: absolute;
   right: 14px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #333;
-  }
-  
-  .comment-button {
+}
+
+.comment-button {
   padding: 10px 20px;
   margin-top: 25px; /* Space between the dropdown and the button */
-  background-color: #B9B9B9;
+  background-color: #b9b9b9;
   color: black;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   font-size: 16px;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 900;
-  }
+}
