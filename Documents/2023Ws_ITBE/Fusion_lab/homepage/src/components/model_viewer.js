@@ -13,13 +13,13 @@ import IFCViewer from "./ifcViewer.js";
 import "./model_viewer.css";
 
 function ModelViewer() {
-  const [selectedComponent, setSelectedComponent] = useState("Overrall"); // Set to 'Overrall' as the default
+  const [selectedComponent, setSelectedComponent] = useState("Overview"); // Set to 'Overrall' as the default
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("A");
 
   const componentsList = [
-    "Overrall",
+    "Overview",
     "Pedestrian Space",
     "Road",
     "Access to public transport",
@@ -231,7 +231,7 @@ function ModelViewer() {
         <h1>Model Viewer</h1>
       </div>
       <div className="model-display">
-        <IFCViewer />
+        <IFCViewer selectedComponent={selectedComponent} />
       </div>
 
       <div className="components-section">

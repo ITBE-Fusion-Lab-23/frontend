@@ -2,8 +2,9 @@ import * as OBC from "openbim-components";
 import * as THREE from "three";
 import React, { useRef, useEffect } from "react";
 
-const IFCViewer = () => {
+const IFCViewer = ({ selectedComponent }) => {
   const viewerContainerRef = useRef(null);
+  const components = useRef(null);
 
   useEffect(() => {
     const initializeViewer = async () => {
@@ -11,38 +12,43 @@ const IFCViewer = () => {
         const viewerContainer = viewerContainerRef.current;
 
         // basic scene
-        const components = new OBC.Components();
-        components.scene = new OBC.SimpleScene(components);
-        components.renderer = new OBC.PostproductionRenderer(
-          components,
+        components.current = new OBC.Components();
+        components.current.scene = new OBC.SimpleScene(components.current);
+        components.current.renderer = new OBC.PostproductionRenderer(
+          components.current,
           viewerContainer
         );
-        components.camera = new OBC.SimpleCamera(components);
-        components.raycaster = new OBC.SimpleRaycaster(components);
-        components.init();
+        components.current.camera = new OBC.SimpleCamera(components.current);
+        components.current.raycaster = new OBC.SimpleRaycaster(
+          components.current
+        );
+        components.current.init();
 
-        components.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
+        components.current.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
 
-        components.scene.setup();
+        components.current.scene.setup();
 
-        const grid = new OBC.SimpleGrid(components, new THREE.Color(0x666666));
+        const grid = new OBC.SimpleGrid(
+          components.current,
+          new THREE.Color(0x666666)
+        );
 
-        components.renderer.postproduction.enabled = true;
-        components.renderer.postproduction.customEffects.excludedMeshes.push(
+        components.current.renderer.postproduction.enabled = true;
+        components.current.renderer.postproduction.customEffects.excludedMeshes.push(
           grid.get()
         );
 
         /*------ Main Tool bar ------*/
-        const mainToolbar = new OBC.Toolbar(components, {
+        const mainToolbar = new OBC.Toolbar(components.current, {
           name: "Main Toolbar",
           position: "bottom",
         });
-        components.ui.addToolbar(mainToolbar);
+        components.current.ui.addToolbar(mainToolbar);
 
         /* ----- ifc load ----- */
         // fragments
-        let fragments = new OBC.FragmentManager(components);
-        let fragmentIfcLoader = new OBC.FragmentIfcLoader(components);
+        let fragments = new OBC.FragmentManager(components.current);
+        let fragmentIfcLoader = new OBC.FragmentIfcLoader(components.current);
 
         // Setup IFCloader with WSAM (calibrating the converter)
         await fragmentIfcLoader.setup();
@@ -63,8 +69,11 @@ const IFCViewer = () => {
 
         /*------- Highlighter -------*/
         // highlighter config
-        const highlighter = new OBC.FragmentHighlighter(components, fragments);
-        components.renderer.postproduction.customEffects.outlineEnabled = true;
+        const highlighter = new OBC.FragmentHighlighter(
+          components.current,
+          fragments
+        );
+        components.current.renderer.postproduction.customEffects.outlineEnabled = true;
         highlighter.outlinesEnabled = true;
         highlighter.zoomToSelection = true;
 
@@ -80,7 +89,9 @@ const IFCViewer = () => {
         highlighter.setup();
 
         /*----- ifc properties processor ------*/
-        const propsProcessor = new OBC.IfcPropertiesProcessor(components);
+        const propsProcessor = new OBC.IfcPropertiesProcessor(
+          components.current
+        );
         propsProcessor.uiElement.get("propertiesWindow").visible = true;
         propsProcessor.process(model);
 
@@ -106,7 +117,7 @@ const IFCViewer = () => {
         });
 
         // buttons
-        const overviewButton = new OBC.Button(components);
+        const overviewButton = new OBC.Button(components.current);
         overviewButton.materialIcon = "pageview";
         overviewButton.tooltip = "Overview";
         mainToolbar.addChild(overviewButton);
@@ -121,7 +132,7 @@ const IFCViewer = () => {
             0.404757580791614,
             -18.709093226707687
           );
-          components.camera.controls.setLookAt(
+          components.current.camera.controls.setLookAt(
             cameraPosition.x,
             cameraPosition.y,
             cameraPosition.z,
@@ -132,7 +143,7 @@ const IFCViewer = () => {
           );
         });
 
-        const walkwayButton = new OBC.Button(components);
+        const walkwayButton = new OBC.Button(components.current);
         walkwayButton.materialIcon = "directions_walk";
         walkwayButton.tooltip = "Walkway";
         mainToolbar.addChild(walkwayButton);
@@ -147,7 +158,7 @@ const IFCViewer = () => {
             -17.3842911486277,
             -0.20029203008481855
           );
-          components.camera.controls.setLookAt(
+          components.current.camera.controls.setLookAt(
             cameraPosition.x,
             cameraPosition.y,
             cameraPosition.z,
@@ -158,7 +169,7 @@ const IFCViewer = () => {
           );
         });
 
-        const roadButton = new OBC.Button(components);
+        const roadButton = new OBC.Button(components.current);
         roadButton.materialIcon = "directions_car";
         roadButton.tooltip = "Road";
         mainToolbar.addChild(roadButton);
@@ -173,7 +184,7 @@ const IFCViewer = () => {
             3.936250847778988,
             7.119236495104613
           );
-          components.camera.controls.setLookAt(
+          components.current.camera.controls.setLookAt(
             cameraPosition.x,
             cameraPosition.y,
             cameraPosition.z,
@@ -184,7 +195,7 @@ const IFCViewer = () => {
           );
         });
 
-        const transportButton = new OBC.Button(components);
+        const transportButton = new OBC.Button(components.current);
         transportButton.materialIcon = "commute";
         transportButton.tooltip = "Public Transport";
         mainToolbar.addChild(transportButton);
@@ -199,7 +210,7 @@ const IFCViewer = () => {
             -12.605163016367003,
             38.64692299307003
           );
-          components.camera.controls.setLookAt(
+          components.current.camera.controls.setLookAt(
             cameraPosition.x,
             cameraPosition.y,
             cameraPosition.z,
@@ -210,7 +221,7 @@ const IFCViewer = () => {
           );
         });
 
-        const structureButton = new OBC.Button(components);
+        const structureButton = new OBC.Button(components.current);
         structureButton.materialIcon = "foundation";
         structureButton.tooltip = "Structure";
         mainToolbar.addChild(structureButton);
@@ -225,7 +236,7 @@ const IFCViewer = () => {
             21.344108245137797,
             16.356933637103555
           );
-          components.camera.controls.setLookAt(
+          components.current.camera.controls.setLookAt(
             cameraPosition.x,
             cameraPosition.y,
             cameraPosition.z,
@@ -235,11 +246,11 @@ const IFCViewer = () => {
             true
           );
 
-          //   console.log(components.camera.controls.getPosition());
-          //   console.log(components.camera.controls.getTarget());
+          //   console.log(components.current.camera.controls.getPosition());
+          //   console.log(components.current.camera.controls.getTarget());
         });
 
-        const cacher = new OBC.FragmentCacher(components);
+        const cacher = new OBC.FragmentCacher(components.current);
         const cacherButton = cacher.uiElement.get("main");
         mainToolbar.addChild(cacherButton);
 
@@ -251,6 +262,45 @@ const IFCViewer = () => {
 
     initializeViewer();
   }, []);
+
+  /* --- Component button triggers ---*/
+  const handleOverviewClick = () => {
+    if (components.current && components.current.camera) {
+      const cameraPosition = new THREE.Vector3(
+        -122.0412338903638,
+        57.8573189393671,
+        49.465545453607156
+      );
+      const targetPosition = new THREE.Vector3(
+        -13.240851261453342,
+        0.404757580791614,
+        -18.709093226707687
+      );
+      components.current.camera.controls.setLookAt(
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z,
+        targetPosition.x,
+        targetPosition.y,
+        targetPosition.z,
+        true
+      );
+    }
+  };
+
+  useEffect(() => {
+    switch (selectedComponent) {
+      case "Overview":
+        if (components.current) {
+          handleOverviewClick();
+        }
+        break;
+      case "Pedestrian Space":
+        break;
+      default:
+        break;
+    }
+  }, [selectedComponent]);
 
   return <div ref={viewerContainerRef} className="viewer-container"></div>;
 };
