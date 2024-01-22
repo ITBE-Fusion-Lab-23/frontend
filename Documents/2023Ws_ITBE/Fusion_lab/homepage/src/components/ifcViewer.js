@@ -288,6 +288,102 @@ const IFCViewer = ({ selectedComponent }) => {
     }
   };
 
+  const handleWalkwayClick = () => {
+    if (components.current && components.current.camera) {
+      const cameraPosition = new THREE.Vector3(
+        70.66063441091678,
+        27.9171500559243,
+        -42.483343537187594
+      );
+      const targetPosition = new THREE.Vector3(
+        13.625892361665809,
+        -17.3842911486277,
+        -0.20029203008481855
+      );
+      components.current.camera.controls.setLookAt(
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z,
+        targetPosition.x,
+        targetPosition.y,
+        targetPosition.z,
+        true
+      );
+    }
+  };
+
+  const handleRoadClick = () => {
+    if (components.current && components.current.camera) {
+      const cameraPosition = new THREE.Vector3(
+        85.35935169226622,
+        3.8167654975745497,
+        8.928358989046695
+      );
+      const targetPosition = new THREE.Vector3(
+        68.13399831264005,
+        3.936250847778988,
+        7.119236495104613
+      );
+      components.current.camera.controls.setLookAt(
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z,
+        targetPosition.x,
+        targetPosition.y,
+        targetPosition.z,
+        true
+      );
+    }
+  };
+
+  const handleTransportClick = () => {
+    if (components.current && components.current.camera) {
+      const cameraPosition = new THREE.Vector3(
+        40.176256048468495,
+        13.287121740897357,
+        16.167758305784577
+      );
+      const targetPosition = new THREE.Vector3(
+        18.208222932125157,
+        -12.605163016367003,
+        38.64692299307003
+      );
+      components.current.camera.controls.setLookAt(
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z,
+        targetPosition.x,
+        targetPosition.y,
+        targetPosition.z,
+        true
+      );
+    }
+  };
+
+  const handleStructureClick = () => {
+    if (components.current && components.current.camera) {
+      const cameraPosition = new THREE.Vector3(
+        5.704275323370304,
+        6.378064692988604,
+        -117.21276284851119
+      );
+      const targetPosition = new THREE.Vector3(
+        -4.298034555300573,
+        21.344108245137797,
+        16.356933637103555
+      );
+      components.current.camera.controls.setLookAt(
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z,
+        targetPosition.x,
+        targetPosition.y,
+        targetPosition.z,
+        true
+      );
+    }
+  };
+
   useEffect(() => {
     switch (selectedComponent) {
       case "Overview":
@@ -296,7 +392,22 @@ const IFCViewer = ({ selectedComponent }) => {
         }
         break;
       case "Pedestrian Space":
+        if (components.current) {
+          handleWalkwayClick();
+        }
         break;
+      case "Road":
+        if (components.current) {
+          handleRoadClick();
+        }
+      case "Access to public transport":
+        if (components.current) {
+          handleTransportClick();
+        }
+      case "Structure":
+        if (components.current) {
+          handleStructureClick();
+        }
       default:
         break;
     }
