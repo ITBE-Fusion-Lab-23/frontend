@@ -73,6 +73,22 @@ const IFCViewer = ({ selectedComponent }) => {
   const viewerContainerRef = useRef(null);
   const components = useRef(null);
 
+  // set camera function
+  const setCameraPosition = (componentName) => {
+    const config = CAMERA_CONFIG[componentName];
+    if (config && components.current && components.current.camera) {
+      components.current.camera.controls.setLookAt(
+        config.cameraPosition.x,
+        config.cameraPosition.y,
+        config.cameraPosition.z,
+        config.targetPosition.x,
+        config.targetPosition.y,
+        config.targetPosition.z,
+        true
+      );
+    }
+  };
+
   useEffect(() => {
     const initializeViewer = async () => {
       if (viewerContainerRef.current && OBC && THREE) {
@@ -183,22 +199,6 @@ const IFCViewer = ({ selectedComponent }) => {
           propsProcessor.renderProperties(model, expressID);
         });
 
-        // set camera function
-        const setCameraPosition = (componentName) => {
-          const config = CAMERA_CONFIG[componentName];
-          if (config && components.current && components.current.camera) {
-            components.current.camera.controls.setLookAt(
-              config.cameraPosition.x,
-              config.cameraPosition.y,
-              config.cameraPosition.z,
-              config.targetPosition.x,
-              config.targetPosition.y,
-              config.targetPosition.z,
-              true
-            );
-          }
-        };
-
         // buttons
         const overviewButton = new OBC.Button(components.current);
         overviewButton.materialIcon = "pageview";
@@ -253,55 +253,63 @@ const IFCViewer = ({ selectedComponent }) => {
     initializeViewer();
   }, []);
 
-  // /* --- Component button triggers ---*/
-  // const handleOverviewClick = () => {
-  //   setCameraPosition("Overview");
-  // };
+  /* --- Component button triggers ---*/
+  const handleOverviewClick = () => {
+    setCameraPosition("Overview");
+  };
 
-  // const handleWalkwayClick = () => {
-  //   setCameraPosition("Walkway");
-  // };
+  const handleWalkwayClick = () => {
+    setCameraPosition("Walkway");
+  };
 
-  // const handleRoadClick = () => {
-  //   setCameraPosition("Road");
-  // };
+  const handleRoadClick = () => {
+    setCameraPosition("Road");
+  };
 
-  // const handleTransportClick = () => {
-  //   setCameraPosition("Transport");
-  // };
+  const handleTransportClick = () => {
+    setCameraPosition("Transport");
+  };
 
-  // const handleStructureClick = () => {
-  //   setCameraPosition("Structure");
-  // };
+  const handleStructureClick = () => {
+    setCameraPosition("Structure");
+  };
 
-  // useEffect(() => {
-  //   switch (selectedComponent) {
-  //     case "Overview":
-  //       if (components.current) {
-  //         handleOverviewClick();
-  //       }
-  //       break;
-  //     case "Walkway":
-  //       if (components.current) {
-  //         handleWalkwayClick();
-  //       }
-  //       break;
-  //     case "Road":
-  //       if (components.current) {
-  //         handleRoadClick();
-  //       }
-  //     case "Transport":
-  //       if (components.current) {
-  //         handleTransportClick();
-  //       }
-  //     case "Structure":
-  //       if (components.current) {
-  //         handleStructureClick();
-  //       }
-  //     default:
-  //       break;
-  //   }
-  // }, [selectedComponent]);
+  useEffect(() => {
+    switch (selectedComponent) {
+      case "Overview":
+        if (components.current) {
+          handleOverviewClick();
+          console.log("overview postiion is called");
+        }
+        break;
+      case "Walkway":
+        if (components.current) {
+          handleWalkwayClick();
+          console.log("walkway postiion is called");
+        }
+        break;
+      case "Road":
+        if (components.current) {
+          handleRoadClick();
+          console.log("road postiion is called");
+        }
+        break;
+      case "Transport":
+        if (components.current) {
+          handleTransportClick();
+          console.log("transport postiion is called");
+        }
+        break;
+      case "Structure":
+        if (components.current) {
+          handleStructureClick();
+          console.log("structure postiion is called");
+        }
+        break;
+      default:
+        break;
+    }
+  }, [selectedComponent]);
 
   return <div ref={viewerContainerRef} className="viewer-container"></div>;
 };
