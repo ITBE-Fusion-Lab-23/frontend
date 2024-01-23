@@ -213,7 +213,7 @@ const IFCViewer = ({ selectedComponent }) => {
         walkwayButton.tooltip = "Walkway";
         mainToolbar.addChild(walkwayButton);
         walkwayButton.onClick.add(async () => {
-          setCameraPosition("Pedestrain Space");
+          setCameraPosition("Pedestrian Space");
         });
 
         const roadButton = new OBC.Button(components.current);
@@ -282,7 +282,7 @@ const IFCViewer = ({ selectedComponent }) => {
           console.log("overview postiion is called");
         }
         break;
-      case "Pedestrain Space":
+      case "Pedestrian Space":
         if (components.current) {
           handleWalkwayClick();
           console.log("walkway postiion is called");
