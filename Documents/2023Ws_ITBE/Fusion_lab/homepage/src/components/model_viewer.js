@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import CommentModal from "./comment.js";
+
+import CommentModal from "./Comment";
 import CommentList from "./CommentList";
 import Overview from "./Overview";
 import VotingComponent from "./VotingComponent";
@@ -8,19 +9,22 @@ import B from "../images/B.png";
 import C from "../images/C.png";
 import D from "../images/D.png";
 import E from "../images/E.png";
+
 import IFCViewer from "./ifcViewer.js";
+
 
 import "./model_viewer.css";
 
 function ModelViewer() {
-  const [selectedComponent, setSelectedComponent] = useState("Overview"); // Set to 'Overrall' as the default
+
+  const [selectedComponent, setSelectedComponent] = useState("component"); // Set to 'Overrall' as the default
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("A");
 
   const componentsList = [
     "Overall",
-    "Pedestrain Space",
+    "Pedestrian Space",
     "Road",
     "Access to Public Transport",
     "Structure",
@@ -34,180 +38,48 @@ function ModelViewer() {
     E: E,
   };
 
-  const [groupedReviews] = useState({
-    Road: [
-      {
-        component: "Road",
-        text: "Good job!",
-        rating: 5,
-        count: 7,
-        stakeholder: "Commuter",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
+  const [groupedReviews, setGroupedReviews] = useState([]);
 
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
+  // Fetch and set the comments for the selected component and group
+  const fetchData = async () => {
+    const result = await fetch(
+      `http://10.181.67.116:3000/review/${selectedGroup}`,
       {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-    ],
-    Structure: [
-      {
-        component: "Structure",
-        text: "Too short.",
-        rating: 3,
-
-        count: 7,
-        stakeholder: "Commuter",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "B",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "C",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "D",
-      },
-    ],
-  });
+        method: "GET",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const resp = await result.json();
+    setGroupedReviews(
+      resp.map((res) => {
+        return {
+          id: res._id,
+          component: res.component,
+          text: res.comment,
+          groupId: res.modelGroupId.modelGroup,
+          rating: res.rating,
+          stakeholder: res.stakeholder,
+          count: res.likes,
+        };
+      })
+    );
+    const newReviews =
+      groupedReviews
+        .filter((rev) => rev.component === selectedComponent)
+        ?.filter((review) => review.groupId === selectedGroup) || [];
+    setReviews(newReviews);
+  };
 
   useEffect(() => {
-    // Fetch and set the comments for the selected component and group
-    const newReviews =
-      groupedReviews[selectedComponent]?.filter(
-        (review) => review.groupId === selectedGroup
-      ) || [];
-    setReviews(newReviews);
-  }, [selectedComponent, selectedGroup, groupedReviews]);
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [selectedComponent, selectedGroup]);
 
   const handleDropdownChange = (event) => {
     setSelectedComponent(event.target.value);
@@ -241,6 +113,9 @@ function ModelViewer() {
           onChange={handleDropdownChange}
           className="component-dropdown"
         >
+          <option selected disabled key="choose" value="component">
+            Choose a component
+          </option>
           {componentsList.map((component) => (
             <option key={component} value={component}>
               {component}
@@ -257,6 +132,7 @@ function ModelViewer() {
           selectedComponent={selectedComponent}
           selectedGroup={selectedGroup}
           closeModal={closeModal}
+          setReviews={setReviews}
         />
       )}
 
