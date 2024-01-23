@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import CommentModal from "./Comment";
 import CommentList from "./CommentList";
 import Overview from "./Overview";
@@ -9,9 +10,13 @@ import C from "../images/C.png";
 import D from "../images/D.png";
 import E from "../images/E.png";
 
+import IFCViewer from "./ifcViewer.js";
+
+
 import "./model_viewer.css";
 
 function ModelViewer() {
+
   const [selectedComponent, setSelectedComponent] = useState("component"); // Set to 'Overrall' as the default
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,16 +102,8 @@ function ModelViewer() {
       <div className="model-viewer-header">
         <h1>Model Viewer</h1>
       </div>
-
       <div className="model-display">
-        {selectedGroup && groupImages[selectedGroup] ? (
-          <img
-            src={groupImages[selectedGroup]}
-            alt={`Rendering Image ${selectedGroup}`}
-          />
-        ) : (
-          <p>New IFC Modeling</p>
-        )}
+        <IFCViewer selectedComponent={selectedComponent} />
       </div>
 
       <div className="components-section">
