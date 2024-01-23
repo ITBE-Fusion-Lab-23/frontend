@@ -19,10 +19,10 @@ function ModelViewer() {
   const [selectedGroup, setSelectedGroup] = useState("A");
 
   const componentsList = [
-    "Overview",
-    "Walkway",
+    "Overall",
+    "Pedestrain Space",
     "Road",
-    "Transport",
+    "Access to Public Transport",
     "Structure",
   ];
 

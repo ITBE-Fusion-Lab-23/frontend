@@ -3,7 +3,7 @@ import * as THREE from "three";
 import React, { useRef, useEffect } from "react";
 
 const CAMERA_CONFIG = {
-  Overview: {
+  Overall: {
     cameraPosition: new THREE.Vector3(
       -122.0412338903638,
       57.8573189393671,
@@ -16,7 +16,7 @@ const CAMERA_CONFIG = {
     ),
   },
 
-  Walkway: {
+  "Pedestrian Space": {
     cameraPosition: new THREE.Vector3(
       70.66063441091678,
       27.9171500559243,
@@ -42,7 +42,7 @@ const CAMERA_CONFIG = {
     ),
   },
 
-  Transport: {
+  "Access to Public Transport": {
     cameraPosition: new THREE.Vector3(
       40.176256048468495,
       13.287121740897357,
@@ -205,7 +205,7 @@ const IFCViewer = ({ selectedComponent }) => {
         overviewButton.tooltip = "Overview";
         mainToolbar.addChild(overviewButton);
         overviewButton.onClick.add(async () => {
-          setCameraPosition("Overview");
+          setCameraPosition("Overall");
         });
 
         const walkwayButton = new OBC.Button(components.current);
@@ -213,7 +213,7 @@ const IFCViewer = ({ selectedComponent }) => {
         walkwayButton.tooltip = "Walkway";
         mainToolbar.addChild(walkwayButton);
         walkwayButton.onClick.add(async () => {
-          setCameraPosition("Walkway");
+          setCameraPosition("Pedestrain Space");
         });
 
         const roadButton = new OBC.Button(components.current);
@@ -229,7 +229,7 @@ const IFCViewer = ({ selectedComponent }) => {
         transportButton.tooltip = "Public Transport";
         mainToolbar.addChild(transportButton);
         transportButton.onClick.add(async () => {
-          setCameraPosition("Transport");
+          setCameraPosition("Access to Public Transport");
         });
 
         const structureButton = new OBC.Button(components.current);
@@ -255,11 +255,11 @@ const IFCViewer = ({ selectedComponent }) => {
 
   /* --- Component button triggers ---*/
   const handleOverviewClick = () => {
-    setCameraPosition("Overview");
+    setCameraPosition("Overall");
   };
 
   const handleWalkwayClick = () => {
-    setCameraPosition("Walkway");
+    setCameraPosition("Pedestrian Space");
   };
 
   const handleRoadClick = () => {
@@ -267,7 +267,7 @@ const IFCViewer = ({ selectedComponent }) => {
   };
 
   const handleTransportClick = () => {
-    setCameraPosition("Transport");
+    setCameraPosition("Access to Public Transport");
   };
 
   const handleStructureClick = () => {
@@ -276,13 +276,13 @@ const IFCViewer = ({ selectedComponent }) => {
 
   useEffect(() => {
     switch (selectedComponent) {
-      case "Overview":
+      case "Overall":
         if (components.current) {
           handleOverviewClick();
           console.log("overview postiion is called");
         }
         break;
-      case "Walkway":
+      case "Pedestrain Space":
         if (components.current) {
           handleWalkwayClick();
           console.log("walkway postiion is called");
@@ -294,7 +294,7 @@ const IFCViewer = ({ selectedComponent }) => {
           console.log("road postiion is called");
         }
         break;
-      case "Transport":
+      case "Access to Public Transport":
         if (components.current) {
           handleTransportClick();
           console.log("transport postiion is called");
