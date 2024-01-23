@@ -1,0 +1,89 @@
+.comments-section {
+  margin-top: 0px;
+  margin-left: 60px;
+  padding: 20px;
+  text-align: left;
+}
+
+.comment-item {
+  display: flex;
+  align-items: center;
+  /* Align the rating, comment
+text, and like button /
+justify-content: space-between; / Space between the comment content and the like button */
+
+  padding: 10px;
+
+}
+
+.comment-content {
+  flex-grow: 1;
+  /* Ensures that the comment content takes up the available space */
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+}
+
+.comment-text {
+  margin: 10px 0;
+  color: #333333
+  ;
+  font-size: 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+}
+
+.stakeholder-type {
+  font-style: italic;
+  color: #666;
+}
+
+.like-section {
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: auto; 
+  display: flex; 
+  align-items: center; 
+  border-radius: 50%;
+  padding: 15px;
+  transition: background-color 0.3s;
+  margin-right: 100px;
+}
+
+
+
+.like-icon {
+  margin-right: 15px;
+}
+
+.like-count {
+  margin-left: 5px;
+  font-size: 14px; 
+}
+
+
+
+
+.more-button {
+  padding: 5px 20px;
+  margin-top: 20px;
+  border: 1px solid #ccc; /* 灰色边线 */
+  background-color: white; /* 白色背景 */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 10px; /* 圆角 */
+  text-align: center;
+  display: block; /* 将按钮转换为块级元素以使其居中 */
+  margin: 0 auto; /* 水平居中 */
+  font-family: 'Inter';
+  font-weight: '600';
+   line-height: 1.6;
+}
+
+
+.more-button:hover {
+  background-color: #0065BD; /* Deep blue background on hover */
+  color: white; /* Optional: change text color on hover */}
