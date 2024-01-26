@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Introduction from "./components/Introduction";
 import ModelViewer from "./components/model_viewer";
 import Video from "./components/Video";
+import CityGMLViewer from "./components/CityGMLViewer";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
       </section>
       <section id="introduction">
         <Introduction />
+      </section>
+      <section id="citygml-viewer">
+        <CityGMLViewer />
       </section>
       <section id="model-viewer">
         <ModelViewer />

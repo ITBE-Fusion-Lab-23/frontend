@@ -7,6 +7,7 @@ import "./comment_list.css";
 
 const CommentList = ({ selectedComponent, reviews, setReviews }) => {
   const [likes, setLikes] = useState(false);
+  const serverURL = `http://10.162.246.145:3000/`;
 
   // Update likes state whenever comments change
   useEffect(() => {
@@ -33,7 +34,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
       console.log(index);
       if (newLikes[index].liked) {
         const response = await fetch(
-          `http://10.181.67.116:3000/review/${newLikes[index].id}/addLike`,
+          `${serverURL}/review/${newLikes[index].id}/addLike`,
           {
             method: "PUT",
           }
@@ -41,7 +42,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
         console.log(await response.json());
       } else {
         const response = await fetch(
-          `http://10.181.67.116:3000/review/${newLikes[index].id}/removeLike`,
+          `${serverURL}/review/${newLikes[index].id}/removeLike`,
           {
             method: "PUT",
           }

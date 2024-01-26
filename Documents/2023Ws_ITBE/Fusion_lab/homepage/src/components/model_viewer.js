@@ -12,11 +12,9 @@ import E from "../images/E.png";
 
 import IFCViewer from "./ifcViewer.js";
 
-
 import "./model_viewer.css";
 
 function ModelViewer() {
-
   const [selectedComponent, setSelectedComponent] = useState("component"); // Set to 'Overrall' as the default
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +41,7 @@ function ModelViewer() {
   // Fetch and set the comments for the selected component and group
   const fetchData = async () => {
     const result = await fetch(
-      `http://10.181.67.116:3000/review/${selectedGroup}`,
+      `http://10.162.246.145:3000/review/${selectedGroup}`,
       {
         method: "GET",
         headers: {

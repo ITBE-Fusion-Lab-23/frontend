@@ -9,9 +9,10 @@ const initData = [
   { id: "D", src: image_test, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
+const serverURL = `http://10.162.246.145:3000`;
 
 const fetchModelData = async () => {
-  const response = await fetch("http://10.181.67.116:3000/modelGroup/", {
+  const response = await fetch(`${serverURL}/modelGroup/`, {
     method: "GET",
   });
   const resp = await response.json();
