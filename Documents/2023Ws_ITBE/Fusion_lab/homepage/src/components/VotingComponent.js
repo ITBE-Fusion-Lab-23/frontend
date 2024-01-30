@@ -27,7 +27,7 @@ const fetchModelData = async () => {
 const modelsData = await fetchModelData();
 const voteModel = async (id) => {
   const response = await fetch(
-    `http://10.181.67.116:3000/modelGroup/${id}/vote`,
+    `${serverURL}/modelGroup/${id}/vote`,
     {
       method: "PUT",
     }
