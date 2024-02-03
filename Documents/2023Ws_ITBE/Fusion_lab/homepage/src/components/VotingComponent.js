@@ -99,7 +99,8 @@ const VotingComponent = ({ onModelSelect }) => {
             <img
               src={model.src}
               alt={`Rendering Image ${model.id}`}
-              className="image"
+              style={{ width: '100%',height:'auto',
+              maxWidth:'100% ',marginBottom: '40px'}}
             />
             <div className="vote-section">
               <button

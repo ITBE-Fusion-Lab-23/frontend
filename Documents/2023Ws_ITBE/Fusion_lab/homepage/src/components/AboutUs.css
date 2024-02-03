@@ -1,0 +1,321 @@
+.team-introduction {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding-bottom: 145px;
+}
+
+.team-image img {
+    width: 458px;
+    height: auto;
+    border-radius: 30px;
+    margin-right: 80px;
+    /* Space between team image and content */
+    margin-left: 127px;
+    margin-top: 130px;
+}
+
+.team-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the content vertically */
+    margin-right: 127px;
+}
+
+.team-introduction-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-top: 80px;
+}
+
+
+
+
+.team-introduction-header p {
+    font-size: 32px;
+    color: #2C2C2C;
+    font-family: 'Roboto';
+    font-weight: 300;
+    margin: 0 20px;
+    /* Spacing on both sides of the header */
+    flex-grow: 1;
+    text-align: center;
+    
+    
+    
+}
+
+.line,
+.line-right {
+    height: auto;
+    width: auto;
+    /* Let the image decide the width */
+}
+
+.team-content h3 {
+    color: #000000;
+    font-family: 'Roboto';
+    font-size: 18px;
+    margin: 10px 0;
+    margin-top: 30px;
+}
+
+.team-content p {
+    color: #666;
+    line-height: 1.6;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+
+.team-members-introduction-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 648px;
+    /* Total width for this section */
+    margin: auto;
+    /* Center in the parent */
+}
+
+.team-members-title {
+    font-size: 18px;
+    color: #2C2C2C;
+    font-family: 'Roboto';
+    font-weight: 200;
+    margin: 0 20px;
+    /* Spacing on both sides of the header */
+    flex-grow: 1;
+    /* Allow the header to take up the available space */
+    text-align: center;
+    ;
+}
+
+.line-overview-left,
+.line-overview-right {
+    width: auto;
+    height: auto;
+    /* Let the image define its size */
+}
+
+
+
+
+
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 90px;
+}
+
+.image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.image-card.staggered-0 {
+    margin-top: 0px;
+
+    position: relative;
+    margin-right: 30px;
+}
+
+.image-card.staggered-1 {
+    margin-top: 70px;
+    /* Adjust this value to change the staggering amount */
+
+    position: relative;
+    margin-right: 30px;
+}
+
+.image {
+    display: block;
+    width: 215px;
+
+    object-fit: cover;
+}
+
+
+
+
+.overlay {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 215px;
+    height: 75px;
+    transform: translateX(-50%);
+    background-color: rgba(239, 112, 11, 0.4);
+    text-align: center;
+
+
+}
+
+.text-and-button-intro {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.text {
+    position: absolute;
+   
+    left:10px;
+    top: 13px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    font-family: 'Roboto';
+    letter-spacing: 1px;
+    text-align: left;
+
+}
+
+.title {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.name {
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+
+
+
+
+.button {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    transform: translateY(-50%);
+    background-color: #EF700B;
+    color: white;
+    border: none;
+    padding: 10px 10px 10px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+
+
+
+.team-container {
+    width: 1200px;
+    height: 1300px;
+    background: #FCEFDF;
+    /* Replace with the correct background color or image */
+    margin-top: 280px;
+    margin-left: 123px;
+    margin-bottom: 150px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.overlay-image {
+    position: absolute;
+    /* Absolute positioning */
+    top: -116px;
+    /* Align to the top-left corner */
+    left: -113px;
+    /* Align to the top-left corner */
+    width: 372px;
+    /* Adjust size as needed */
+    height: auto;
+    /* Maintain aspect ratio */
+    border-radius: 50%;
+}
+
+
+.Team-image {
+    position: absolute;
+    /* Absolute positioning */
+    top: 340px;
+    /* Align to the top-left corner */
+    left: 60px;
+    /* Align to the top-left corner */
+
+    /* Adjust size as needed */
+    height: 800px;
+    /* Maintain aspect ratio */
+
+}
+
+
+
+.profile-entry {
+    display: flex;
+    align-items: center;
+    padding-top: 0px;
+    padding-left: 320px;
+    margin-bottom: -80px;
+}
+
+.profile-image {
+
+    width: 160px;
+    /* Adjust size as needed */
+
+    /* Adjust size as needed */
+    object-fit: cover;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.text-and-button {
+    display: flex;
+    flex-direction: column;
+    /* Stack the text and button vertically */
+    align-items: flex-start;
+    /* Align items to the start of the flex container */
+    width: 648px;
+}
+
+.text-and-button h3 {
+    font-size: 16px;
+    font-family: 'Roboto';
+    font-weight: bold;
+
+}
+
+.text-and-button p {
+    font-size: 16px;
+    font-family: 'Roboto';
+    font-weight: 300;
+
+}
+
+
+
+
+.linkedin-button {
+    text-decoration: none;
+    background-color: #EF700B;
+    color: #FFFFFF;
+    font-weight: 900;
+    font-size: 16px;
+    font-family: 'Montserrat';
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 50px;
+    letter-spacing: 6%;
+}
+
+/* Add additional styles for text and layout adjustments as necessary */
