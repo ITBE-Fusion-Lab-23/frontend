@@ -1,11 +1,14 @@
 import React, { useRef, useEffect } from 'react';
 import "./AboutUs.css";
 import teamImage from "../images/team_picture.png";
+import teamImageOverview from "../images/team_picture_overview.png";
 import line_right from "../images/line_right.png";
 import line_left from "../images/line_left.png";
-import Ying from "../images/Ying_Lu.png";
-import Ying2 from "../images/Ying.png";
 import Ying3 from "../images/Ying2.png";
+import Jeffery from "../images/jeffery.png";
+import Zihan from "../images/Zihan.png";
+import Kim from "../images/Kim.png";
+import Julian from "../images/Julian.png";
 import profile_Ying from "../images/profile_Ying.png";
 import profile_Deng from "../images/profile_Deng.png";
 import profile_Jeff from "../images/profile_Jeff.png";
@@ -17,9 +20,6 @@ import TEAM from "../images/TEAM.png";
 
 
 
-
-
-
 function AboutUs() {
 
     const profileRefs = useRef({});
@@ -27,7 +27,7 @@ function AboutUs() {
 
     const images = [
         {
-            src: Ying2,
+            src: Zihan,
             alt: 'Deng Zihan',
             profile_name: 'Deng Zihan',
             name: 'Deng Zihan',
@@ -36,7 +36,7 @@ function AboutUs() {
             linkedinUrl:'https://www.linkedin.com/in/zihan-deng-474aa4272/'
         },
         {
-            src: Ying,
+            src: Julian,
             alt: 'Gerstner Julian',
             profile_name: 'Gerstner Julian',
             name: 'Gerstner Julian',
@@ -45,7 +45,7 @@ function AboutUs() {
             linkedinUrl:'https://www.linkedin.com/in/0juliangerstner0/'
         },
         {
-            src: Ying3,
+            src: Kim,
             alt: 'Kim Nayun',
             profile_name: 'Kim Nayun',
             name: 'Kim Nayun',
@@ -54,7 +54,7 @@ function AboutUs() {
             linkedinUrl:'https://www.linkedin.com/in/nayun-kim-69254526b/'
         },
         {
-            src: Ying,
+            src: Jeffery,
             alt: 'Limnardy Jeffery',
             profile_name: 'Limnardy Jeffery',
             name: 'Limnardy Jeffery',
@@ -63,7 +63,7 @@ function AboutUs() {
             linkedinUrl:'https://www.linkedin.com/in/jeffrey-limnardy-b7323765/?originalSubdomain=de'
         },
         {
-            src: Ying2,
+            src: Ying3,
             alt: 'Ying Lu',
             profile_name: 'Lu Ying',
             name: 'Lu Ying',
@@ -119,7 +119,7 @@ function AboutUs() {
         <div>
             <div className="team-introduction">
                 <div className="team-image">
-                    <img src={teamImage} alt="Team Group A" />
+                    <img src={teamImageOverview} alt="Team Group A" />
                 </div>
                 <div className="team-content">
                     <div className="team-introduction-header">
@@ -130,8 +130,8 @@ function AboutUs() {
 
                     </div>
                     <h3>Group A</h3>
-                    <p>
-                    Group A consists entirely of students from the ITBE program. For this project, there is a requirement for collaboration among students with diverse undergraduate backgrounds. As a result, the members of Group A bring a wealth of varied backgrounds to the table. Three students hail from environmental engineering(Deng Zihan, Gerstner Julian,Limnardy Jeffery), one from architecture(Kim Nayun), and one from urban and rural planning(Lu Ying).<br />When discussing bridge design, we have always focused on how to design bridges as landmarks in the city. First, we decided that the entrance design of the bridge would focus on creating a visual impact, providing a clear welcome signal announcing the arrival of motorists on this famous bridge. This design approach not only ensures the functionality of the bridge, but also aesthetically enhances the visual landscape of the entire city. </p>
+                    <p style={{textAlign:'left',marginTop:'10px'}}>
+                    Group A consists entirely of students from the ITBE program. <br />For this project, there is a requirement for collaboration among students with diverse undergraduate backgrounds. As a result, the members of Group A bring a wealth of varied backgrounds to the table. Three students hail from environmental engineering(Deng Zihan, Gerstner Julian,Limnardy Jeffery), one from architecture(Kim Nayun), and one from urban and rural planning(Lu Ying).<br />When discussing bridge design, we have always focused on how to design bridges as landmarks in the city. First, we decided that the entrance design of the bridge would focus on creating a visual impact, providing a clear welcome signal announcing the arrival of motorists on this famous bridge. This design approach not only ensures the functionality of the bridge, but also aesthetically enhances the visual landscape of the entire city. </p>
 
                 </div>
 
