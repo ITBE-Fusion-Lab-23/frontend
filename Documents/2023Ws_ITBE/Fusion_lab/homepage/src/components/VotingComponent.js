@@ -10,7 +10,7 @@ const initData = [
   { id: "D", src: image_test, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
-const serverURL = `http://localhost:3000`;
+const serverURL = `http://10.181.89.55:3000`;
 
 const fetchModelData = async () => {
   const response = await fetch(`${serverURL}/modelGroup/`, {
@@ -74,6 +74,7 @@ const VotingComponent = ({ onModelSelect }) => {
     });
     voteModel(id);
     setModels(updatedModels);
+    alert("You have made your decision!")
   };
 
   const maxVotes = Math.max(...models.map((group) => group.votes));

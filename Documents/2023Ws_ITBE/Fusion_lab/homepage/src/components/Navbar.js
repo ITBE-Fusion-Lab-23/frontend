@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import pretzelLogo from "../images/pretzel.png";
+import pretzelLogo from "../images/blackpretzel.png";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 

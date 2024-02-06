@@ -88,7 +88,7 @@ const CommentModal = ({
       console.log("Submitting comment:", commentData);
 
       const response = await fetch(
-        `http://localhost:3000/review/${selectedGroup}`,
+        `http://10.181.89.55:3000/review/${selectedGroup}`,
         {
           method: "POST",
           headers: {

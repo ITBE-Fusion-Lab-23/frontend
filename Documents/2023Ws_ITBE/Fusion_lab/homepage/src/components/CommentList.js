@@ -8,7 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const CommentList = ({ selectedComponent, reviews, setReviews }) => {
   const [likes, setLikes] = useState(false);
-  const serverURL = `http://localhost:3000`;
+  const serverURL = `http://10.181.89.55:3000`;
   const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
   // Update likes state whenever comments change
   useEffect(() => {
