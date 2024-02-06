@@ -158,7 +158,6 @@ function AboutUs() {
                                         <span className="name">{image.name}</span>
                                     </div>
 
-                                    <button className="button" onClick={() => scrollToProfile(image.profile_name)}> Go</button>
                                 </div>
                             </div>
                         </div>
