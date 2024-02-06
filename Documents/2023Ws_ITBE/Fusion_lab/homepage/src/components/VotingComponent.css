@@ -1,5 +1,5 @@
 .voting-container {
-    padding-top: 100px;
+    padding-top: 70px;
     max-width: 1370px;
     margin: auto;
     text-align: left;
@@ -46,14 +46,9 @@
 .image-item {
     padding: 15px;
     text-align: center;
+    
 }
 
-.image {
-    width: 100%; /* Ensure the image takes the full width of the container */
-    height: auto;
-    display: block; /* Remove any extra space below the image */
-    margin-bottom: 40px; /* Space between image and button */
-}
 
 .vote-bar {
     display: flex;
@@ -76,7 +71,7 @@
 .ifc-model-button {
     
         padding: 10px 8px;
-        background-color: #0065BD;
+        background-color: #EF700B;
         color: #fff;
         border: none;
         border-radius: 10px;
@@ -94,7 +89,7 @@
     
     padding: 10px 8px;
     background-color: #fff;
-    color: #0065BD;
+    color: #000000;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -112,7 +107,7 @@
 
 .ifc-model-button:hover, .vote-button:hover {
     color: #fff;
-    background-color: #0056b3;
+    background-color: #EF700B;
 }
 
 .votes-count {
@@ -187,6 +182,7 @@
     background: #fff;
     border-radius: 8px;
     padding: 20px;
+    margin-bottom: -200px;
 }
 
 .result-container h2 {
