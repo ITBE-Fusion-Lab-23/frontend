@@ -83,14 +83,14 @@ nav.sticky {
 
 
 
-.links a {
+.links a,button {
   text-decoration: none;
   color: #333333;
   font-size: 16px;
   font-weight: 600;
   font-family: Inter;
   margin-right: 30px;
-  cursor: pointer;
+  background-color: white;
 }
 
 .menu-item {
@@ -102,7 +102,6 @@ nav.sticky {
 .menu-item:hover {
   background-color: #EF700B; /* Deep blue background on hover */
   color: white; /* Optional: change text color on hover */
-
 }
 
 

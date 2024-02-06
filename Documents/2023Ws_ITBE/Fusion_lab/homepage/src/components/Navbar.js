@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+
+import pretzelLogo from "../images/pretzel.png";
 import { NavLink, useNavigate } from 'react-router-dom';
-import pretzelLogo from "../images/blackpretzel.png";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Navbar() {
   const [sticky, setSticky] = useState(false);
   const navigate = useNavigate();
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,6 +60,20 @@ function Navbar() {
           <NavLink to="/about-us" className="menu-item">
             About us
           </NavLink>
+          {isAuthenticated ? (
+            <button
+              className="menu-item"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            >
+              Logout
+            </button>
+          ) : (
+            <button className="menu-item" onClick={() => loginWithRedirect()}>
+              Login
+            </button>
+          )}
         </div>
       </div>
     </nav>

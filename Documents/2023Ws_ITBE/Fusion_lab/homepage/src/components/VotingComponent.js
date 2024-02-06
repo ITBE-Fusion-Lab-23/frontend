@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./VotingComponent.css";
 import image_test from "../images/image_test.png";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const initData = [
   { id: "A", src: image_test, votes: 10 },
@@ -9,7 +10,7 @@ const initData = [
   { id: "D", src: image_test, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
-const serverURL = `http://10.162.246.145:3000`;
+const serverURL = `http://localhost:3000`;
 
 const fetchModelData = async () => {
   const response = await fetch(`${serverURL}/modelGroup/`, {
@@ -25,18 +26,33 @@ const fetchModelData = async () => {
   return modelsData;
 };
 const modelsData = await fetchModelData();
-const voteModel = async (id) => {
-  const response = await fetch(
-    `${serverURL}/modelGroup/${id}/vote`,
-    {
-      method: "PUT",
-    }
-  );
-  console.log(await response.json());
-};
 
 const VotingComponent = ({ onModelSelect }) => {
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+
+  const voteModel = async (id) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://reviews-api.com/",
+          scope: "read:review write:review",
+        },
+      });
+      const response = await fetch(`${serverURL}/modelGroup/${id}/vote`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log(await response.json());
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const [models, setModels] = useState(modelsData);
+
   const maxVotesGroup = models.reduce(
     (prev, current) => (prev.votes > current.votes ? prev : current),
     models[0]
@@ -111,7 +127,9 @@ const VotingComponent = ({ onModelSelect }) => {
               </button>
               <button
                 className="vote-button"
-                onClick={() => handleVote(model.id)}
+                onClick={() =>
+                  isAuthenticated ? handleVote(model.id) : loginWithRedirect()
+                }
               >
                 Vote
               </button>
