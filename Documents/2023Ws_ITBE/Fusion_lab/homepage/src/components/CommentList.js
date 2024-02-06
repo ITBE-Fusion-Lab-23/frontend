@@ -4,11 +4,12 @@ import StarIcon from "@mui/icons-material/Star";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./comment_list.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const CommentList = ({ selectedComponent, reviews, setReviews }) => {
   const [likes, setLikes] = useState(false);
-  const serverURL = `http://10.162.246.145:3000/`;
-
+  const serverURL = `http://localhost:3000`;
+  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
   // Update likes state whenever comments change
   useEffect(() => {
     setLikes(
@@ -30,24 +31,41 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
           ? newLikes[index].count - 1
           : newLikes[index].count + 1,
       };
-      setLikes(newLikes);
-      console.log(index);
-      if (newLikes[index].liked) {
-        const response = await fetch(
-          `${serverURL}/review/${newLikes[index].id}/addLike`,
-          {
-            method: "PUT",
-          }
-        );
-        console.log(await response.json());
-      } else {
-        const response = await fetch(
-          `${serverURL}/review/${newLikes[index].id}/removeLike`,
-          {
-            method: "PUT",
-          }
-        );
-        console.log(await response.json());
+
+      try {
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://reviews-api.com/",
+            scope: "read:review write:review",
+          },
+        });
+        if (newLikes[index].liked) {
+          const response = await fetch(
+            `${serverURL}/review/${newLikes[index].id}/addLike`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          console.log(await response.json());
+        } else {
+          const response = await fetch(
+            `${serverURL}/review/${newLikes[index].id}/removeLike`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          console.log(await response.json());
+        }
+        setLikes(newLikes);
+      } catch (err) {
+        console.error(err);
+        loginWithRedirect();
       }
     }
   };

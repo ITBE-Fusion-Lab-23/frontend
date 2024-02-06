@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import pretzelLogo from "../images/pretzel.png";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Navbar() {
   const [sticky, setSticky] = useState(false);
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +43,20 @@ function Navbar() {
           <a href="#" className="menu-item">
             Contacts
           </a>
+          {isAuthenticated ? (
+            <button
+              className="menu-item"
+              onClick={() =>
+                logout({ logoutParams: { returnTo: window.location.origin } })
+              }
+            >
+              Logout
+            </button>
+          ) : (
+            <button className="menu-item" onClick={() => loginWithRedirect()}>
+              Login
+            </button>
+          )}
         </div>
       </div>
     </nav>
