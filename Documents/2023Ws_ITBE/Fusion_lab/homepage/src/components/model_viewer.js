@@ -231,7 +231,10 @@ function ModelViewer() {
         <h1>Model Viewer</h1>
       </div>
       <div className="model-display">
-        <IFCViewer selectedComponent={selectedComponent} />
+        <IFCViewer
+          selectedComponent={selectedComponent}
+          selectedGroup={selectedGroup}
+        />
       </div>
 
       <div className="components-section">
