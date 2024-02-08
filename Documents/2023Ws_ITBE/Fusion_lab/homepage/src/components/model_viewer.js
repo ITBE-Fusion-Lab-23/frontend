@@ -20,7 +20,7 @@ function ModelViewer() {
 
   const componentsList = [
     "Overall",
-    "Pedestrain Space",
+    "Pedestrian Space",
     "Road",
     "Access to Public Transport",
     "Structure",

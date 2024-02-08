@@ -157,6 +157,8 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         const properties = await fetch("/rsc/bridgeA_railing.json");
         model.properties = await properties.json();
 
+        console.log("fragment dispose");
+        fragments.dispose();
         /*------- Highlighter -------*/
         // highlighter config
         const highlighter = new OBC.FragmentHighlighter(
