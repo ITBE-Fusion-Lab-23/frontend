@@ -8,17 +8,54 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const CommentList = ({ selectedComponent, reviews, setReviews }) => {
   const [likes, setLikes] = useState(false);
-  const serverURL = `http://10.181.89.55:3000`;
+  const serverURL = process.env.REACT_APP_API_BASE_URL;
   const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
   // Update likes state whenever comments change
   useEffect(() => {
-    setLikes(
-      reviews.map((review) => ({
-        id: review.id,
-        liked: false,
-        count: review.count,
-      }))
-    );
+    const fetchUserData = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://reviews-api.com/",
+            scope: "read:review write:review",
+          },
+        });
+        const response = await fetch(`${serverURL}/user/${accessToken}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const userData = await response.json();
+        const likedReviews = userData.user.likedReviewsId;
+        setLikes(
+          reviews.map((review) => {
+            if (likedReviews.includes(review.id)) {
+              return {
+                id: review.id,
+                liked: true,
+                count: review.count,
+              };
+            }
+            return {
+              id: review.id,
+              liked: false,
+              count: review.count,
+            };
+          })
+        );
+      } catch (err) {
+        console.error(err);
+        setLikes(
+          reviews.map((review) => ({
+            id: review.id,
+            liked: false,
+            count: review.count,
+          }))
+        );
+      }
+    };
+    fetchUserData();
   }, [reviews]);
 
   const toggleLike = async (index) => {
@@ -41,7 +78,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
         });
         if (newLikes[index].liked) {
           const response = await fetch(
-            `${serverURL}/review/${newLikes[index].id}/addLike`,
+            `${serverURL}/review/${newLikes[index].id}/likes/inc`,
             {
               method: "PUT",
               headers: {
@@ -52,7 +89,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
           console.log(await response.json());
         } else {
           const response = await fetch(
-            `${serverURL}/review/${newLikes[index].id}/removeLike`,
+            `${serverURL}/review/${newLikes[index].id}/likes/dec`,
             {
               method: "PUT",
               headers: {

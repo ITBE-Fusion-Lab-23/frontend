@@ -10,7 +10,7 @@ const initData = [
   { id: "D", src: image_test, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
-const serverURL = `http://10.181.89.55:3000`;
+const serverURL = process.env.REACT_APP_API_BASE_URL;
 
 const fetchModelData = async () => {
   const response = await fetch(`${serverURL}/modelGroup/`, {
@@ -39,13 +39,14 @@ const VotingComponent = ({ onModelSelect }) => {
           scope: "read:review write:review",
         },
       });
+
       const response = await fetch(`${serverURL}/modelGroup/${id}/vote`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(await response.json());
+      return await response.json();
     } catch (err) {
       console.error(err);
     }
@@ -65,18 +66,21 @@ const VotingComponent = ({ onModelSelect }) => {
       .scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleVote = (id) => {
-    const updatedModels = models.map((model) => {
-      if (model.id === id) {
-        return { ...model, votes: model.votes + 1 };
-      }
-      return model;
-    });
-    voteModel(id);
-    setModels(updatedModels);
-    alert("You have made your decision!")
+  const handleVote = async (id) => {
+    const votedModel = await voteModel(id);
+    try {
+      const updatedModels = models.map((model) => {
+        if (model.id === id)
+          return { ...model, votes: votedModel.updatedModelGroup.votes };
+        return model;
+      });
+      setModels(updatedModels);
+      alert("Thank you for voting!");
+    } catch (err) {
+      console.error(err);
+      alert(votedModel.error);
+    }
   };
-
   const maxVotes = Math.max(...models.map((group) => group.votes));
 
   const voteBars = models.map((group) => {
@@ -115,9 +119,13 @@ const VotingComponent = ({ onModelSelect }) => {
           <div key={model.id} className="image-item">
             <img
               src={model.src}
-              alt={`Rendering Image ${model.id}`}
-              style={{ width: '100%',height:'auto',
-              maxWidth:'100% ',marginBottom: '40px'}}
+              alt={`Rendering ${model.id}`}
+              style={{
+                width: "100%",
+                height: "auto",
+                maxWidth: "100% ",
+                marginBottom: "40px",
+              }}
             />
             <div className="vote-section">
               <button

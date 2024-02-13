@@ -13,8 +13,11 @@ root.render(
     authorizationParams={{
       redirect_uri: window.location.origin,
       audience: "https://reviews-api.com/",
-      scope: "read:review write:review",
+      scope: "openid read:review write:review",
     }}
+    useRefreshTokens
+    useRefreshTokensFallback
+    cacheLocation="localstorage"
   >
     <App />
   </Auth0Provider>

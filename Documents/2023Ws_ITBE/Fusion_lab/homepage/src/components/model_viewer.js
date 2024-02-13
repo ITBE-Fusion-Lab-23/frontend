@@ -41,7 +41,7 @@ function ModelViewer() {
   // Fetch and set the comments for the selected component and group
   const fetchData = async () => {
     const result = await fetch(
-      `http://10.181.89.55:3000/review/${selectedGroup}`,
+      `${process.env.REACT_APP_API_BASE_URL}/review/${selectedGroup}`,
       {
         method: "GET",
         headers: {
