@@ -251,34 +251,6 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         structureButton.onClick.add(async () => {
           setCameraPosition("Structure");
         });
-
-        const disposeButton = new OBC.Button(components.current);
-        disposeButton.materialIcon = "foundation";
-        disposeButton.tooltip = "dipose";
-        mainToolbar.addChild(disposeButton);
-        disposeButton.onClick.add(async () => {
-          fragments.current.dispose();
-          propsProcessor.current.cleanPropertiesList();
-        });
-
-        const gbButton = new OBC.Button(components.current);
-        gbButton.materialIcon = "foundation";
-        gbButton.tooltip = "updateGroupB";
-        mainToolbar.addChild(gbButton);
-        gbButton.onClick.add(async () => {
-          file = await fetch("/rsc/sampleIFC.frag");
-          data = await file.arrayBuffer();
-          buffer = new Uint8Array(data);
-          model = await fragments.current.load(buffer);
-
-          // Load .json properties file
-          properties = await fetch("/rsc/sampleIFC.json");
-          model.properties = await properties.json();
-
-          // Update highlighter and properties processor for the new model
-          highlighter.current.update();
-          propsProcessor.current.process(model);
-        });
       }
     };
 
@@ -299,6 +271,7 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
         // Load .frag model file
         const fragResponse = await fetch(`${modelPath}.frag`);
+        console.log(fragResponse);
         const fragData = await fragResponse.arrayBuffer();
         const model = await fragments.current.load(new Uint8Array(fragData));
 

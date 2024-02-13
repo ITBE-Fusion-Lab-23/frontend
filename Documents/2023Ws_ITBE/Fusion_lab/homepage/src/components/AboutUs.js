@@ -69,28 +69,6 @@ function AboutUs() {
     },
   ];
 
-  useEffect(() => {
-    images.forEach((image) => {
-      if (!profileRefs.current[image.profile_name]) {
-        profileRefs.current[image.profile_name] = React.createRef();
-      }
-    });
-  }, []);
-
-  const scrollToProfile = (profile_name) => {
-    if (
-      profileRefs.current[profile_name] &&
-      profileRefs.current[profile_name].current
-    ) {
-      profileRefs.current[profile_name].current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    } else {
-      console.log("can not link to the profile");
-    }
-  };
-
   const ProfileEntry = React.forwardRef(
     ({ imgSrc, profile_name, bio, linkedinUrl }, ref) => {
       return (
@@ -98,7 +76,14 @@ function AboutUs() {
           <div className="text-and-button">
             <h3>{profile_name}</h3>
             <p>{bio}</p>
-            <a href={linkedinUrl} className="linkedin-button" target="_blank">
+            <a
+              href={linkedinUrl}
+              className="linkedin-button"
+              target="_blank"
+              onClick={(e) => {
+                console.log(typeof linkedinUrl + linkedinUrl);
+              }}
+            >
               LINKEDIN
             </a>
           </div>
@@ -128,8 +113,8 @@ function AboutUs() {
             students with diverse undergraduate backgrounds. As a result, the
             members of Group A bring a wealth of varied backgrounds to the
             table. Three students hail from environmental engineering (Deng
-            Zihan, Gerstner Julian,Limnardy Jeffrey), one from architecture (Kim
-            Nayun), and one from urban and rural planning(Lu Ying).
+            Zihan, Gerstner Julian, Limnardy Jeffrey), one from architecture
+            (Kim Nayun), and one from urban and rural planning (Lu Ying).
             <br />
             When discussing bridge design, we have always focused on how to
             design bridges as landmarks in the city. First, we decided that the
@@ -137,7 +122,7 @@ function AboutUs() {
             impact, providing a clear welcome signal announcing the arrival of
             motorists on this famous bridge. This design approach not only
             ensures the functionality of the bridge, but also aesthetically
-            enhances the visual landscape of the entire city.{" "}
+            enhances the visual landscape of the entire city.
           </p>
         </div>
       </div>
@@ -163,53 +148,8 @@ function AboutUs() {
                     <span className="title">ITBE</span>
                     <span className="name">{image.name}</span>
                   </div>
-
-                  <button
-                    className="button"
-                    onClick={() => scrollToProfile(image.profile_name)}
-                  >
-                    {" "}
-                    Go
-                  </button>
                 </div>
               </div>
-            </div>
-
-            <div className="team-members-introduction-header">
-              <img
-                src={line_left}
-                alt="Line left"
-                className="line-overview-left"
-              />
-              <div className="team-members-title">
-                Team Members Introduction
-              </div>
-              <img
-                src={line_right}
-                alt="Line right"
-                className="line-overview-right"
-              />
-            </div>
-
-            <div className="image-gallery">
-              {images.map((image, index) => (
-                <div
-                  key={index}
-                  className={`image-card staggered-${index % 2}`}
-                >
-                  <div className="image-container">
-                    <img src={image.src} alt={image.alt} className="image" />
-                    <div className="overlay">
-                      <div className="text-and-button-intro">
-                        <div className="text">
-                          <span className="title">ITBE</span>
-                          <span className="name">{image.name}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         ))}
