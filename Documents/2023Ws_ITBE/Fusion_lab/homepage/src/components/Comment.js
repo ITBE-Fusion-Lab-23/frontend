@@ -88,7 +88,7 @@ const CommentModal = ({
       console.log("Submitting comment:", commentData);
 
       const response = await fetch(
-        `http://localhost:3000/review/${selectedGroup}`,
+        `${process.env.REACT_APP_API_BASE_URL}/review/${selectedGroup}`,
         {
           method: "POST",
           headers: {
