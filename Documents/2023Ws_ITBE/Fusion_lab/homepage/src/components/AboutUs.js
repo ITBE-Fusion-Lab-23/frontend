@@ -172,7 +172,35 @@ function AboutUs() {
                     Go
                   </button>
                 </div>
-              </div>
+
+            </div>
+
+            <div className="team-members-introduction-header">
+                <img src={line_left} alt="Line left" className="line-overview-left" />
+                <div className='team-members-title'>Team Members Introduction</div>
+                <img src={line_right} alt="Line right" className="line-overview-right" />
+
+            </div>
+
+
+
+            <div className="image-gallery">
+                {images.map((image, index) => (
+                    <div key={index} className={`image-card staggered-${index % 2}`}>
+                        <div className="image-container">
+                            <img src={image.src} alt={image.alt} className="image" />
+                            <div className="overlay">
+                                <div className="text-and-button-intro">
+                                    <div className="text">
+                                        <span className="title">ITBE</span>
+                                        <span className="name">{image.name}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
           </div>
         ))}

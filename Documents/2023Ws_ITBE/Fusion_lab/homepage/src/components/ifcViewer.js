@@ -1,6 +1,6 @@
 import * as OBC from "openbim-components";
 import * as THREE from "three";
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const CAMERA_CONFIG = {
   Overall: {
@@ -69,9 +69,22 @@ const CAMERA_CONFIG = {
   },
 };
 
-const IFCViewer = ({ selectedComponent }) => {
+const IFCViewer = ({ selectedComponent, selectedGroup }) => {
   const viewerContainerRef = useRef(null);
   const components = useRef(null);
+  const fragments = useRef(null);
+  const fragmentIfcLoader = useRef(null);
+  const propsProcessor = useRef(null);
+  const highlighter = useRef(null);
+
+  // set ifc Model Paths
+  const ifcModelPaths = {
+    A: "/rsc/bridgeA_railing",
+    B: "/rsc/sampleIFC",
+    C: "/rsc/sampleIFC",
+    D: "/rsc/sampleIFC",
+    E: "/rsc/sampleIFC",
+  };
 
   // set camera function
   const setCameraPosition = (componentName) => {
@@ -90,6 +103,7 @@ const IFCViewer = ({ selectedComponent }) => {
   };
 
   useEffect(() => {
+    // initial ifcViewer Function
     const initializeViewer = async () => {
       if (viewerContainerRef.current && OBC && THREE) {
         const viewerContainer = viewerContainerRef.current;
@@ -106,16 +120,12 @@ const IFCViewer = ({ selectedComponent }) => {
           components.current
         );
         components.current.init();
-
         components.current.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
-
         components.current.scene.setup();
-
         const grid = new OBC.SimpleGrid(
           components.current,
           new THREE.Color(0x666666)
         );
-
         components.current.renderer.postproduction.enabled = true;
         components.current.renderer.postproduction.customEffects.excludedMeshes.push(
           grid.get()
@@ -130,35 +140,37 @@ const IFCViewer = ({ selectedComponent }) => {
 
         /* ----- ifc load ----- */
         // fragments
-        let fragments = new OBC.FragmentManager(components.current);
-        let fragmentIfcLoader = new OBC.FragmentIfcLoader(components.current);
+        fragments.current = new OBC.FragmentManager(components.current);
+        fragmentIfcLoader.current = new OBC.FragmentIfcLoader(
+          components.current
+        );
 
         // Setup IFCloader with WSAM (calibrating the converter)
-        await fragmentIfcLoader.setup();
-        fragmentIfcLoader.settings.wasm = {
+        await fragmentIfcLoader.current.setup();
+        fragmentIfcLoader.current.settings.wasm = {
           path: "https://unpkg.com/web-ifc@0.0.46/",
           absolute: true,
         };
-        fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
-        fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
+        fragmentIfcLoader.current.settings.webIfc.COORDINATE_TO_ORIGIN = true;
+        fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        const file = await fetch("/rsc/bridgeA_railing.frag");
-        const data = await file.arrayBuffer();
-        const buffer = new Uint8Array(data);
-        const model = await fragments.load(buffer);
-        const properties = await fetch("/rsc/bridgeA_railing.json");
+        let file = await fetch("/rsc/bridgeA_railing.frag");
+        let data = await file.arrayBuffer();
+        let buffer = new Uint8Array(data);
+        let model = await fragments.current.load(buffer);
+        let properties = await fetch("/rsc/bridgeA_railing.json");
         model.properties = await properties.json();
 
         /*------- Highlighter -------*/
         // highlighter config
-        const highlighter = new OBC.FragmentHighlighter(
+        highlighter.current = new OBC.FragmentHighlighter(
           components.current,
-          fragments
+          fragments.current
         );
         components.current.renderer.postproduction.customEffects.outlineEnabled = true;
-        highlighter.outlinesEnabled = true;
-        highlighter.zoomToSelection = true;
+        highlighter.current.outlinesEnabled = true;
+        highlighter.current.zoomToSelection = true;
 
         // default material
         const selectionMaterial = new THREE.MeshBasicMaterial({
@@ -167,21 +179,21 @@ const IFCViewer = ({ selectedComponent }) => {
           opacity: 0.85,
           depthTest: true,
         });
-        await highlighter.add("default", [selectionMaterial]);
+        await highlighter.current.add("default", [selectionMaterial]);
 
-        highlighter.setup();
+        highlighter.current.setup();
 
         /*----- ifc properties processor ------*/
-        const propsProcessor = new OBC.IfcPropertiesProcessor(
+        propsProcessor.current = new OBC.IfcPropertiesProcessor(
           components.current
         );
-        propsProcessor.uiElement.get("propertiesWindow").visible = true;
-        propsProcessor.process(model);
+        propsProcessor.current.uiElement.get("propertiesWindow").visible = true;
+        propsProcessor.current.process(model);
 
         // add cleanPropertieslist function to highlighter onClear handler
-        const highlighterEvents = highlighter.events;
+        const highlighterEvents = highlighter.current.events;
         highlighterEvents.select.onClear.add(() => {
-          propsProcessor.cleanPropertiesList();
+          propsProcessor.current.cleanPropertiesList();
         });
 
         // add renderProperties function to onHighlight handler
@@ -189,14 +201,14 @@ const IFCViewer = ({ selectedComponent }) => {
           const fragmentID = Object.keys(selection)[0];
           const expressID = Number([...selection[fragmentID]][0]);
           let model;
-          for (const group of fragments.groups) {
+          for (const group of fragments.current.groups) {
             const fragmentFound = Object.values(group.keyFragments).find(
               (id) => id === fragmentID
             );
             if (fragmentFound) model = group;
           }
 
-          propsProcessor.renderProperties(model, expressID);
+          propsProcessor.current.renderProperties(model, expressID);
         });
 
         // buttons
@@ -240,18 +252,71 @@ const IFCViewer = ({ selectedComponent }) => {
           setCameraPosition("Structure");
         });
 
-        const cacher = new OBC.FragmentCacher(components.current);
-        const cacherButton = cacher.uiElement.get("main");
-        mainToolbar.addChild(cacherButton);
+        const disposeButton = new OBC.Button(components.current);
+        disposeButton.materialIcon = "foundation";
+        disposeButton.tooltip = "dipose";
+        mainToolbar.addChild(disposeButton);
+        disposeButton.onClick.add(async () => {
+          fragments.current.dispose();
+          propsProcessor.current.cleanPropertiesList();
+        });
 
-        return () => {
-          //clean up code
-        };
+        const gbButton = new OBC.Button(components.current);
+        gbButton.materialIcon = "foundation";
+        gbButton.tooltip = "updateGroupB";
+        mainToolbar.addChild(gbButton);
+        gbButton.onClick.add(async () => {
+          file = await fetch("/rsc/sampleIFC.frag");
+          data = await file.arrayBuffer();
+          buffer = new Uint8Array(data);
+          model = await fragments.current.load(buffer);
+
+          // Load .json properties file
+          properties = await fetch("/rsc/sampleIFC.json");
+          model.properties = await properties.json();
+
+          // Update highlighter and properties processor for the new model
+          highlighter.current.update();
+          propsProcessor.current.process(model);
+        });
       }
     };
 
     initializeViewer();
   }, []);
+
+  useEffect(() => {
+    // Function to load and display a new IFC model
+    const loadIFCModel = async (modelPath) => {
+      if (!components.current) return;
+
+      try {
+        // Dispose existing model and clean properties
+        console.log(components.current);
+        fragments.current.dispose();
+        console.log("fagments is disposed");
+        propsProcessor.current.cleanPropertiesList();
+
+        // Load .frag model file
+        const fragResponse = await fetch(`${modelPath}.frag`);
+        const fragData = await fragResponse.arrayBuffer();
+        const model = await fragments.current.load(new Uint8Array(fragData));
+
+        // Load .json properties file
+        const propsResponse = await fetch(`${modelPath}.json`);
+        const propsData = await propsResponse.json();
+        model.properties = propsData; // Assuming 'model.properties' can be directly set like this
+
+        // Update highlighter and properties processor for the new model
+        highlighter.current.update();
+        propsProcessor.current.process(model);
+      } catch (error) {
+        console.error("Error loading IFC model or properties:", error);
+      }
+    };
+
+    loadIFCModel(ifcModelPaths[selectedGroup]);
+  }, [selectedGroup]);
 
   /* --- Component button triggers ---*/
   const handleOverviewClick = () => {
