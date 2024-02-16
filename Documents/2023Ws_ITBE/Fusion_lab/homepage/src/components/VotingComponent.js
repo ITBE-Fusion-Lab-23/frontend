@@ -41,7 +41,7 @@ const VotingComponent = ({ onModelSelect }) => {
       });
 
       const response = await fetch(`${serverURL}/modelGroup/${id}/vote`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

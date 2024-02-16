@@ -80,7 +80,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
           const response = await fetch(
             `${serverURL}/review/${newLikes[index].id}/likes/inc`,
             {
-              method: "PUT",
+              method: "PATCH",
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
