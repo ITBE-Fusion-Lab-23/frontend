@@ -91,7 +91,7 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
           const response = await fetch(
             `${serverURL}/review/${newLikes[index].id}/likes/dec`,
             {
-              method: "PUT",
+              method: "PATCH",
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
