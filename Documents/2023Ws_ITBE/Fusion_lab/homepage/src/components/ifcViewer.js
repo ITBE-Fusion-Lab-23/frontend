@@ -76,15 +76,14 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
   const fragmentIfcLoader = useRef(null);
   const propsProcessor = useRef(null);
   const highlighter = useRef(null);
-  const [viewerInitialized, setViewerInitialized] = useState(false); // 뷰어 초기화 상태 관리
 
   // set ifc Model Paths
   const ifcModelPaths = {
-    A: "/rsc/GroupA",
-    B: "/rsc/GroupB",
-    C: "/rsc/GroupC",
-    D: "/rsc/GroupD",
-    E: "/rsc/GroupE",
+    A: "/rsc/bridgeA_railing",
+    B: "/rsc/sampleIFC",
+    C: "/rsc/sampleIFC",
+    D: "/rsc/sampleIFC",
+    E: "/rsc/sampleIFC",
   };
 
   // set camera function
@@ -148,7 +147,7 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
         // Setup IFCloader with WSAM (calibrating the converter)
         await fragmentIfcLoader.current.setup();
-        fragmentIfcLoader.settings.wasm = {
+        fragmentIfcLoader.current.settings.wasm = {
           path: "https://unpkg.com/web-ifc@0.0.46/",
           absolute: true,
         };
@@ -156,15 +155,12 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        let file = await fetch("/rsc/GroupA.ifc");
+        let file = await fetch("/rsc/bridgeA_railing.frag");
         let data = await file.arrayBuffer();
         let buffer = new Uint8Array(data);
-        let model = await fragmentIfcLoader.current.load(buffer, "example");
-        const scene = components.current.scene.get();
-        scene.add(model);
-
-        // let properties = await fetch("/rsc/bridgeA_railing.json");
-        // model.properties = await properties.json();
+        let model = await fragments.current.load(buffer);
+        let properties = await fetch("/rsc/bridgeA_railing.json");
+        model.properties = await properties.json();
 
         /*------- Highlighter -------*/
         // highlighter config
@@ -256,17 +252,37 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
           setCameraPosition("Structure");
         });
 
-        setViewerInitialized(true);
+        const disposeButton = new OBC.Button(components.current);
+        disposeButton.materialIcon = "foundation";
+        disposeButton.tooltip = "dipose";
+        mainToolbar.addChild(disposeButton);
+        disposeButton.onClick.add(async () => {
+          fragments.current.dispose();
+          propsProcessor.current.cleanPropertiesList();
+        });
 
-        return () => {
-          //clean up code
-        };
+        const gbButton = new OBC.Button(components.current);
+        gbButton.materialIcon = "foundation";
+        gbButton.tooltip = "updateGroupB";
+        mainToolbar.addChild(gbButton);
+        gbButton.onClick.add(async () => {
+          file = await fetch("/rsc/sampleIFC.frag");
+          data = await file.arrayBuffer();
+          buffer = new Uint8Array(data);
+          model = await fragments.current.load(buffer);
+
+          // Load .json properties file
+          properties = await fetch("/rsc/sampleIFC.json");
+          model.properties = await properties.json();
+
+          // Update highlighter and properties processor for the new model
+          highlighter.current.update();
+          propsProcessor.current.process(model);
+        });
       }
     };
 
-    if (!viewerInitialized) {
-      initializeViewer();
-    }
+    initializeViewer();
   }, []);
 
   useEffect(() => {
@@ -296,18 +312,6 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         propsProcessor.current.process(model);
       } catch (error) {
         console.error("Error loading IFC model or properties:", error);
-        loadIFCModel(ifcModelPaths[selectedGroup]);
-        setViewerInitialized(true);
-        // }
-        // const cacher = new OBC.FragmentCacher(components.current);
-        // const cacherButton = cacher.uiElement.get("main");
-        // mainToolbar.addChild(cacherButton);
-
-        setViewerInitialized(true);
-
-        return () => {
-          //clean up code
-        };
       }
     };
 
