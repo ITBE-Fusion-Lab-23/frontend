@@ -1,11 +1,11 @@
 import * as OBC from "openbim-components";
 import * as THREE from "three";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 const CAMERA_CONFIG = {
   Overall: {
     cameraPosition: new THREE.Vector3(
-      -122.0412338903638,
+      -58.99634052532332,
       57.8573189393671,
       49.465545453607156
     ),
@@ -79,11 +79,11 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
   // set ifc Model Paths
   const ifcModelPaths = {
-    A: "/rsc/GroupA",
-    B: "/rsc/GroupB",
-    C: "/rsc/GroupC",
-    D: "/rsc/GroupD",
-    E: "/rsc/GroupE",
+    A: "/rsc/bridgeA_railing",
+    B: "/rsc/groupB",
+    C: "/rsc/groupC",
+    D: "/rsc/groupD",
+    E: "/rsc/sampleIFC",
   };
 
   // set camera function
@@ -155,19 +155,12 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        // const file = await fetch("/rsc/small2.frag");
-        // const data = await file.arrayBuffer();
-        // const buffer = new Uint8Array(data);
-        // const model = await fragments.current.load(buffer);
-        // const properties = await fetch("/rsc/small.json");
-        // model.properties = await properties.json();
-
-        const file = await fetch("/rsc/GroupA.ifc");
-        const data = await file.arrayBuffer();
-        const buffer = new Uint8Array(data);
-        const model = await fragmentIfcLoader.current.load(buffer, "example");
-        const scene = components.current.scene.get();
-        scene.add(model);
+        let file = await fetch("/rsc/bridgeA_railing.frag");
+        let data = await file.arrayBuffer();
+        let buffer = new Uint8Array(data);
+        let model = await fragments.current.load(buffer);
+        let properties = await fetch("/rsc/bridgeA_railing.json");
+        model.properties = await properties.json();
 
         /*------- Highlighter -------*/
         // highlighter config
@@ -197,14 +190,8 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         propsProcessor.current.uiElement.get("propertiesWindow").visible = true;
         propsProcessor.current.process(model);
 
-        // // add cleanPropertieslist function to highlighter onClear handler
-        // const highlighterEvents = highlighter.current.events;
-        // highlighterEvents.select.onClear.add(() => {
-        //   propsProcessor.current.cleanPropertiesList();
-        // });
-
         const highlighterEvents = highlighter.current.events;
-        if (highlighter.current && propsProcessor.current) {
+        if (highlighter.current) {
           highlighterEvents.select.onClear.add(() => {
             // propsProcessor.current is checked
             if (propsProcessor.current) {
@@ -290,36 +277,29 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
       try {
         // Dispose existing model and clean properties
-        console.log(components.current);
         if (fragments.current) {
           fragments.current.dispose();
+          console.log("fagments is disposed");
         }
 
-        console.log("fagments is disposed");
         if (propsProcessor.current) {
           propsProcessor.current.cleanPropertiesList();
           console.log("propertiesTab is cleaned");
         }
 
-        // // Load .frag model file
-        // const fragResponse = await fetch(`${modelPath}.ifc`);
-        // const fragData = await fragResponse.arrayBuffer();
-        // const model = await fragments.current.load(new Uint8Array(fragData));
+        // Load .frag model file
+        const fragResponse = await fetch(`${modelPath}.frag`);
+        const fragData = await fragResponse.arrayBuffer();
+        const model = await fragments.current.load(new Uint8Array(fragData));
 
-        const file = await fetch(`${modelPath}.ifc`);
-        const data = await file.arrayBuffer();
-        const buffer = new Uint8Array(data);
-        const model = await fragmentIfcLoader.current.load(buffer, "example");
-        const scene = components.current.scene.get();
-        scene.add(model);
-
-        // // Load .json properties file
-        // const propsResponse = await fetch(`${modelPath}.json`);
-        // const propsData = await propsResponse.json();
-        // model.properties = propsData; // Assuming 'model.properties' can be directly set like this
+        // Load .json properties file
+        const propsResponse = await fetch(`${modelPath}.json`);
+        const propsData = await propsResponse.json();
+        model.properties = propsData;
 
         // Update highlighter and properties processor for the new model
         if (highlighter.current) {
+          highlighter.current.clear();
           highlighter.current.update();
           console.log("Highlighter is updated");
         }
