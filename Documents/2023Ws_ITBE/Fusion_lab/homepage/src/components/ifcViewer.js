@@ -197,11 +197,21 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         propsProcessor.current.uiElement.get("propertiesWindow").visible = true;
         propsProcessor.current.process(model);
 
-        // add cleanPropertieslist function to highlighter onClear handler
+        // // add cleanPropertieslist function to highlighter onClear handler
+        // const highlighterEvents = highlighter.current.events;
+        // highlighterEvents.select.onClear.add(() => {
+        //   propsProcessor.current.cleanPropertiesList();
+        // });
+
         const highlighterEvents = highlighter.current.events;
-        highlighterEvents.select.onClear.add(() => {
-          propsProcessor.current.cleanPropertiesList();
-        });
+        if (highlighter.current && propsProcessor.current) {
+          highlighterEvents.select.onClear.add(() => {
+            // propsProcessor.current is checked
+            if (propsProcessor.current) {
+              propsProcessor.current.cleanPropertiesList();
+            }
+          });
+        }
 
         // add renderProperties function to onHighlight handler
         highlighterEvents.select.onHighlight.add((selection) => {
@@ -258,6 +268,15 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         structureButton.onClick.add(async () => {
           setCameraPosition("Structure");
         });
+
+        const cameraButton = new OBC.Button(components.current);
+        cameraButton.materialIcon = "foundation";
+        cameraButton.tooltip = "camera";
+        mainToolbar.addChild(cameraButton);
+        cameraButton.onClick.add(async () => {
+          console.log(components.current.camera.controls.getPosition());
+          console.log(components.current.camera.controls.getTarget());
+        });
       }
     };
 
@@ -267,14 +286,20 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
   useEffect(() => {
     // Function to load and display a new IFC model
     const loadIFCModel = async (modelPath) => {
-      if (!components.current) return;
+      if (!components.current || !modelPath) return;
 
       try {
         // Dispose existing model and clean properties
         console.log(components.current);
-        fragments.current.dispose();
+        if (fragments.current) {
+          fragments.current.dispose();
+        }
+
         console.log("fagments is disposed");
-        propsProcessor.current.cleanPropertiesList();
+        if (propsProcessor.current) {
+          propsProcessor.current.cleanPropertiesList();
+          console.log("propertiesTab is cleaned");
+        }
 
         // // Load .frag model file
         // const fragResponse = await fetch(`${modelPath}.ifc`);
@@ -294,14 +319,23 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         // model.properties = propsData; // Assuming 'model.properties' can be directly set like this
 
         // Update highlighter and properties processor for the new model
-        highlighter.current.update();
-        propsProcessor.current.process(model);
+        if (highlighter.current) {
+          highlighter.current.update();
+          console.log("Highlighter is updated");
+        }
+
+        if (propsProcessor.current) {
+          propsProcessor.current.process(model);
+          console.log("processor is updated");
+        }
       } catch (error) {
         console.error("Error loading IFC model or properties:", error);
       }
     };
 
-    loadIFCModel(ifcModelPaths[selectedGroup]);
+    if (selectedGroup) {
+      loadIFCModel(ifcModelPaths[selectedGroup]);
+    }
   }, [selectedGroup]);
 
   /* --- Component button triggers ---*/
