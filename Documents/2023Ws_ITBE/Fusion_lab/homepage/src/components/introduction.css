@@ -1,11 +1,11 @@
 .read-more-container {
   font-size: 12px;
-  color: #333333;
-  background: #FFFFFF;
+  color: #FFFFFF;
+  background: #EF700B;
   cursor: pointer;
   padding: 10px 16px;
-  width: 222px;
-  height: 71px;
+  width: 200px;
+  height: 60px;
   box-sizing: border-box;
   align-self: flex-start;
   font-weight: 400;
@@ -13,8 +13,15 @@
 }
 
 
+
+
+
+
+
+
+
 .main-focus-container {
-  max-width: 1300px;
+  max-width: 100%;
   margin: auto;
   padding: 20px;
   font-family: 'Roboto', sans-serif;

@@ -351,31 +351,26 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
       case "Overall":
         if (components.current) {
           handleOverviewClick();
-          console.log("overview postiion is called");
         }
         break;
-      case "Pedestrain Space":
+      case "Pedestrian Space":
         if (components.current) {
           handleWalkwayClick();
-          console.log("walkway postiion is called");
         }
         break;
       case "Road":
         if (components.current) {
           handleRoadClick();
-          console.log("road postiion is called");
         }
         break;
       case "Access to Public Transport":
         if (components.current) {
           handleTransportClick();
-          console.log("transport postiion is called");
         }
         break;
       case "Structure":
         if (components.current) {
           handleStructureClick();
-          console.log("structure postiion is called");
         }
         break;
       default:

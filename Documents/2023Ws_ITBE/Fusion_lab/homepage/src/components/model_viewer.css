@@ -78,14 +78,20 @@
 }
 
 .comment-button {
-  padding: 10px 20px;
+  padding: 8px 18px;
   margin-top: 25px; /* Space between the dropdown and the button */
-  background-color: #b9b9b9;
-  color: black;
+  background-color: #EF700B;
+  color: #FFFFFF;
   border: none;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
   font-family: "Montserrat";
   font-weight: 900;
+}
+
+.warning-text {
+  color: red;
+  position: relative;
+  top: 2px;
 }

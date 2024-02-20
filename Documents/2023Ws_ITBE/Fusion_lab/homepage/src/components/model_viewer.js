@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import CommentModal from "./comment.js";
+
+import CommentModal from "./Comment";
 import CommentList from "./CommentList";
 import Overview from "./Overview";
 import VotingComponent from "./VotingComponent";
-import A from "../images/A.png";
-import B from "../images/B.png";
-import C from "../images/C.png";
-import D from "../images/D.png";
-import E from "../images/E.png";
+
 import IFCViewer from "./ifcViewer.js";
 
 import "./model_viewer.css";
 
 function ModelViewer() {
-  const [selectedComponent, setSelectedComponent] = useState("Overview"); // Set to 'Overrall' as the default
+  const [selectedComponent, setSelectedComponent] = useState("component"); // Set to 'Overrall' as the default
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("A");
+  const [showSelectComponentWarning, setShowSelectComponentWarning] = useState(false);
 
   const componentsList = [
     "Overall",
@@ -26,195 +24,60 @@ function ModelViewer() {
     "Structure",
   ];
 
-  const groupImages = {
-    A: A,
-    B: B,
-    C: C,
-    D: D,
-    E: E,
+  const [groupedReviews, setGroupedReviews] = useState([]);
+
+  // Fetch and set the comments for the selected component and group
+  const fetchData = async () => {
+    const result = await fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/review/${selectedGroup}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const resp = await result.json();
+    setGroupedReviews(
+      resp.map((res) => {
+        return {
+          id: res._id,
+          component: res.component,
+          text: res.comment,
+          groupId: res.modelGroupId.modelGroup,
+          rating: res.rating,
+          stakeholder: res.stakeholder,
+          count: res.likes,
+        };
+      })
+    );
+    const newReviews =
+      groupedReviews
+        .filter((rev) => rev.component === selectedComponent)
+        ?.filter((review) => review.groupId === selectedGroup) || [];
+    setReviews(newReviews);
   };
 
-  const [groupedReviews] = useState({
-    Road: [
-      {
-        component: "Road",
-        text: "Good job!",
-        rating: 5,
-        count: 7,
-        stakeholder: "Commuter",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Road",
-        text: "I like the design.",
-        rating: 4,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-    ],
-    Structure: [
-      {
-        component: "Structure",
-        text: "Too short.",
-        rating: 3,
-
-        count: 7,
-        stakeholder: "Commuter",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "A",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "B",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "C",
-      },
-      {
-        component: "Structure",
-        text: "I like the design.",
-        rating: 5,
-
-        count: 7,
-        stakeholder: "Local Residents",
-        groupId: "D",
-      },
-    ],
-  });
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
-    // Fetch and set the comments for the selected component and group
-    const newReviews =
-      groupedReviews[selectedComponent]?.filter(
-        (review) => review.groupId === selectedGroup
-      ) || [];
-    setReviews(newReviews);
-  }, [selectedComponent, selectedGroup, groupedReviews]);
+    fetchData();
+  }, [selectedComponent, selectedGroup]);
 
   const handleDropdownChange = (event) => {
     setSelectedComponent(event.target.value);
+    setShowSelectComponentWarning(false);
   };
 
   const openModal = () => {
-    setIsModalOpen(true);
+    if (selectedComponent !== "component") {
+      setIsModalOpen(true);
+    } else {
+      setShowSelectComponentWarning(true);
+    }
   };
 
   const closeModal = () => {
@@ -244,12 +107,16 @@ function ModelViewer() {
           onChange={handleDropdownChange}
           className="component-dropdown"
         >
+          <option disabled key="choose" value="component">
+            Choose a component
+          </option>
           {componentsList.map((component) => (
             <option key={component} value={component}>
               {component}
             </option>
           ))}
         </select>
+        {showSelectComponentWarning && <p className="warning-text">Select a component first!</p>}
         <button className="comment-button" onClick={openModal}>
           COMMENT
         </button>
@@ -260,6 +127,7 @@ function ModelViewer() {
           selectedComponent={selectedComponent}
           selectedGroup={selectedGroup}
           closeModal={closeModal}
+          setReviews={setReviews}
         />
       )}
 
