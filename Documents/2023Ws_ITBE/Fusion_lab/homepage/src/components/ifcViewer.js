@@ -79,11 +79,11 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
   // set ifc Model Paths
   const ifcModelPaths = {
-    A: "/rsc/bridgeA_railing",
-    B: "/rsc/sampleIFC",
-    C: "/rsc/sampleIFC",
-    D: "/rsc/sampleIFC",
-    E: "/rsc/sampleIFC",
+    A: "/rsc/GroupA",
+    B: "/rsc/GroupB",
+    C: "/rsc/GroupC",
+    D: "/rsc/GroupD",
+    E: "/rsc/GroupE",
   };
 
   // set camera function
@@ -155,12 +155,19 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        let file = await fetch("/rsc/bridgeA_railing.frag");
-        let data = await file.arrayBuffer();
-        let buffer = new Uint8Array(data);
-        let model = await fragments.current.load(buffer);
-        let properties = await fetch("/rsc/bridgeA_railing.json");
-        model.properties = await properties.json();
+        // const file = await fetch("/rsc/small2.frag");
+        // const data = await file.arrayBuffer();
+        // const buffer = new Uint8Array(data);
+        // const model = await fragments.current.load(buffer);
+        // const properties = await fetch("/rsc/small.json");
+        // model.properties = await properties.json();
+
+        const file = await fetch("/rsc/GroupA.ifc");
+        const data = await file.arrayBuffer();
+        const buffer = new Uint8Array(data);
+        const model = await fragmentIfcLoader.current.load(buffer, "example");
+        const scene = components.current.scene.get();
+        scene.add(model);
 
         /*------- Highlighter -------*/
         // highlighter config
@@ -251,34 +258,6 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         structureButton.onClick.add(async () => {
           setCameraPosition("Structure");
         });
-
-        const disposeButton = new OBC.Button(components.current);
-        disposeButton.materialIcon = "foundation";
-        disposeButton.tooltip = "dipose";
-        mainToolbar.addChild(disposeButton);
-        disposeButton.onClick.add(async () => {
-          fragments.current.dispose();
-          propsProcessor.current.cleanPropertiesList();
-        });
-
-        const gbButton = new OBC.Button(components.current);
-        gbButton.materialIcon = "foundation";
-        gbButton.tooltip = "updateGroupB";
-        mainToolbar.addChild(gbButton);
-        gbButton.onClick.add(async () => {
-          file = await fetch("/rsc/sampleIFC.frag");
-          data = await file.arrayBuffer();
-          buffer = new Uint8Array(data);
-          model = await fragments.current.load(buffer);
-
-          // Load .json properties file
-          properties = await fetch("/rsc/sampleIFC.json");
-          model.properties = await properties.json();
-
-          // Update highlighter and properties processor for the new model
-          highlighter.current.update();
-          propsProcessor.current.process(model);
-        });
       }
     };
 
@@ -297,15 +276,22 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         console.log("fagments is disposed");
         propsProcessor.current.cleanPropertiesList();
 
-        // Load .frag model file
-        const fragResponse = await fetch(`${modelPath}.frag`);
-        const fragData = await fragResponse.arrayBuffer();
-        const model = await fragments.current.load(new Uint8Array(fragData));
+        // // Load .frag model file
+        // const fragResponse = await fetch(`${modelPath}.ifc`);
+        // const fragData = await fragResponse.arrayBuffer();
+        // const model = await fragments.current.load(new Uint8Array(fragData));
 
-        // Load .json properties file
-        const propsResponse = await fetch(`${modelPath}.json`);
-        const propsData = await propsResponse.json();
-        model.properties = propsData; // Assuming 'model.properties' can be directly set like this
+        const file = await fetch(`${modelPath}.ifc`);
+        const data = await file.arrayBuffer();
+        const buffer = new Uint8Array(data);
+        const model = await fragmentIfcLoader.current.load(buffer, "example");
+        const scene = components.current.scene.get();
+        scene.add(model);
+
+        // // Load .json properties file
+        // const propsResponse = await fetch(`${modelPath}.json`);
+        // const propsData = await propsResponse.json();
+        // model.properties = propsData; // Assuming 'model.properties' can be directly set like this
 
         // Update highlighter and properties processor for the new model
         highlighter.current.update();
