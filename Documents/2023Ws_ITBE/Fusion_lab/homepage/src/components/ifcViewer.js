@@ -5,14 +5,14 @@ import React, { useRef, useEffect } from "react";
 const CAMERA_CONFIG = {
   Overall: {
     cameraPosition: new THREE.Vector3(
-      -58.99634052532332,
-      57.8573189393671,
-      49.465545453607156
+      -101.09504987476292,
+      48.12831145873339,
+      31.325623280512524
     ),
     targetPosition: new THREE.Vector3(
-      -13.240851261453342,
-      0.404757580791614,
-      -18.709093226707687
+      -4.0698941288804615,
+      -8.808083015580827,
+      -8.255826271416908
     ),
   },
 
@@ -120,7 +120,14 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
           components.current
         );
         components.current.init();
-        components.current.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
+        components.current.camera.controls.setLookAt(
+          -101.09504987476292,
+          48.12831145873339,
+          31.325623280512524,
+          -4.0698941288804615,
+          -8.808083015580827,
+          -8.255826271416908
+        );
         components.current.scene.setup();
         const grid = new OBC.SimpleGrid(
           components.current,
@@ -256,14 +263,14 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
           setCameraPosition("Structure");
         });
 
-        const cameraButton = new OBC.Button(components.current);
-        cameraButton.materialIcon = "foundation";
-        cameraButton.tooltip = "camera";
-        mainToolbar.addChild(cameraButton);
-        cameraButton.onClick.add(async () => {
-          console.log(components.current.camera.controls.getPosition());
-          console.log(components.current.camera.controls.getTarget());
-        });
+        // const cameraButton = new OBC.Button(components.current);
+        // cameraButton.materialIcon = "foundation";
+        // cameraButton.tooltip = "camera";
+        // mainToolbar.addChild(cameraButton);
+        // cameraButton.onClick.add(async () => {
+        //   console.log(components.current.camera.controls.getPosition());
+        //   console.log(components.current.camera.controls.getTarget());
+        // });
       }
     };
 
