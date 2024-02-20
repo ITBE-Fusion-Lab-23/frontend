@@ -45,8 +45,8 @@ function Home() {
         </div>
         {/* Column for image with increased right margin */}
         <div
-          className="col-md-7"
-          style={{ paddingRight: 10, paddingTop: 20, paddingBottom: 60 }}
+          className="col-md-7 p-5"
+          // style={{ paddingRight: 10, paddingTop: 20, paddingBottom: 60 }}
         >
           {/* Inline styles for the image to maintain its dimensions */}
           <img

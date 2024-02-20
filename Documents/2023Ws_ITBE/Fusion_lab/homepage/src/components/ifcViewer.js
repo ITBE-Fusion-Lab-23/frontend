@@ -1,6 +1,6 @@
 import * as OBC from "openbim-components";
 import * as THREE from "three";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 const CAMERA_CONFIG = {
   Overall: {
@@ -264,14 +264,11 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
       try {
         // Dispose existing model and clean properties
-        console.log(components.current);
         fragments.current.dispose();
-        console.log("fagments is disposed");
         propsProcessor.current.cleanPropertiesList();
 
         // Load .frag model file
         const fragResponse = await fetch(`${modelPath}.frag`);
-        console.log(fragResponse);
         const fragData = await fragResponse.arrayBuffer();
         const model = await fragments.current.load(new Uint8Array(fragData));
 
@@ -317,31 +314,26 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
       case "Overall":
         if (components.current) {
           handleOverviewClick();
-          console.log("overview postiion is called");
         }
         break;
       case "Pedestrian Space":
         if (components.current) {
           handleWalkwayClick();
-          console.log("walkway postiion is called");
         }
         break;
       case "Road":
         if (components.current) {
           handleRoadClick();
-          console.log("road postiion is called");
         }
         break;
       case "Access to Public Transport":
         if (components.current) {
           handleTransportClick();
-          console.log("transport postiion is called");
         }
         break;
       case "Structure":
         if (components.current) {
           handleStructureClick();
-          console.log("structure postiion is called");
         }
         break;
       default:

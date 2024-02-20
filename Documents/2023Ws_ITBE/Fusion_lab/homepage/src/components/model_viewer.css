@@ -89,3 +89,9 @@
   font-family: "Montserrat";
   font-weight: 900;
 }
+
+.warning-text {
+  color: red;
+  position: relative;
+  top: 2px;
+}

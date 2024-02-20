@@ -518,12 +518,12 @@ function Introduction() {
         </div>
       </div>
 
-      <div class="main-focus-container">
-        <div class="main-focus-title">Main Focus/Mission Statement</div>
-        <div class="focus-row">
-          <div class="focus-item">
-            <div class="focus-number">1</div>
-            <div class="focus-content">
+      <div className="main-focus-container">
+        <div className="main-focus-title">Main Focus/Mission Statement</div>
+        <div className="focus-row">
+          <div className="focus-item">
+            <div className="focus-number">1</div>
+            <div className="focus-content">
               <h2>Bus Station</h2>
               <p>
                 {" "}
@@ -533,9 +533,9 @@ function Introduction() {
               </p>
             </div>
           </div>
-          <div class="focus-item">
-            <div class="focus-number">2</div>
-            <div class="focus-content">
+          <div className="focus-item">
+            <div className="focus-number">2</div>
+            <div className="focus-content">
               <h2>Pretzel</h2>
               <p>
                 Integrates local culture into the bridge's design, featuring
@@ -544,9 +544,9 @@ function Introduction() {
             </div>
           </div>
         </div>
-        <div class="focus-item focus-item-full">
-          <div class="focus-number">3</div>
-          <div class="focus-content">
+        <div className="focus-item focus-item-full">
+          <div className="focus-number">3</div>
+          <div className="focus-content">
             <h2>Sunset</h2>
             <p>
               The bridge's strategic location offers an unrivaled view of the

@@ -36,7 +36,7 @@ function Navbar() {
 
   return (
     <nav className={`${sticky ? "sticky" : ""}`}>
-      <div className="nav-inner d-flex justify-content-between align-items-center">
+      <div className="m-3 d-flex justify-content-between align-items-center">
         <div className="links">
           <a
             href="#home"
