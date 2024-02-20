@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import "./VotingComponent.css";
+import IFC_A from "../images/IFC_A.png";
+import IFC_B from "../images/IFC_B.png";
+import IFC_C from "../images/IFC_C.png";
+import IFC_D from "../images/IFC_D.png";
 import image_test from "../images/image_test.png";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const initData = [
-  { id: "A", src: image_test, votes: 10 },
-  { id: "B", src: image_test, votes: 20 },
-  { id: "C", src: image_test, votes: 5 },
-  { id: "D", src: image_test, votes: 15 },
+  { id: "A", src: IFC_A, votes: 10 },
+  { id: "B", src: IFC_B, votes: 20 },
+  { id: "C", src: IFC_C, votes: 5 },
+  { id: "D", src: IFC_D, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
 const serverURL = process.env.REACT_APP_API_BASE_URL;
@@ -132,7 +136,7 @@ const VotingComponent = ({ onModelSelect }) => {
                 className="ifc-model-button"
                 onClick={() => selectModelGroup(model.id)}
               >
-                IFC MODEL
+                GROUP {model.id}
               </button>
               <button
                 className="vote-button"

@@ -79,7 +79,7 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
 
   // set ifc Model Paths
   const ifcModelPaths = {
-    A: "/rsc/bridgeA_railing",
+    A: "/rsc/groupA",
     B: "/rsc/groupB",
     C: "/rsc/groupC",
     D: "/rsc/groupD",
@@ -162,11 +162,11 @@ const IFCViewer = ({ selectedComponent, selectedGroup }) => {
         fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        let file = await fetch("/rsc/bridgeA_railing.frag");
+        let file = await fetch("/rsc/groupA.frag");
         let data = await file.arrayBuffer();
         let buffer = new Uint8Array(data);
         let model = await fragments.current.load(buffer);
-        let properties = await fetch("/rsc/bridgeA_railing.json");
+        let properties = await fetch("/rsc/groupA.json");
         model.properties = await properties.json();
 
         /*------- Highlighter -------*/
