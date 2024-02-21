@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import "./VotingComponent.css";
+import IFC_A from "../images/IFC_A.png";
+import IFC_B from "../images/IFC_B.png";
+import IFC_C from "../images/IFC_C.png";
+import IFC_D from "../images/IFC_D.png";
 import image_test from "../images/image_test.png";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const initData = [
-  { id: "A", src: image_test, votes: 10 },
-  { id: "B", src: image_test, votes: 20 },
-  { id: "C", src: image_test, votes: 5 },
-  { id: "D", src: image_test, votes: 15 },
+  { id: "A", src: IFC_A, votes: 10 },
+  { id: "B", src: IFC_B, votes: 20 },
+  { id: "C", src: IFC_C, votes: 5 },
+  { id: "D", src: IFC_D, votes: 15 },
   { id: "E", src: image_test, votes: 8 },
 ];
-const serverURL = `http://10.162.246.145:3000`;
+const serverURL = process.env.REACT_APP_API_BASE_URL;
 
 const fetchModelData = async () => {
   const response = await fetch(`${serverURL}/modelGroup/`, {
@@ -25,18 +30,34 @@ const fetchModelData = async () => {
   return modelsData;
 };
 const modelsData = await fetchModelData();
-const voteModel = async (id) => {
-  const response = await fetch(
-    `${serverURL}/modelGroup/${id}/vote`,
-    {
-      method: "PUT",
-    }
-  );
-  console.log(await response.json());
-};
 
 const VotingComponent = ({ onModelSelect }) => {
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
+
+  const voteModel = async (id) => {
+    try {
+      const accessToken = await getAccessTokenSilently({
+        authorizationParams: {
+          audience: "https://reviews-api.com/",
+          scope: "read:review write:review",
+        },
+      });
+
+      const response = await fetch(`${serverURL}/modelGroup/${id}/vote`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return await response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const [models, setModels] = useState(modelsData);
+
   const maxVotesGroup = models.reduce(
     (prev, current) => (prev.votes > current.votes ? prev : current),
     models[0]
@@ -49,17 +70,21 @@ const VotingComponent = ({ onModelSelect }) => {
       .scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleVote = (id) => {
-    const updatedModels = models.map((model) => {
-      if (model.id === id) {
-        return { ...model, votes: model.votes + 1 };
-      }
-      return model;
-    });
-    voteModel(id);
-    setModels(updatedModels);
+  const handleVote = async (id) => {
+    const votedModel = await voteModel(id);
+    try {
+      const updatedModels = models.map((model) => {
+        if (model.id === id)
+          return { ...model, votes: votedModel.updatedModelGroup.votes };
+        return model;
+      });
+      setModels(updatedModels);
+      alert("Thank you for voting!");
+    } catch (err) {
+      console.error(err);
+      alert(votedModel.error);
+    }
   };
-
   const maxVotes = Math.max(...models.map((group) => group.votes));
 
   const voteBars = models.map((group) => {
@@ -98,19 +123,26 @@ const VotingComponent = ({ onModelSelect }) => {
           <div key={model.id} className="image-item">
             <img
               src={model.src}
-              alt={`Rendering Image ${model.id}`}
-              className="image"
+              alt={`Rendering ${model.id}`}
+              style={{
+                width: "100%",
+                height: "auto",
+                maxWidth: "100% ",
+                marginBottom: "40px",
+              }}
             />
             <div className="vote-section">
               <button
                 className="ifc-model-button"
                 onClick={() => selectModelGroup(model.id)}
               >
-                IFC MODEL
+                GROUP {model.id}
               </button>
               <button
                 className="vote-button"
-                onClick={() => handleVote(model.id)}
+                onClick={() =>
+                  isAuthenticated ? handleVote(model.id) : loginWithRedirect()
+                }
               >
                 Vote
               </button>

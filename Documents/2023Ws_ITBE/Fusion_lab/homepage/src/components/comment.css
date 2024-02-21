@@ -25,6 +25,9 @@ width: 850px;
 height: 150px;
 margin-bottom: 40px;
 margin-top: 40px;
+margin-left: 50px;
+border: 2px solid #ccc;
+
 
 
 }
@@ -62,7 +65,7 @@ margin-top: 40px;
 
 .submit-comment {
   padding: 10px 8px;
-  background-color: #0065BD;
+  background-color: #EF700B;
   color: #fff;
   border: none;
   border-radius: 10px;

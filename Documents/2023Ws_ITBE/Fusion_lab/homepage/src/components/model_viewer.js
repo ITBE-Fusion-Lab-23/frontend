@@ -4,11 +4,6 @@ import CommentModal from "./Comment";
 import CommentList from "./CommentList";
 import Overview from "./Overview";
 import VotingComponent from "./VotingComponent";
-import A from "../images/A.png";
-import B from "../images/B.png";
-import C from "../images/C.png";
-import D from "../images/D.png";
-import E from "../images/E.png";
 
 import IFCViewer from "./ifcViewer.js";
 
@@ -19,6 +14,7 @@ function ModelViewer() {
   const [reviews, setReviews] = useState([]); // Initialize reviews as an array
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("A");
+  const [showSelectComponentWarning, setShowSelectComponentWarning] = useState(false);
 
   const componentsList = [
     "Overall",
@@ -28,20 +24,12 @@ function ModelViewer() {
     "Structure",
   ];
 
-  const groupImages = {
-    A: A,
-    B: B,
-    C: C,
-    D: D,
-    E: E,
-  };
-
   const [groupedReviews, setGroupedReviews] = useState([]);
 
   // Fetch and set the comments for the selected component and group
   const fetchData = async () => {
     const result = await fetch(
-      `http://10.162.246.145:3000/review/${selectedGroup}`,
+      `${process.env.REACT_APP_API_BASE_URL}/review/${selectedGroup}`,
       {
         method: "GET",
         headers: {
@@ -81,10 +69,15 @@ function ModelViewer() {
 
   const handleDropdownChange = (event) => {
     setSelectedComponent(event.target.value);
+    setShowSelectComponentWarning(false);
   };
 
   const openModal = () => {
-    setIsModalOpen(true);
+    if (selectedComponent !== "component") {
+      setIsModalOpen(true);
+    } else {
+      setShowSelectComponentWarning(true);
+    }
   };
 
   const closeModal = () => {
@@ -101,7 +94,10 @@ function ModelViewer() {
         <h1>Model Viewer</h1>
       </div>
       <div className="model-display">
-        <IFCViewer selectedComponent={selectedComponent} />
+        <IFCViewer
+          selectedComponent={selectedComponent}
+          selectedGroup={selectedGroup}
+        />
       </div>
 
       <div className="components-section">
@@ -111,7 +107,7 @@ function ModelViewer() {
           onChange={handleDropdownChange}
           className="component-dropdown"
         >
-          <option selected disabled key="choose" value="component">
+          <option disabled key="choose" value="component">
             Choose a component
           </option>
           {componentsList.map((component) => (
@@ -120,6 +116,7 @@ function ModelViewer() {
             </option>
           ))}
         </select>
+        {showSelectComponentWarning && <p className="warning-text">Select a component first!</p>}
         <button className="comment-button" onClick={openModal}>
           COMMENT
         </button>

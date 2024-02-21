@@ -72,7 +72,7 @@ nav.sticky {
 
 
 .logo-text {
-  color: #0065BD;
+  color: #333333;
   font-size: 32;
   font-family: 'Inter';
   font-weight: 500;
@@ -83,31 +83,31 @@ nav.sticky {
 
 
 
-.links a {
+.links a,button {
   text-decoration: none;
-  color: #0065BD;
+  color: #333333;
   font-size: 16px;
   font-weight: 600;
   font-family: Inter;
   margin-right: 30px;
-  cursor: pointer;
+  background-color: white;
 }
 
 .menu-item {
   transition: background-color 0.3s ease;
   border-radius: 10px; /* Rounded corners */
-  padding: 5px 12px; /* Add some padding */
+  padding: 10px 15px; /* Add some padding */
 }
 
 .menu-item:hover {
-  background-color: #0065BD; /* Deep blue background on hover */
+  background-color: #EF700B; /* Deep blue background on hover */
   color: white; /* Optional: change text color on hover */
 }
 
 
 
 .page-footer {
-  background-color: #0065BD;
+  background-color: #2C2C2C;
   height: 417px;
   color: white; }
 
@@ -127,12 +127,12 @@ nav.sticky {
   font-weight: 500;
 }
 
-
+/* 
 .overview-size{
   width: 718px;
   margin-right: 10px;
 
-}
+} */
 
 
 

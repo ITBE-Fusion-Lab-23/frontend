@@ -34,13 +34,13 @@ const Footer = () => (
                             <i className="bi bi-geo-alt" style={{ verticalAlign: 'top' }}></i>
                             <span style={{ display: 'inline-block', marginLeft: '10px' }}>
                                 <div>Arcisstraße 21,</div>
-                                <div>80333 München04</div>
+                                <div>80333 München</div>
                             </span>
                         </li>
                         <li style={{ marginBottom: '30px' }}>
                             <i className="bi bi-telephone" style={{ marginRight: '10px' }}></i>
                             <span>
-                                0000000000
+                                6786522011
                             </span>
                         </li>
                         <li>

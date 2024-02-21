@@ -5,14 +5,14 @@ import React, { useRef, useEffect } from "react";
 const CAMERA_CONFIG = {
   Overall: {
     cameraPosition: new THREE.Vector3(
-      -122.0412338903638,
-      57.8573189393671,
-      49.465545453607156
+      -101.09504987476292,
+      48.12831145873339,
+      31.325623280512524
     ),
     targetPosition: new THREE.Vector3(
-      -13.240851261453342,
-      0.404757580791614,
-      -18.709093226707687
+      -4.0698941288804615,
+      -8.808083015580827,
+      -8.255826271416908
     ),
   },
 
@@ -69,9 +69,22 @@ const CAMERA_CONFIG = {
   },
 };
 
-const IFCViewer = ({ selectedComponent }) => {
+const IFCViewer = ({ selectedComponent, selectedGroup }) => {
   const viewerContainerRef = useRef(null);
   const components = useRef(null);
+  const fragments = useRef(null);
+  const fragmentIfcLoader = useRef(null);
+  const propsProcessor = useRef(null);
+  const highlighter = useRef(null);
+
+  // set ifc Model Paths
+  const ifcModelPaths = {
+    A: "/rsc/groupA",
+    B: "/rsc/groupB",
+    C: "/rsc/groupC",
+    D: "/rsc/groupD",
+    E: "/rsc/sampleIFC",
+  };
 
   // set camera function
   const setCameraPosition = (componentName) => {
@@ -90,6 +103,7 @@ const IFCViewer = ({ selectedComponent }) => {
   };
 
   useEffect(() => {
+    // initial ifcViewer Function
     const initializeViewer = async () => {
       if (viewerContainerRef.current && OBC && THREE) {
         const viewerContainer = viewerContainerRef.current;
@@ -106,16 +120,19 @@ const IFCViewer = ({ selectedComponent }) => {
           components.current
         );
         components.current.init();
-
-        components.current.camera.controls.setLookAt(10, 10, 10, 0, 0, 0);
-
+        components.current.camera.controls.setLookAt(
+          -101.09504987476292,
+          48.12831145873339,
+          31.325623280512524,
+          -4.0698941288804615,
+          -8.808083015580827,
+          -8.255826271416908
+        );
         components.current.scene.setup();
-
         const grid = new OBC.SimpleGrid(
           components.current,
           new THREE.Color(0x666666)
         );
-
         components.current.renderer.postproduction.enabled = true;
         components.current.renderer.postproduction.customEffects.excludedMeshes.push(
           grid.get()
@@ -130,35 +147,37 @@ const IFCViewer = ({ selectedComponent }) => {
 
         /* ----- ifc load ----- */
         // fragments
-        let fragments = new OBC.FragmentManager(components.current);
-        let fragmentIfcLoader = new OBC.FragmentIfcLoader(components.current);
+        fragments.current = new OBC.FragmentManager(components.current);
+        fragmentIfcLoader.current = new OBC.FragmentIfcLoader(
+          components.current
+        );
 
         // Setup IFCloader with WSAM (calibrating the converter)
-        await fragmentIfcLoader.setup();
-        fragmentIfcLoader.settings.wasm = {
+        await fragmentIfcLoader.current.setup();
+        fragmentIfcLoader.current.settings.wasm = {
           path: "https://unpkg.com/web-ifc@0.0.46/",
           absolute: true,
         };
-        fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
-        fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
+        fragmentIfcLoader.current.settings.webIfc.COORDINATE_TO_ORIGIN = true;
+        fragmentIfcLoader.current.settings.webIfc.OPTIMIZE_PROFILES = true;
 
         //initial model
-        const file = await fetch("/rsc/bridgeA_railing.frag");
-        const data = await file.arrayBuffer();
-        const buffer = new Uint8Array(data);
-        const model = await fragments.load(buffer);
-        const properties = await fetch("/rsc/bridgeA_railing.json");
+        let file = await fetch("/rsc/groupA.frag");
+        let data = await file.arrayBuffer();
+        let buffer = new Uint8Array(data);
+        let model = await fragments.current.load(buffer);
+        let properties = await fetch("/rsc/groupA.json");
         model.properties = await properties.json();
 
         /*------- Highlighter -------*/
         // highlighter config
-        const highlighter = new OBC.FragmentHighlighter(
+        highlighter.current = new OBC.FragmentHighlighter(
           components.current,
-          fragments
+          fragments.current
         );
         components.current.renderer.postproduction.customEffects.outlineEnabled = true;
-        highlighter.outlinesEnabled = true;
-        highlighter.zoomToSelection = true;
+        highlighter.current.outlinesEnabled = true;
+        highlighter.current.zoomToSelection = true;
 
         // default material
         const selectionMaterial = new THREE.MeshBasicMaterial({
@@ -167,36 +186,40 @@ const IFCViewer = ({ selectedComponent }) => {
           opacity: 0.85,
           depthTest: true,
         });
-        await highlighter.add("default", [selectionMaterial]);
+        await highlighter.current.add("default", [selectionMaterial]);
 
-        highlighter.setup();
+        highlighter.current.setup();
 
         /*----- ifc properties processor ------*/
-        const propsProcessor = new OBC.IfcPropertiesProcessor(
+        propsProcessor.current = new OBC.IfcPropertiesProcessor(
           components.current
         );
-        propsProcessor.uiElement.get("propertiesWindow").visible = true;
-        propsProcessor.process(model);
+        propsProcessor.current.uiElement.get("propertiesWindow").visible = true;
+        propsProcessor.current.process(model);
 
-        // add cleanPropertieslist function to highlighter onClear handler
-        const highlighterEvents = highlighter.events;
-        highlighterEvents.select.onClear.add(() => {
-          propsProcessor.cleanPropertiesList();
-        });
+        const highlighterEvents = highlighter.current.events;
+        if (highlighter.current) {
+          highlighterEvents.select.onClear.add(() => {
+            // propsProcessor.current is checked
+            if (propsProcessor.current) {
+              propsProcessor.current.cleanPropertiesList();
+            }
+          });
+        }
 
         // add renderProperties function to onHighlight handler
         highlighterEvents.select.onHighlight.add((selection) => {
           const fragmentID = Object.keys(selection)[0];
           const expressID = Number([...selection[fragmentID]][0]);
           let model;
-          for (const group of fragments.groups) {
+          for (const group of fragments.current.groups) {
             const fragmentFound = Object.values(group.keyFragments).find(
               (id) => id === fragmentID
             );
             if (fragmentFound) model = group;
           }
 
-          propsProcessor.renderProperties(model, expressID);
+          propsProcessor.current.renderProperties(model, expressID);
         });
 
         // buttons
@@ -240,18 +263,67 @@ const IFCViewer = ({ selectedComponent }) => {
           setCameraPosition("Structure");
         });
 
-        const cacher = new OBC.FragmentCacher(components.current);
-        const cacherButton = cacher.uiElement.get("main");
-        mainToolbar.addChild(cacherButton);
-
-        return () => {
-          //clean up code
-        };
+        // const cameraButton = new OBC.Button(components.current);
+        // cameraButton.materialIcon = "foundation";
+        // cameraButton.tooltip = "camera";
+        // mainToolbar.addChild(cameraButton);
+        // cameraButton.onClick.add(async () => {
+        //   console.log(components.current.camera.controls.getPosition());
+        //   console.log(components.current.camera.controls.getTarget());
+        // });
       }
     };
 
     initializeViewer();
   }, []);
+
+  useEffect(() => {
+    // Function to load and display a new IFC model
+    const loadIFCModel = async (modelPath) => {
+      if (!components.current || !modelPath) return;
+
+      try {
+        // Dispose existing model and clean properties
+        if (fragments.current) {
+          fragments.current.dispose();
+          console.log("fagments is disposed");
+        }
+
+        if (propsProcessor.current) {
+          propsProcessor.current.cleanPropertiesList();
+          console.log("propertiesTab is cleaned");
+        }
+
+        // Load .frag model file
+        const fragResponse = await fetch(`${modelPath}.frag`);
+        const fragData = await fragResponse.arrayBuffer();
+        const model = await fragments.current.load(new Uint8Array(fragData));
+
+        // Load .json properties file
+        const propsResponse = await fetch(`${modelPath}.json`);
+        const propsData = await propsResponse.json();
+        model.properties = propsData;
+
+        // Update highlighter and properties processor for the new model
+        if (highlighter.current) {
+          highlighter.current.clear();
+          highlighter.current.update();
+          console.log("Highlighter is updated");
+        }
+
+        if (propsProcessor.current) {
+          propsProcessor.current.process(model);
+          console.log("processor is updated");
+        }
+      } catch (error) {
+        console.error("Error loading IFC model or properties:", error);
+      }
+    };
+
+    if (selectedGroup) {
+      loadIFCModel(ifcModelPaths[selectedGroup]);
+    }
+  }, [selectedGroup]);
 
   /* --- Component button triggers ---*/
   const handleOverviewClick = () => {
@@ -279,31 +351,26 @@ const IFCViewer = ({ selectedComponent }) => {
       case "Overall":
         if (components.current) {
           handleOverviewClick();
-          console.log("overview postiion is called");
         }
         break;
       case "Pedestrian Space":
         if (components.current) {
           handleWalkwayClick();
-          console.log("walkway postiion is called");
         }
         break;
       case "Road":
         if (components.current) {
           handleRoadClick();
-          console.log("road postiion is called");
         }
         break;
       case "Access to Public Transport":
         if (components.current) {
           handleTransportClick();
-          console.log("transport postiion is called");
         }
         break;
       case "Structure":
         if (components.current) {
           handleStructureClick();
-          console.log("structure postiion is called");
         }
         break;
       default:

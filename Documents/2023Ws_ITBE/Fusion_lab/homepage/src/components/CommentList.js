@@ -4,20 +4,58 @@ import StarIcon from "@mui/icons-material/Star";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import "./comment_list.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const CommentList = ({ selectedComponent, reviews, setReviews }) => {
   const [likes, setLikes] = useState(false);
-  const serverURL = `http://10.162.246.145:3000/`;
-
+  const serverURL = process.env.REACT_APP_API_BASE_URL;
+  const { loginWithRedirect, getAccessTokenSilently } = useAuth0();
   // Update likes state whenever comments change
   useEffect(() => {
-    setLikes(
-      reviews.map((review) => ({
-        id: review.id,
-        liked: false,
-        count: review.count,
-      }))
-    );
+    const fetchUserData = async () => {
+      try {
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://reviews-api.com/",
+            scope: "read:review write:review",
+          },
+        });
+        const response = await fetch(`${serverURL}/user/${accessToken}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        const userData = await response.json();
+        const likedReviews = userData.user.likedReviewsId;
+        setLikes(
+          reviews.map((review) => {
+            if (likedReviews.includes(review.id)) {
+              return {
+                id: review.id,
+                liked: true,
+                count: review.count,
+              };
+            }
+            return {
+              id: review.id,
+              liked: false,
+              count: review.count,
+            };
+          })
+        );
+      } catch (err) {
+        console.error(err);
+        setLikes(
+          reviews.map((review) => ({
+            id: review.id,
+            liked: false,
+            count: review.count,
+          }))
+        );
+      }
+    };
+    fetchUserData();
   }, [reviews]);
 
   const toggleLike = async (index) => {
@@ -30,24 +68,41 @@ const CommentList = ({ selectedComponent, reviews, setReviews }) => {
           ? newLikes[index].count - 1
           : newLikes[index].count + 1,
       };
-      setLikes(newLikes);
-      console.log(index);
-      if (newLikes[index].liked) {
-        const response = await fetch(
-          `${serverURL}/review/${newLikes[index].id}/addLike`,
-          {
-            method: "PUT",
-          }
-        );
-        console.log(await response.json());
-      } else {
-        const response = await fetch(
-          `${serverURL}/review/${newLikes[index].id}/removeLike`,
-          {
-            method: "PUT",
-          }
-        );
-        console.log(await response.json());
+
+      try {
+        const accessToken = await getAccessTokenSilently({
+          authorizationParams: {
+            audience: "https://reviews-api.com/",
+            scope: "read:review write:review",
+          },
+        });
+        if (newLikes[index].liked) {
+          const response = await fetch(
+            `${serverURL}/review/${newLikes[index].id}/likes/inc`,
+            {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          console.log(await response.json());
+        } else {
+          const response = await fetch(
+            `${serverURL}/review/${newLikes[index].id}/likes/dec`,
+            {
+              method: "PATCH",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          console.log(await response.json());
+        }
+        setLikes(newLikes);
+      } catch (err) {
+        console.error(err);
+        loginWithRedirect();
       }
     }
   };
