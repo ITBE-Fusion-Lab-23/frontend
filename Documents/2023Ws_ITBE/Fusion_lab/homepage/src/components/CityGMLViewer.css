@@ -2,7 +2,7 @@
 .citygml-viewer {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 30%;
     justify-content: space-between;
     margin-bottom: 100px;
 

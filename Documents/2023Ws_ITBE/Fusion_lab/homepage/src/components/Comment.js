@@ -3,6 +3,7 @@ import "./comment.css";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
+import { fetchReviews } from "../helperFunc.js";
 
 const labels = {
   1: "Bad",
@@ -19,12 +20,7 @@ function getLabelText(value) {
   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
 }
 
-const CommentModal = ({
-  selectedComponent,
-  closeModal,
-  selectedGroup,
-  setReviews,
-}) => {
+const CommentModal = ({ selectedComponent, closeModal, selectedGroup, setReviews }) => {
   const [hover, setHover] = useState(-1);
   const [comment, setComment] = useState("");
   const [stakeholder, setStakeholder] = useState("");
@@ -98,10 +94,8 @@ const CommentModal = ({
         }
       );
       console.log("Form submitted");
-      setReviews((prevReviews) => [
-        ...prevReviews,
-        { ...commentData, text: comment, groupId: selectedGroup, count: 0 },
-      ]);
+      const reviews = await fetchReviews(selectedGroup);
+      setReviews(reviews.filter((rev) => rev.component === selectedComponent));
       closeModal();
       return response;
     } catch (error) {
@@ -138,19 +132,13 @@ const CommentModal = ({
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
               }}
-              emptyIcon={
-                <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-              }
+              emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
 
-            {rating !== null && (
-              <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
-            )}
+            {rating !== null && <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>}
           </Box>
 
-          {showRatingError && (
-            <p className="rating-error">Please select a rating</p>
-          )}
+          {showRatingError && <p className="rating-error">Please select a rating</p>}
 
           <textarea
             value={comment}
@@ -160,17 +148,13 @@ const CommentModal = ({
           />
 
           <div>
-            <p className="stakeholder-label">
-              What’s your type of stakeholders?
-            </p>
+            <p className="stakeholder-label">What’s your type of stakeholders?</p>
             <div className="stakeholder-buttons">
               {stakeholderOptions.map((option, index) => (
                 <React.Fragment key={option}>
                   <button
                     type="button"
-                    className={`stakeholder-button ${
-                      stakeholder === option ? "active" : ""
-                    }`}
+                    className={`stakeholder-button ${stakeholder === option ? "active" : ""}`}
                     onClick={() => handleStakeholderChange(option)}
                   >
                     {option}
@@ -183,11 +167,7 @@ const CommentModal = ({
           </div>
 
           <div className="form-actions">
-            <button
-              type="button"
-              className="cancel-button"
-              onClick={handleCancel}
-            >
+            <button type="button" className="cancel-button" onClick={handleCancel}>
               CANCEL
             </button>
             <button type="submit" className="submit-comment">
