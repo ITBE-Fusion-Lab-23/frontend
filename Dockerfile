@@ -43,7 +43,6 @@ FROM base as prod
 
 # Use production node environment.
 ENV NODE_ENV "production"
-ENV SERVER_IP "localhost"
 #10.162.246.145
 
 RUN --mount=type=bind,source=package.json,target=package.json \

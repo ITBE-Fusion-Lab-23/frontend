@@ -2,8 +2,8 @@
 .citygml-viewer {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    justify-content: space-evenly;
+    height: 30%;
+    justify-content: space-between;
     margin-bottom: 100px;
 
   }
@@ -23,13 +23,14 @@
   
   .viewer-content {
     display: flex;
-    width: 99%;
+    width: 95%;
     margin: auto
    
   }
   
 .viewer-button {
   margin-left: 80px;
+  margin-top: 40px;
   padding: 8px 18px;
   background-color: #EF700B;
   color: #FFFFFF;

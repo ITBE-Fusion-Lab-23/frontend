@@ -1,2 +1,6 @@
-Documents/2023Ws_ITBE/Fusion_lab/homepage/node_modules/
-
+node_modules
+.DS_Store
+.prettierrc
+public/rsc
+.dockerignore
+.env

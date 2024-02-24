@@ -8,6 +8,15 @@ import VotingComponent from "./VotingComponent";
 import IFCViewer from "./ifcViewer.js";
 
 import "./model_viewer.css";
+import { fetchReviews } from "../helperFunc.js";
+
+const componentsList = [
+  "Overall",
+  "Pedestrian Space",
+  "Road",
+  "Access to Public Transport",
+  "Structure",
+];
 
 function ModelViewer() {
   const [selectedComponent, setSelectedComponent] = useState("component"); // Set to 'Overrall' as the default
@@ -15,43 +24,12 @@ function ModelViewer() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState("A");
   const [showSelectComponentWarning, setShowSelectComponentWarning] = useState(false);
-
-  const componentsList = [
-    "Overall",
-    "Pedestrian Space",
-    "Road",
-    "Access to Public Transport",
-    "Structure",
-  ];
-
   const [groupedReviews, setGroupedReviews] = useState([]);
 
   // Fetch and set the comments for the selected component and group
   const fetchData = async () => {
-    const result = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/review/${selectedGroup}`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const resp = await result.json();
-    setGroupedReviews(
-      resp.map((res) => {
-        return {
-          id: res._id,
-          component: res.component,
-          text: res.comment,
-          groupId: res.modelGroupId.modelGroup,
-          rating: res.rating,
-          stakeholder: res.stakeholder,
-          count: res.likes,
-        };
-      })
-    );
+    const fetchedReviews = await fetchReviews(selectedGroup);
+    setGroupedReviews(fetchedReviews);
     const newReviews =
       groupedReviews
         .filter((rev) => rev.component === selectedComponent)
@@ -94,10 +72,7 @@ function ModelViewer() {
         <h1>Model Viewer</h1>
       </div>
       <div className="model-display">
-        <IFCViewer
-          selectedComponent={selectedComponent}
-          selectedGroup={selectedGroup}
-        />
+        <IFCViewer selectedComponent={selectedComponent} selectedGroup={selectedGroup} />
       </div>
 
       <div className="components-section">
