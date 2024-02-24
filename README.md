@@ -1,4 +1,4 @@
-# Quckstart
+# Quickstart
 
 For a fast and easy start, run:
 
