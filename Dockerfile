@@ -54,6 +54,4 @@ USER node
 
 COPY . .
 
-RUN sudo chmod -R 777 node_modules/.cache
-
 CMD ["npm", "start"]
