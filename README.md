@@ -30,7 +30,7 @@ npm install
 
 ## Usage
 
-This part explains how to use the Fusion Lab Homepage project, including any commands needed to run, build, or deploy it.
+This part explains how to use the Fusion Lab Homepage project, including any commands needed to run or build it.
 
 ```bash
 npm start
