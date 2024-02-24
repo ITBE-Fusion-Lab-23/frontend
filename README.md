@@ -78,16 +78,17 @@ homepage/
 - **README.md**: This README file provides documentation for the project, including setup instructions, usage guidelines, and other relevant information.
 
 
-## Contributing
+## Contributer
 
-We welcome contributions to enhance the Fusion Lab Homepage project. To contribute, please follow these steps:
+Every user who issues a pull request to the project and merges it into the project is a contributor.
+- [@Nayun Kim](https://github.com/narchitect)
+- [@Jeffrey Limnardy](https://github.com/jeffreylimnardy)
+- [@Julian Gerstner](https://github.com/JulianLeQuack)
+- [@Ying Lu](https://github.com/charlotte54071)
 
-Fork this repository
-Create a new branch (git checkout -b feature/your-feature)
-Commit your changes (git commit -am 'Add some feature')
-Push to the branch (git push origin feature/your-feature)
-Submit a pull request
-License
+We appreciate all contributions to make this project better!
+
+## License
 
 This project is licensed under the MIT License.
 
