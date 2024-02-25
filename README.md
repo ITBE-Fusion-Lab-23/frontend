@@ -16,9 +16,9 @@ Welcome to the documentation for the Fusion Lab frontend development during the 
 
 The project is a website development aimed at showcasing the new bridge design by Donnersbergerbrücke Group A. It provides an interactive platform for users to explore the designs in detail, comment on, and vote for their favorite ones. Additionally, the website features information about the team and its members. It primarily utilizes React JS and IFC.js for its development. This overview section highlights the project's goal to blend architectural innovation with community engagement, leveraging modern web technologies for an enriched user experience.
 
-# Quickstart
+## Quickstart
 
-## Setup
+### Setup
 
 Clone this repository:
 
@@ -30,14 +30,12 @@ Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Subm
 
 Add the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/.env' to the repository root folder 'frontend/'.
 
-## Start
+### Start
 To build the image and run the application, run:
 
 `docker compose up --build`
 
 The application will run on http://localhost:5000.
-
-# Detailed Information
 
 ## Setup
 
@@ -118,7 +116,7 @@ This part provides an overview of the project's folder structure to help navigat
 - **README.md**: This README file provides documentation for the project, including setup instructions, usage guidelines, and other relevant information.
 
 
-## Contributer
+## Contributors
 
 Every user who issues a pull request to the project and merges it into the project is a contributor.
 - [@Nayun Kim](https://github.com/narchitect)
