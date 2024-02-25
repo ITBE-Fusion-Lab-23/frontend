@@ -31,7 +31,7 @@ Exchange the repository folder 'frontend/public/rsc/' with the submitted 'rsc/'.
 Add the submitted '.env' to the repository root folder 'frontend/'.
 
 Submission folder structure:
-
+```
 ├── A_Submission_Folder/
 │   ├── SoftwareDev/ 
 │       ├── Front_End_Data/
@@ -39,6 +39,7 @@ Submission folder structure:
 │           ├── .env
 │   ├── ...
 └── 
+```
 
 ### Start
 To build the image and run the application, run:
