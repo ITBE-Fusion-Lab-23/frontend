@@ -24,11 +24,11 @@ Clone this repository:
 
 `git clone https://github.com/ITBE-Fusion-Lab-23/frontend.git`
 
-For this application to run, the IFC fragment files and the .env file have to be added to the directory. Both can be found in the submission folder.
+For this application to run, the IFC fragment files and the .env file have to be added to the directory. Both can be found in the submission folder under 'A_Submission_Folder/SoftwareDev/Front_End_Data'.
 
-Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Submission_Folder/SoftwareDev/rcs/'.
+Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/rcs/'.
 
-Add the submitted '.env' to the repository root folder 'frontend/'.
+Add the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/.env' to the repository root folder 'frontend/'.
 
 ## Start
 To build the image and run the application, run:
