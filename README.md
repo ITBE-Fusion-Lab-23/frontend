@@ -26,7 +26,7 @@ Clone this repository:
 
 For this application to run, the IFC fragment files and the .env file have to be added to the directory. Both can be found in the submission folder under 'A_Submission_Folder/SoftwareDev/Front_End_Data'.
 
-Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/rcs/'.
+Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/rsc/'.
 
 Add the submitted 'A_Submission_Folder/SoftwareDev/Front_End_Data/.env' to the repository root folder 'frontend/'.
 
@@ -97,7 +97,7 @@ This part provides an overview of the project's folder structure to help navigat
 │
 ├── public/
 │   ├── index.html
-│   └── rcs/
+│   └── rsc/
 │
 ├── README.md
 └── ...
@@ -111,7 +111,7 @@ This part provides an overview of the project's folder structure to help navigat
   
 - **public/**: Contains public assets and the main HTML file.
   - **index.html**: The HTML template used as the entry point for the React application.
-  - **rcs/**: Store IFC models used in the project.
+  - **rsc/**: Store IFC models used in the project.
   
 - **README.md**: This README file provides documentation for the project, including setup instructions, usage guidelines, and other relevant information.
 
