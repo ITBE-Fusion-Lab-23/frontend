@@ -30,7 +30,7 @@ npm install
 
 ## Usage
 
-This part explains how to use the Fusion Lab Homepage project, including any commands needed to run or build it.
+This part explains how to use the Fusion Lab Group A's project, including any commands needed to run or build it.
 
 ```bash
 npm start
@@ -67,8 +67,8 @@ This part lists the main technologies and tools used in the project.
 
 This part provides an overview of the project's folder structure to help navigate through different modules and resources.
 
-homepage/
-│
+
+$ tree
 ├── src/
 │   ├── components/ 
 │   ├── images/
