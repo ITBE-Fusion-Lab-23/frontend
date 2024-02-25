@@ -10,6 +10,8 @@ ARG NODE_VERSION=18.18.2
 
 FROM node:${NODE_VERSION}-alpine as base
 
+USER node
+
 WORKDIR /usr/src/app
 
 # Expose the port that the application listens on.
