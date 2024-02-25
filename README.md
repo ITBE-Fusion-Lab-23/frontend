@@ -68,7 +68,6 @@ This part lists the main technologies and tools used in the project.
 This part provides an overview of the project's folder structure to help navigate through different modules and resources.
 
 ```
-$ tree
 ├── src/
 │   ├── components/ 
 │   ├── images/
