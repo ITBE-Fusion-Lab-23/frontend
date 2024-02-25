@@ -90,6 +90,7 @@ This part provides an overview of the project's folder structure to help navigat
   
 - **public/**: Contains public assets and the main HTML file.
   - **index.html**: The HTML template used as the entry point for the React application.
+  - **rcs/**: Store IFC models used in the project.
   
 - **README.md**: This README file provides documentation for the project, including setup instructions, usage guidelines, and other relevant information.
 
