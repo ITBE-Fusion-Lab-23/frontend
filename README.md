@@ -28,7 +28,7 @@ For this application to run, the IFC fragment files and the .env file have to be
 
 Exchange the repository folder 'frontend/public/rsc/' with the submitted 'A_Submission_Folder/SoftwareDev/rcs/'.
 
-Add the submitted '.env' to the repo folder 'frontend/'
+Add the submitted '.env' to the repository root folder 'frontend/'.
 
 ## Start
 To build the image and run the application, run:
