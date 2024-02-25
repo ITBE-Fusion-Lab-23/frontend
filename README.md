@@ -1,76 +1,118 @@
+
+Welcome to the documentation for the Fusion Lab frontend development during the 2023 Winter Semester at ITBE.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Quickstart](#quickstart)
+- [Setup](#setup)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+The project is a website development aimed at showcasing the new bridge design by Donnersbergerbrücke Group A. It provides an interactive platform for users to explore the designs in detail, comment on, and vote for their favorite ones. Additionally, the website features information about the team and its members. It primarily utilizes the React JS and IFC.js for its development. This overview section highlights the project's goal to blend architectural innovation with community engagement, leveraging modern web technologies for an enriched user experience.
+
 # Quickstart
 
 For a fast and easy start, run:
 
 `docker compose up --build`
 
-# Getting Started with Create React App
+## Setup
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This part describes how to set up the project locally, including installation steps for dependencies.
 
-## Available Scripts
+First start by installing Node.js to get npm (Node Package Manager)
 
-In the project directory, you can run:
+Then install dependencies listed in the project's package.json file
 
-### `npm start`
+```bash
+npm install
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Usage
 
-The page will reload when you make changes.\
+This part explains how to use the Fusion Lab Group A's project, including any commands needed to run or build it.
+
+```bash
+npm start
+```
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in your browser.
+The page will reload when you make changes.
 You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
+```bash
+npm run build
+```
+Builds the app for production to the build folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
+The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+See the section about deployment for more information.
 
-### `npm run eject`
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This part lists the main technologies and tools used in the project.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- HTML5
+- CSS3
+- JavaScript
+- React.js
+- Bootstrap
+- MUI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Folder Structure
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+This part provides an overview of the project's folder structure to help navigate through different modules and resources.
 
-## Learn More
+```
+├── src/
+│   ├── components/ 
+│   ├── images/
+│   ├── App.js
+│   └── ...
+│
+├── public/
+│   ├── index.html
+│   └── rcs/
+│
+├── README.md
+└── ...
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **src/**: This directory contains the source code of the project.
+  - **components/**: Houses React components used throughout the project.
+  - **images/**: Stores images and other multimedia resources used in the project.
+  - **app.js**: The main entry point of the application, where the root component is defined.
+  - **index.js**: The file responsible for rendering the React application into the DOM.
+  
+- **public/**: Contains public assets and the main HTML file.
+  - **index.html**: The HTML template used as the entry point for the React application.
+  - **rcs/**: Store IFC models used in the project.
+  
+- **README.md**: This README file provides documentation for the project, including setup instructions, usage guidelines, and other relevant information.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Contributer
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Every user who issues a pull request to the project and merges it into the project is a contributor.
+- [@Nayun Kim](https://github.com/narchitect)
+- [@Jeffrey Limnardy](https://github.com/jeffreylimnardy)
+- [@Julian Gerstner](https://github.com/JulianLeQuack)
+- [@Ying Lu](https://github.com/charlotte54071)
 
-### Analyzing the Bundle Size
+We appreciate all contributions to make this project better!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
+This project is licensed under the MIT License.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
